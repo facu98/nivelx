@@ -31,7 +31,7 @@ const SearchBar = () => {
                 </div>
                 </div>
             </nav>
-        
+
     )
 }
 
