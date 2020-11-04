@@ -1,26 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import ProductsCards from './components/ProductCard/ProductCard';
+import { BrowserRouter as Router, Route, Switch, useLocation } from "react-router-dom";
+import Catalogo from './components/Catalog/Catalog';
+import FormCategory from './components/FormCategory/FormCategory';
+import Categorias from './components/Categorias/Categorias';
+
 
 function App() {
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+
+
+
+          <Route exact path='/admin/editCategory' component={Categorias}/>
+
+          <Route exact path='/admin/products/edit' component={Catalogo} />
+
+
+
+
+      </Switch>
     </div>
   );
+
+
 }
 
 export default App;
