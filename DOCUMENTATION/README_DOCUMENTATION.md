@@ -26,3 +26,5 @@ Estructura de carpetas
 
 
 ESTRUCTURA DE LA DB
+
+[Modelo](Modelo.jpeg)
