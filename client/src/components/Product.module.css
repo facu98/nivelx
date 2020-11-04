@@ -1,0 +1,54 @@
+.form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: solid 0.1rem grey;
+    width: 28rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    background-color: rgb(245, 237, 190) ;
+}
+.formChild {
+    margin-bottom: 2rem;
+    margin-left: 10px;
+}
+.file {
+    width: 100%;
+    flex-direction: row;
+    margin-bottom: 2rem;
+    margin-left: 10px;
+}
+select {
+    height: 1.4rem;
+    margin-left: 10px;
+}
+.titulo {
+    display: inline-block;
+    width: 100%;
+}
+
+.marginLeft {
+    margin-left: 10px;
+}
+.stock {
+    width: 3rem;
+}
+.title {
+    margin-bottom: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+.buttonSuccess {
+    width: 25%;
+    color: white;
+}
+.buttonCancel {
+    width: 25%;
+    color: white;
+}
+.buttons {
+    margin-left: 1.4rem;
+    margin-bottom: 14px;
+}
