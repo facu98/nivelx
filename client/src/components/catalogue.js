@@ -1,5 +1,4 @@
 import React from 'react';
-import Message from './Message';
 
 //Hay que enlazar products cuando se arme la BD, es un modelo
 
