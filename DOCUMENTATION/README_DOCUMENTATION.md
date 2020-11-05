@@ -1,6 +1,6 @@
-DOCUMENTACION DEL PROYECTO
+# DOCUMENTACION DEL PROYECTO
 
-Estructura de carpetas
+## Estructura de carpetas
 
 /  (Raiz del proyecto)
 ├─--->  /api                  (contiene todas las archivos del back)
@@ -25,4 +25,5 @@ Estructura de carpetas
   ├─-> /README_DOCUMENTATION.md (ARCHIVO QUE CONTIENE LA DOCUMENTACION DEL PROYECTO)
 
 
-ESTRUCTURA DE LA DB
+# ESTRUCTURA DE LA DB
+![ER](https://user-images.githubusercontent.com/68040158/98191080-37fcc580-1ef7-11eb-8966-e3620b3541dd.jpeg)
