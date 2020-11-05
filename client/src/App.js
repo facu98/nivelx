@@ -31,7 +31,7 @@ function App() {
 
               <Route path='/products/category/:id' component={Catalogo} />
 
-              <Route path = "/products/:id" component = {ProductDetail} />
+              <Route path = '/products/:id' component = {ProductDetail} />
 
               <Route exact path='/admin/createCategory'
                 render={({ match }) => <FormCategory match={match} />}
