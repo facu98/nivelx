@@ -16,7 +16,16 @@ import { Tooltip } from '@material-ui/core';
 import { useLocation, Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import CategoryIcon from '@material-ui/icons/Category';
+<<<<<<< HEAD
+import DeleteDialog from '../ConfirmationDialog/DeleteDialog'
+import { useDispatch, useSelector } from "react-redux";
+import { addProductCart, addProductToGuestCart } from "../../actions";
+//import '../../Cart_boton.css';
+
+// IDEA:
+=======
 // import DeleteDialog from '../ConfirmationDialog/DeleteDialog'
+>>>>>>> master
 
 const useStyles = makeStyles((theme) => ({
   root: {

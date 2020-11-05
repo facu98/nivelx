@@ -30,6 +30,8 @@ server.get('/search', (req, res) => {
 								: res.send(products))
 
 	.catch((err) => res.status(404).send(err));
+})
+
 
 server.post("/", (req,res) => {
 	const {name, description, price, stock, pictures, brand, model , asessment, firstCategory, secondCategory} = req.body
@@ -58,6 +60,7 @@ server.post("/", (req,res) => {
 	})
 	.catch((err) => res.status(400).send(err))
 })
+
 
 server.put("/:id", (req,res) => {
 	const {id} = req.params
@@ -106,5 +109,16 @@ server.get('/:id', (req, res, next) => {
 		.catch(next);
 
 });
+
+server.delete("/:productId", (req, res) => {
+	let id = req.params.productId;
+	  Product.findByPk(id)
+		.then(products => {
+		  res.send('Producto eliminado: ' + products);
+		})
+		.catch(err => {
+		  res.status(500).send('Hubo un error: ' + err);
+		});
+  });
 
 module.exports = server;

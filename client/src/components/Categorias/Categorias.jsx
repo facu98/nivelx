@@ -22,7 +22,11 @@ export default function () {
 			})
 	}, [categorias])
 
-	console.log(categorias)
+	useEffect(() => {
+		if(url.pathname === '/admin/editcategory') {
+			dispatch(getCategories())
+		}
+	}, [categories])
 
 	return (
 		<div className='p-3'>
