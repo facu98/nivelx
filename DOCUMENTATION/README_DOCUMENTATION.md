@@ -1,17 +1,35 @@
 # DOCUMENTACION DEL PROYECTO
 
-## Estructura de carpetas
+## ESTRUCTURA DE CARPETAS
+==========================
 
+> Folder structure options and naming conventions for software projects
+
+### A typical top-level directory layout
+
+    .
+    ├── build                   # Compiled files (alternatively `dist`)
+    ├── docs                    # Documentation files (alternatively `doc`)
+    ├── src                     # Source files (alternatively `lib` or `app`)
+    ├── test                    # Automated tests (alternatively `spec` or `tests`)
+    ├── tools                   # Tools and utilities
+    ├── LICENSE
+    └── README.md
+
+> Use short lowercase names at least for the top-level files and folders except
+> `LICENSE`, `README.md`
+
+### Source files
 /  (Raiz del proyecto)
-├─--->  /api                  (contiene todas las archivos del back)
-|     |
-|      ├─----> /node_modules  (contiene las librerias del back generadas por el package.json)
-|      |
-|      ├─--> /src            (Source Folder Contiene los archivos desarrollados por el equipo de desarrollo)
-|      |     ├─--> /models      (Carpeta Contiene las estructura de las tablas de la DB)
-|      |     ├─--->/routes      (Establece las rutas del backend)
-|      |
-|      |-->/tests          (Carpeta que contiene los tests)
+├──── >  /api                  (contiene todas las archivos del back)
+|    |
+|    ├─----> /node_modules  (contiene las librerias del back generadas por el package.json)
+|    |
+|    ├─--> /src            (Source Folder Contiene los archivos desarrollados por el equipo de desarrollo)
+|    |     ├─--> /models      (Carpeta Contiene las estructura de las tablas de la DB)
+|    |     ├─--->/routes      (Establece las rutas del backend)
+|    |
+|    |-->/tests          (Carpeta que contiene los tests)
 |            ├─--> /models      (Carpeta que contiene tests sobre el Modelo de la DB)
 |            ├─--> /routes      (Carpeta que contiene tests sobre las rutas del back)
 |
