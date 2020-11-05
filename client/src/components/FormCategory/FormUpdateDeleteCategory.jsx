@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import "../StyleForm.css"
+import "./FormUpdateDeleteCategory.css"
 import { Grid, Button, TextField } from '@material-ui/core';
 import swal from 'sweetalert';
 import { useHistory } from "react-router-dom";
@@ -77,8 +77,8 @@ return(
         <h3> Editar Categoria</h3>
         <hr/>
         <Grid item xs={12}>
-            <TextField               
-            fullWidth           
+            <TextField
+            fullWidth
             label="Nombre"
             value={input.name}
             multiline
@@ -90,8 +90,8 @@ return(
         </Grid>
         <hr/>
         <Grid item xs={12}>
-            <TextField               
-            fullWidth         
+            <TextField
+            fullWidth
             label="Descripción"
             value={input.description}
             multiline
@@ -101,20 +101,20 @@ return(
             name='description'
             />
         </Grid>
-        <hr/>               
-        <Button onClick={resetForm} 
-        variant='contained'                        
+        <hr/>
+        <Button onClick={resetForm}
+        variant='contained'
         className="button"> Resetear </Button>
-        <hr/>   
+        <hr/>
         <Button onClick={deletedCat}
         variant='contained'
         color = 'secondary' >Eliminar Categoria</Button>
-        <hr/>   
+        <hr/>
         <Button onClick={updateCategory}
         variant='contained'
         color = 'primary'
         disabled = {!input.name || !input.description}
-        >Modificar categoria</Button>              
+        >Modificar categoria</Button>
     </div>
 )
 };

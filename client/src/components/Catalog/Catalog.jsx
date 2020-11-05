@@ -1,63 +1,59 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import Categorias from '../Categorias/Categorias'
+import ProductsCards from '../ProductCard/ProductCard'
 import GridList from '../GridListProducts/GridListProducts'
 import Grid from '@material-ui/core/Grid'
-import { getProducts, getProductsBySearch, getProductsByCategory } from "../../actions";
+
 
 function useQuery() {
 	return new URLSearchParams(useLocation().search);
 }
 
-export default function () {
+export default function ({ match, location }) {
+	const [productos, setProductos] = useState([])
+	const searchProduct = location.search
+	const nameCategory = match.params.name
 	const { id } = useParams()
 	let query = useQuery().get('search');
-	const products = useSelector(state => state.products)
-	const dispatch = useDispatch()
-	console.log(products)
+
+
+	console.log(id)
+
 	useEffect(() => {
-		if (id) {
-			dispatch(getProductsByCategory(id))
-			// fetch(`http://localhost:3001/category/${id}`)
-			// 	.then((res) => res.json())
-			// 	.then((data) => {
-			// 		setProductos(data)
-			// 	})
+		if(id) {
+			fetch(`http://localhost:3001/category/${id}`)
+			.then((res) => res.json())
+			.then((data) => {
+				setProductos(data)
+				console.log(data)
+			})
 		}
 		else if (query) {
-			dispatch(getProductsBySearch(query))
-			// setProductos(products)
-			// fetch(`http://localhost:3001/products/?search=${query}`)
-			// 	.then((res) => res.json())
-			// 	.then((data) => setProductos(data))
+			fetch(`http://localhost:3001/products/?search=${query}`)
+				.then((res) => res.json())
+				.then((data) => setProductos(data))
 		}
-		else if (query === null) {
-			// fetch('http://localhost:3001/products')
-			// 	.then((res) => res.json())
-			// 	.then((data) => {
-			// 		setProductos(data)
-			// 	})
-			dispatch(getProducts())
-			// setProductos(products)
+		else if(query === null){
+			fetch('http://localhost:3001/products')
+			.then((res) => res.json())
+			.then((data) => {
+				setProductos(data)
+				console.log(data)
+			})
+		}
+		}, [query, id, productos])
 
-		}
-	}, [query, id])
-	
 	return (
-		<div className = 'grid_container'>
-			<Grid container direction='row' spacing={4}>
-				<Grid item xs={12} sm={3} md={3}>
-					<Categorias />
-				</Grid>
-				<Grid item xs={12} sm={9} md={9}>
-					{
-						products.length === 0
-							? <h2>no hay productos</h2>
-							: <GridList productos={products} />
-					}
-				</Grid>
+		<Grid container direction='row'>
+			{/* <div className='row h-100'> */}
+			<Grid item xs={12} sm={2} md={2}>
+				<Categorias />
 			</Grid>
-		</div>
+			<Grid item xs={12} sm={10} md={10}>
+				<GridList productos={productos} />
+			</Grid>
+			{/* </div> */}
+		</Grid>
 	)
 }
