@@ -20,7 +20,7 @@ export default function () {
 	}, [])
 
 	useEffect(() => {
-		if(url.pathname === '/admin/editcategoy') {
+		if(url.pathname === '/admin/editcategory') {
 			dispatch(getCategories())
 		}
 	}, [categories])

@@ -18,7 +18,7 @@ import CategoryIcon from '@material-ui/icons/Category';
 import DeleteDialog from '../ConfirmationDialog/DeleteDialog'
 import { useDispatch, useSelector } from "react-redux";
 import { addProductCart, addProductToGuestCart } from "../../actions";
-import '../../Cart_boton.css';
+//import '../../Cart_boton.css';
 
 // IDEA:
 

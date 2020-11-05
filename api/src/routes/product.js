@@ -63,7 +63,7 @@ server.put("/:id", (req,res) => {
 		})
 	.catch(() => {return res.status(400).send("ID invalido")})
 })
-=======
+
 // Busco el producto por id y muestro sus datos(incluida categoria e imagenes)
 server.get('/:id', (req, res, next) => {
 	const id = req.params.id;
@@ -76,5 +76,16 @@ server.get('/:id', (req, res, next) => {
 	}
 
 });
+
+server.delete("/:productId", (req, res) => {
+	let id = req.params.productId;
+	  Product.findByPk(id)
+		.then(products => {
+		  res.send('Producto eliminado: ' + products);
+		})
+		.catch(err => {
+		  res.status(500).send('Hubo un error: ' + err);
+		});
+  });
 
 module.exports = server;
