@@ -15,7 +15,7 @@ server.post("/", (req,res) => {
 	if(!name || !description || !price || !stock || !pictures){return res.status(400).send("Debe rellenar los campos requeridos")}
 	Product.findOne({
 		where: {
-			name, description, price, stock, pictures, brand, model
+			name, description, price, stock, pictures, brand:`${brand && brand}`, model:`${model && model}`
 		}
 	})
 	.then((product) => {
