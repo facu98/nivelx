@@ -27,4 +27,5 @@ Estructura de carpetas
 
 ESTRUCTURA DE LA DB
 
-[Modelo](Modelo.jpeg)
+<div ><img src="./Modelo.jpeg" alt="imagen" width=600px/></div>
+<br>
