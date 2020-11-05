@@ -68,13 +68,21 @@ server.put("/:id", (req,res) => {
 server.get('/:id', (req, res, next) => {
 	const id = req.params.id;
 
-	const productById = Product.findByPk(id);
-	if (!productById) {
-		return res.status(400).send('The product does not exist');
-	} else {
-		res.status(200).send(productById);
-	}
-
+	Product.findByPk(id, {
+		where: {
+			idCategory: id 
+		},
+		include: {
+			model: category
+		}
+	})
+		.then(productById => {
+			if (!productById) {
+				return res.status(400).send('The product does not exist');
+			}
+			res.send(productById);
+		})
+		.catch(next);
 });
 
 module.exports = server;
