@@ -10,6 +10,27 @@ server.get('/', (req, res, next) => {
 		.catch(next);
 });
 
+
+/* Retorna los productos que tengan query={valor} en su nombre
+o descripción (/search?query={valor})*/
+
+server.get('/search', (req, res) => {
+
+	const { name, description } = req.query;
+
+	Product.findAll( {
+		where: {
+			[Op.or]: [
+				{name: {[Op.substring]: `${name}`}},
+				{description: {[Op.substring]: `${description}`}}
+			],
+		},
+	})
+	.then((products) => !products ? res.status(400).send('No hay productos asociados con la busqueda')
+								: res.send(products))
+
+	.catch((err) => res.status(404).send(err));
+
 server.post("/", (req,res) => {
 	const {name, description, price, stock, pictures, brand, model , asessment, firstCategory, secondCategory} = req.body
 	if(!name || !description || !price || !stock || !pictures){return res.status(400).send("Debe rellenar los campos requeridos")}
@@ -70,7 +91,7 @@ server.get('/:id', (req, res, next) => {
 
 	Product.findByPk(id, {
 		where: {
-			idCategory: id 
+			idCategory: id
 		},
 		include: {
 			model: category
@@ -83,6 +104,7 @@ server.get('/:id', (req, res, next) => {
 			res.send(productById);
 		})
 		.catch(next);
+
 });
 
 module.exports = server;
