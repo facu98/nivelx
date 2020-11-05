@@ -10,6 +10,7 @@ import Categorias from './components/Categorias/Categorias';
 import FormCategory from './components/FormCategory/FormCategory';
 import SearchBar from './components/SearchBar/SearchBar';
 import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
+import ProductDetail from "./components/ProductDetail/Product"
 
 import Container from '@material-ui/core/Container'
 
@@ -30,6 +31,7 @@ function App() {
 
               <Route path='/products/category/:id' component={Catalogo} />
 
+              <Route path = "/products/:id" component = {ProductDetail} />
 
               <Route exact path='/admin/createCategory'
                 render={({ match }) => <FormCategory match={match} />}
