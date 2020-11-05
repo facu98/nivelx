@@ -11,7 +11,7 @@ server.get('/', (req, res, next) => {
 
 server.post("/", (req,res) => {
 	const {name, description, price, stock, pictures, brand, model , asessment, firstCategory, secondCategory} = req.body
-	if(!name || !description || !price || !stock || !pictures){return res.status(400).send("Debe enviar los campos requeridos")}
+	if(!name || !description || !price || !stock || !pictures){return res.status(400).send("Debe rellenar los campos requeridos")}
 	Product.findOne({
 		where: {
 			name, description, price, stock, pictures, brand, model
@@ -19,7 +19,7 @@ server.post("/", (req,res) => {
 	})
 	.then((product) => {
 		if(product) {return res.status(400).send("Ya existe el producto")}
-		
+
 		const newProduct = Product.create({
 			name,
 			description,
@@ -33,11 +33,34 @@ server.post("/", (req,res) => {
 			secondCategory
 		})
 		.then((product) => res.status(201).send(product))
-		.catch((err) => res.status(400).send(err))
 	})
+	.catch((err) => res.status(400).send(err))
+})
 
+server.put("/:id", (req,res) => {
+	const {id} = req.params
+	const {name, description, price, stock, pictures, brand, model , asessment, firstCategory, secondCategory} = req.body
+	if(Object.entries(req.body).length < 1 ){return res.status(400).send("Debe rellenar algun campo")}
 
+	Product.findByPk(id)
+	.then((product) => {
+		if(!product){return res.status(400).send("ID inexistente")}
 
+		name && (product.name = name)
+		description && (product.description = description)
+		price && (product.price = price)
+		stock && (product.stock = stock)
+		pictures && (product.pictures = pictures)
+		brand && (product.brand = brand)
+		model && (product.model = model)
+		asessment && (product.asessment = asessment)
+		firstCategory && (product.firstCategory = firstCategory)
+		secondCategory && (product.secondCategory = secondCategory)
+		product.save()
+		.then((producto) => res.send(product))
+		.catch((err) => res.send(err))
+		})
+	.catch(() => {return res.status(400).send("ID invalido")})
 })
 
 module.exports = server;
