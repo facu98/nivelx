@@ -20,27 +20,38 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     pictures: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       allowNull: false,
     },
     brand: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
-    model: {
-      type: DataTypes.STRING
+    color: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      defaultValue: ['Color unico']
     },
     asessment: {
       type: DataTypes.STRING
     },
-    firstCategory: {
-      type: DataTypes.ENUM('a definir', 'another value')
-    },
-    secondCategory: {
-      type: DataTypes.ENUM('a definir', 'another value')
+    categories: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      allowNull: false
     }
   });
 };
 
-// Otra posible forma para categorias...
-// type: DataTypes.ARRAY(DataTypes.ENUM('a definir', 'another value')) 
+//Funcion para verificar stock
+
+// Product.prototype.inStock = function (quantity = this.quantity, stock= this.stock) {
+//   if(quantity > 0){
+//     return stock = true;
+//   } else {
+//     return stock = false;
+//   }
+// };
