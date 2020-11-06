@@ -20,7 +20,7 @@ export default function () {
 			.catch(function (err) {
 				console.log(err)
 			})
-	}, [categorias])
+	}, [])
 
 console.log(categorias)
 

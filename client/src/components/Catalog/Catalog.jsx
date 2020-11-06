@@ -15,7 +15,7 @@ export default function ({ match, location }) {
 	const searchProduct = location.search
 	const nameCategory = match.params.name
 	const { id } = useParams()
-	let query = useQuery().get('search');
+	let query = useQuery().get('name');
 
 
 	console.log(id)
@@ -30,7 +30,7 @@ export default function ({ match, location }) {
 			})
 		}
 		else if (query) {
-			fetch(`http://localhost:3001/products/?search=${query}`)
+			fetch(`http://localhost:3001/products/search?name=${query}`)
 				.then((res) => res.json())
 				.then((data) => setProductos(data))
 		}
@@ -42,7 +42,7 @@ export default function ({ match, location }) {
 				console.log(data)
 			})
 		}
-		}, [query, id, productos])
+		}, [])
 
 	return (
 		<Grid container direction='row'>
