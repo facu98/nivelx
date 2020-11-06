@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { Product } = require('../db.js');
+const { Product, Category } = require('../db.js');
 const { Op } = require('sequelize');
 
 server.get('/', (req, res, next) => {
@@ -109,6 +109,36 @@ server.get('/:id', (req, res, next) => {
 		.catch(next);
 
 });
+
+// Agregar categoría al producto
+server.post('/products/:idProducto/category/:idCategoria', (req, res) => {
+	let idProducto = req.params.idProducto;
+	let idCategoria = req.params.idCategoria;
+
+	Category.findByPk(idCategoria)
+	.then(category => {
+		producto = Product.findByPk(idProducto);
+		return producto.addCategory(category);
+	})
+	.then(newCategory => {
+		res.send.json();
+	})
+	.catch((err) => res.send(err));
+});
+
+// Elimina la categoria al producto.
+server.delete('/products/:idProducto/category/:idCategoria', (req, res) => {
+	let idProducto = req.params.idProducto;
+	let idCategoria = req.params.idCategoria;
+	
+	Category.findByPk(idCategoria)
+	.then(category => {
+		producto = Product.findByPk(idProducto);
+		producto.delete(category);
+		return res.send.json();
+	})
+	.catch((err) => res.send(err));
+})
 
 server.delete("/:productId", (req, res) => {
 	let id = req.params.productId;
