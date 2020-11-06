@@ -29,7 +29,8 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     brand: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     color: {
       type: DataTypes.ARRAY(DataTypes.STRING),
@@ -45,5 +46,12 @@ module.exports = (sequelize) => {
   });
 };
 
-// Otra posible forma para categorias...
-// type: DataTypes.ARRAY(DataTypes.ENUM('a definir', 'another value')) 
+//Funcion para verificar stock
+
+// Product.prototype.inStock = function (quantity = this.quantity, stock= this.stock) {
+//   if(quantity > 0){
+//     return stock = true;
+//   } else {
+//     return stock = false;
+//   }
+// };
