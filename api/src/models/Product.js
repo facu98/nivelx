@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     price: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     stock: {
@@ -25,22 +25,22 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     pictures: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
-      allowNull: false,
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false
     },
     brand: {
       type: DataTypes.STRING,
       allowNull: false
     },
     color: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
+      type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: ['Color unico']
     },
     asessment: {
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER
     },
     category: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false
     }
   });
