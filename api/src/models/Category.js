@@ -10,8 +10,7 @@ module.exports = (sequelize) => {
       unique: true
     },
     description: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING
     }
   });
 };

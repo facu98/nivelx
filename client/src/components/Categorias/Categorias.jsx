@@ -22,7 +22,7 @@ export default function () {
 			})
 	}, [categorias])
 
-	console.log(categorias)
+console.log(categorias)
 
 	return (
 		<div className='p-3'>

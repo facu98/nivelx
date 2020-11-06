@@ -10,12 +10,35 @@ server.get('/', (req, res, next) => {
 		.catch(next);
 });
 
+
+/* Retorna los productos que tengan query={valor} en su nombre
+o descripción (/search?query={valor})*/
+
+server.get('/search', (req, res) => {
+
+	const { name, description } = req.query;
+
+	Product.findAll( {
+		where: {
+			[Op.or]: [
+				{name: {[Op.substring]: `${name}`}},
+				{description: {[Op.substring]: `${description}`}}
+			],
+		},
+	})
+	.then((products) => !products ? res.status(400).send('No hay productos asociados con la busqueda')
+								: res.send(products))
+
+	.catch((err) => res.status(404).send(err));
+})
+
+
 server.post("/", (req,res) => {
 	const {name, description, price, stock, pictures, brand, model , asessment, firstCategory, secondCategory} = req.body
 	if(!name || !description || !price || !stock || !pictures){return res.status(400).send("Debe rellenar los campos requeridos")}
 	Product.findOne({
 		where: {
-			name, description, price, stock, pictures, brand, model
+			name, description, price, stock, pictures, brand:`${brand && brand}`, model:`${model && model}`
 		}
 	})
 	.then((product) => {
@@ -37,6 +60,7 @@ server.post("/", (req,res) => {
 	})
 	.catch((err) => res.status(400).send(err))
 })
+
 
 server.put("/:id", (req,res) => {
 	const {id} = req.params
@@ -68,12 +92,21 @@ server.put("/:id", (req,res) => {
 server.get('/:id', (req, res, next) => {
 	const id = req.params.id;
 
-	const productById = Product.findByPk(id);
-	if (!productById) {
-		return res.status(400).send('The product does not exist');
-	} else {
-		res.status(200).send(productById);
-	}
+	Product.findByPk(id, {
+		where: {
+			idCategory: id
+		},
+		include: {
+			model: category
+		}
+	})
+		.then(productById => {
+			if (!productById) {
+				return res.status(400).send('The product does not exist');
+			}
+			res.send(productById);
+		})
+		.catch(next);
 
 });
 
@@ -106,5 +139,16 @@ server.delete('/products/:idProducto/category/:idCategoria', (req, res) => {
 	})
 	.catch((err) => res.send(err));
 })
+
+server.delete("/:productId", (req, res) => {
+	let id = req.params.productId;
+	  Product.findByPk(id)
+		.then(products => {
+		  res.send('Producto eliminado: ' + products);
+		})
+		.catch(err => {
+		  res.status(500).send('Hubo un error: ' + err);
+		});
+  });
 
 module.exports = server;

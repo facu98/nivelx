@@ -16,7 +16,6 @@ import { Tooltip } from '@material-ui/core';
 import { useLocation, Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import CategoryIcon from '@material-ui/icons/Category';
-// import DeleteDialog from '../ConfirmationDialog/DeleteDialog'
 
 const useStyles = makeStyles((theme) => ({
   root: {
