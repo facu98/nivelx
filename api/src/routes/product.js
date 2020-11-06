@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { Product, Category } = require('../db.js');
+const { Product } = require('../db.js');
 const { Op } = require('sequelize');
 
 server.get('/', (req, res, next) => {
@@ -17,6 +17,7 @@ o descripción (/search?query={valor})*/
 server.get('/search', (req, res) => {
 
 	const { name, description } = req.query;
+	console.log(typeof name)
 
 	Product.findAll( {
 		where: {
@@ -34,11 +35,11 @@ server.get('/search', (req, res) => {
 
 
 server.post("/", (req,res) => {
-	const {name, description, price, stock, pictures, brand, model , asessment, firstCategory, secondCategory} = req.body
-	if(!name || !description || !price || !stock || !pictures){return res.status(400).send("Debe rellenar los campos requeridos")}
+	const {name, description, price, stock, pictures, brand, model , asessment, quantity, color,category} = req.body
+	if(!name || !description || !price || !stock || !pictures || !quantity || !brand || !category){return res.status(400).send("Debe rellenar los campos requeridos")}
 	Product.findOne({
 		where: {
-			name, description, price, stock, pictures, brand:`${brand && brand}`, model:`${model && model}`
+			name, description, price, stock, pictures, quantity, brand, category
 		}
 	})
 	.then((product) => {
@@ -51,20 +52,22 @@ server.post("/", (req,res) => {
 			stock,
 			pictures,
 			brand,
-			model,
+			quantity,
 			asessment,
-			firstCategory,
-			secondCategory
+			model,
+			color,
+			category
 		})
 		.then((product) => res.status(201).send(product))
+		.catch(err => console.log(err))
 	})
-	.catch((err) => res.status(400).send(err))
+	.catch((err) =>  console.log(err))
 })
 
 
 server.put("/:id", (req,res) => {
 	const {id} = req.params
-	const {name, description, price, stock, pictures, brand, model , asessment, firstCategory, secondCategory} = req.body
+	const {name, description, price, stock, pictures, brand, model , asessment, quantity, color, category} = req.body
 	if(Object.entries(req.body).length < 1 ){return res.status(400).send("Debe rellenar algun campo")}
 
 	Product.findByPk(id)
@@ -79,13 +82,15 @@ server.put("/:id", (req,res) => {
 		brand && (product.brand = brand)
 		model && (product.model = model)
 		asessment && (product.asessment = asessment)
-		firstCategory && (product.firstCategory = firstCategory)
-		secondCategory && (product.secondCategory = secondCategory)
+		quantity && (product.quantity = quantity)
+		color && (product.color = color)
+		category && (product.category = category)
 		product.save()
 		.then((producto) => res.send(product))
 		.catch((err) => res.send(err))
 		})
-	.catch(() => {return res.status(400).send("ID invalido")})
+	.catch((err) => {console.log(err)
+		return res.status(400).send("ID invalido")})
 })
 
 // Busco el producto por id y muestro sus datos(incluida categoria e imagenes)
@@ -109,36 +114,6 @@ server.get('/:id', (req, res, next) => {
 		.catch(next);
 
 });
-
-// Agregar categoría al producto
-server.post('/products/:idProducto/category/:idCategoria', (req, res) => {
-	let idProducto = req.params.idProducto;
-	let idCategoria = req.params.idCategoria;
-
-	Category.findByPk(idCategoria)
-	.then(category => {
-		producto = Product.findByPk(idProducto);
-		return producto.addCategory(category);
-	})
-	.then(newCategory => {
-		res.send.json();
-	})
-	.catch((err) => res.send(err));
-});
-
-// Elimina la categoria al producto.
-server.delete('/products/:idProducto/category/:idCategoria', (req, res) => {
-	let idProducto = req.params.idProducto;
-	let idCategoria = req.params.idCategoria;
-	
-	Category.findByPk(idCategoria)
-	.then(category => {
-		producto = Product.findByPk(idProducto);
-		producto.delete(category);
-		return res.send.json();
-	})
-	.catch((err) => res.send(err));
-})
 
 server.delete("/:productId", (req, res) => {
 	let id = req.params.productId;

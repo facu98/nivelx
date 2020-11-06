@@ -39,7 +39,7 @@ module.exports = (sequelize) => {
     asessment: {
       type: DataTypes.STRING
     },
-    categories: {
+    category: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       allowNull: false
     }
