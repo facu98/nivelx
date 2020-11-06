@@ -13,31 +13,34 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     price: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     stock: {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     pictures: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
-      allowNull: false,
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false
     },
     brand: {
       type: DataTypes.STRING
     },
-    model: {
-      type: DataTypes.STRING
+    color: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: ['Color unico']
     },
     asessment: {
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER
     },
-    firstCategory: {
-      type: DataTypes.ENUM('a definir', 'another value')
-    },
-    secondCategory: {
-      type: DataTypes.ENUM('a definir', 'another value')
+    category: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false
     }
   });
 };
