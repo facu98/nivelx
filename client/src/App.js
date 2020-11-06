@@ -8,8 +8,10 @@ import ProductsCards from './components/ProductCard/ProductCard';
 import Catalogo from './components/Catalog/Catalog';
 import Categorias from './components/Categorias/Categorias';
 import FormCategory from './components/FormCategory/FormCategory';
+import FormProduct from './components/FormProduct/FormProduct';
 import SearchBar from './components/SearchBar/SearchBar';
 import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
+import EditCategory from './components/FormProduct/FormUpdateDeleteProduct';
 import ProductDetail from "./components/ProductDetail/Product"
 
 import Container from '@material-ui/core/Container'
