@@ -1,7 +1,8 @@
 const server = require('express').Router();
-const { Product } = require('../db.js');
+const { Product, Category } = require('../db.js');
 const { Op } = require('sequelize');
 
+const trash = []
 server.get('/', (req, res, next) => {
 	Product.findAll()
 		.then(products => {
@@ -102,7 +103,7 @@ server.get('/:id', (req, res, next) => {
 			idCategory: id
 		},
 		include: {
-			model: category
+			model: Category
 		}
 	})
 		.then(productById => {
@@ -119,7 +120,9 @@ server.delete("/:productId", (req, res) => {
 	let id = req.params.productId;
 	  Product.findByPk(id)
 		.then(products => {
-		  res.send('Producto eliminado: ' + products);
+			trash.push(products)
+			products.destroy()
+		  res.send(`Producto ${id} eliminado`);
 		})
 		.catch(err => {
 		  res.status(500).send('Hubo un error: ' + err);
