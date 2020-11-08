@@ -19,6 +19,7 @@ export default function ProductCRUD({ match }){
         category: [],
         stock: "",
         description: "",
+        color: [],
     })
 
 
@@ -37,6 +38,7 @@ export default function ProductCRUD({ match }){
             category: [],
             stock: "",
             description: "",
+            color: [],
         })
     };
 
@@ -50,8 +52,8 @@ export default function ProductCRUD({ match }){
             category: input.category.replace(" ", "").split(","),
             stock: true,
             description: input.description,
-            quantity: input.stock
-
+            quantity: input.stock,
+            color: input.color,
         }
         console.log(JSON.stringify(newProduct))
         fetch('http://localhost:3001/products', {
@@ -99,6 +101,12 @@ export default function ProductCRUD({ match }){
                     <label className={style.labelStock}>Stock</label>
                     <input className={style.inputStock} type='number' name='stock' onChange={handleInputChange} value={input.stock} required autoFocus />
                 </div>
+
+                <div>
+                    <label className={style.labelStock}>Color</label>
+                    <input className={style.inputStock} type='text' name='color' onChange={handleInputChange} value={input.color} required autoFocus />
+                </div>
+
                 <div className={style.inputContainer}>
                     <label>Descripción del producto</label>
                     <textarea name="description" onChange={handleInputChange} value={input.description} required />
