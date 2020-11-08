@@ -26,7 +26,6 @@ function App() {
 
               <Route exact path='/:name' component={Catalogo} />
 
-
               <Route path='/products/category/:id' component={Catalogo} />
 
               <Route path = '/products/:id' component = {ProductDetail} />
