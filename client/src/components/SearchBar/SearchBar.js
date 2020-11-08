@@ -19,7 +19,7 @@ const SearchBar = () => {
             history.push(`search?query=${values.query}`);
         },
     });
-    
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className={"container"}>
@@ -52,7 +52,7 @@ const SearchBar = () => {
                                 Mi Cuenta
                             </NavLink>
                         </li>
-                        
+
 
                     </ul>
                     <form onSubmit={formik.handleSubmit} className="form-inline my-2 my-lg-0">

@@ -1,6 +1,7 @@
 const server = require('express').Router();
-const { Product } = require('../db.js');
-const { Op } = require('sequelize');
+const { Product, Category } = require('../db.js');
+const { Op } = require('sequelize')
+const trash = [];
 
 server.get('/', (req, res, next) => {
 	Product.findAll()
@@ -17,7 +18,6 @@ o descripción (/search?query={valor})*/
 server.get('/search', (req, res) => {
 
 	const { name, description } = req.query;
-	console.log(typeof name)
 
 	Product.findAll( {
 		where: {
@@ -48,11 +48,11 @@ server.post("/", (req,res) => {
 		const newProduct = Product.create({
 			name,
 			description,
-			price,
+			price : parseInt(price),
 			stock,
 			pictures,
 			brand,
-			quantity,
+			quantity : parseInt(quantity),
 			asessment,
 			model,
 			color,
@@ -102,7 +102,7 @@ server.get('/:id', (req, res, next) => {
 			idCategory: id
 		},
 		include: {
-			model: category
+			model: Category
 		}
 	})
 		.then(productById => {
@@ -119,7 +119,9 @@ server.delete("/:productId", (req, res) => {
 	let id = req.params.productId;
 	  Product.findByPk(id)
 		.then(products => {
-		  res.send('Producto eliminado: ' + products);
+			trash.push(products)
+			products.destroy()
+		  res.send(`Producto ${id} eliminado`);
 		})
 		.catch(err => {
 		  res.status(500).send('Hubo un error: ' + err);

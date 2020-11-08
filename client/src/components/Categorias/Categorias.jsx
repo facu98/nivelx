@@ -22,7 +22,7 @@ export default function () {
 			})
 	}, [])
 
-console.log(categorias)
+
 
 	return (
 		<div className='p-3'>
@@ -59,8 +59,8 @@ console.log(categorias)
 							return (
 							<div className='botones'>
 							<NavLink
-								to={`/products/category/${c.id}`}
-								key={c.id}
+								to={`/${c.name}`}
+								key={c.name}
 								className='list-group-item list-group-item-action'
 							>
 								{c.name}

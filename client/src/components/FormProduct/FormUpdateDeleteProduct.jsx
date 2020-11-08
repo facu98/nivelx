@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import style from './EditProduct.module.css';
 
 export default function EditProduct({ match }){
-    let id = match.params.idProduct;
+    let id = match.params.id;
     let name = match.params.name
     const history = useHistory();
     const [input, setInput] = useState({
@@ -16,6 +16,7 @@ export default function EditProduct({ match }){
         category: [],
         stock: "",
         description: "",
+        color: [],
     });
 
     const handleInputChange = (e)=>{
@@ -32,27 +33,28 @@ export default function EditProduct({ match }){
             price: "",
             pictures: "",
             category: [],
-            stock: "",
+            stock: true,
             description: "",
+            color: [],
         })
     };
 
-    useEffect( () => {
-        if(name){
-        fetch(`http://localhost:3001/product/single/${name}`)
-        .then(response => response.json())
-        .then(function(product){
-        setInput(
-            product
-            );
-        })
-        .catch(function(err){
-        swal("Error","Producto no encontrado","error")
-        });
-    }},[name]);
+    // useEffect( () => {
+    //     if(id){
+    //     fetch(`http://localhost:3001/product/${id}`)
+    //     .then(response => response.json())
+    //     .then(function(product){
+    //     setInput(
+    //         product
+    //         );
+    //     })
+    //     .catch(function(err){
+    //     swal("Error","Producto no encontrado","error")
+    //     });
+    // }},[id]);
 
     const updateProduct = async function(){
-        await fetch(`http://localhost:3001/product/${input.id}`, {
+        await fetch(`http://localhost:3001/products/${id}`, {
             method: "PUT",
             body: JSON.stringify(input),
             headers: {
@@ -62,14 +64,14 @@ export default function EditProduct({ match }){
         })
         .then(() => {
             swal("Success","Producto modificado","success")
-            resetForm();
+            //resetForm();
         }).catch(err => alert(err));
-        history.push('/admin/editProduct')
+        //history.push('/admin/editProduct')
     };
 
     const deletedProd = async function(){
         swal("Success","Producto eliminado","success");
-        await fetch(`http://localhost:3001/product/${input.id}`, {
+        await fetch(`http://localhost:3001/productS/${id}`, {
             method: "DELETE",
             headers: {
                 'Accept': 'application/json',
@@ -99,10 +101,10 @@ return(
                 <label>Precio del producto</label>
                 <input type="number" name="price" onChange={handleInputChange} value={input.price} required autoFocus  />
             </div>
-            <div className={style.inputContainer}>
+            {/*<div className={style.inputContainer}>
                 <label>Imagen del producto</label>
                 <input type="file" name="pictures" onChange={handleInputChange} value={input.pictures} required autoFocus />
-            </div>
+            </div>*/}
             <div className={style.inputContainer}>
                 <label>Categoría</label>
                 <input type='text' name='category' onChange={handleInputChange} value={input.category} required autoFocus />
@@ -110,6 +112,10 @@ return(
             <div>
                 <label className={style.labelStock}>Stock</label>
                 <input className={style.inputStock} type='number' name='stock' onChange={handleInputChange} value={input.stock} required autoFocus />
+            </div>
+            <div>
+                <label className={style.labelStock}>Color: </label>
+                <input className={style.inputStock} type='text' name='color' onChange={handleInputChange} value={input.color} required autoFocus />
             </div>
             <div className={style.inputContainer}>
                 <label>Descripción del producto</label>

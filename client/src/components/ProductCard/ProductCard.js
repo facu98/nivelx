@@ -35,9 +35,10 @@ const useStyles = makeStyles((theme) => ({
 export default function ProductCard(props) {
   const classes = useStyles();
   const url = useLocation();
+
   const boton = url.pathname === '/admin/products/edit'
     ? (<>
-      <Link to={`/admin/editproduct/${props.productos.id}`}>
+      <Link to={`/admin/products/edit/${props.productos.id}`}>
         <IconButton>
           <Tooltip title='Editar producto'>
             <EditIcon color='primary' />
@@ -69,7 +70,7 @@ export default function ProductCard(props) {
        <CardHeader/>
       <CardMedia
         className={classes.media}
-        image={`http://localhost:3000/assets/img/logo_store.jpg`}
+        image={props.productos.pictures[0].slice(2, props.productos.pictures[0].length -1)}
       />
       <CardContent>
         <Link to={`/products/${props.productos.id}`}>
@@ -78,7 +79,7 @@ export default function ProductCard(props) {
           </Typography>
         </Link>
         <Typography gutterBottom variant='body1' color='primary' component='p'>
-          {props.productos.price}
+          {`USD ${props.productos.price}`}
         </Typography>
 
       </CardContent>

@@ -13,7 +13,7 @@ import SearchBar from './components/SearchBar/SearchBar';
 import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
 import EditProduct from './components/FormProduct/FormUpdateDeleteProduct';
 import ProductDetail from "./components/ProductDetail/Product"
-
+import PanelAdmin from "./components/AdminPanel/PanelAdmin"
 import Container from '@material-ui/core/Container'
 
 function App() {
@@ -26,10 +26,7 @@ function App() {
 
               <Route exact path='/:name' component={Catalogo} />
 
-              <Route path='/category/:idCategory'
-                render={({ match }) => (
-                  <FormCategory match={match} />
-                  )} />
+              <Route exact path='/admin/panel' component={PanelAdmin} />
 
               <Route path='/products/category/:id' component={Catalogo} />
 
@@ -40,6 +37,9 @@ function App() {
               />
               <Route exact path='/admin/editCategory' component={Categorias} />
               <Route exact path='/admin/products/edit' component={Catalogo} />
+              <Route exact path='/admin/createProduct' component ={FormProduct} />
+              <Route exact path='/admin/products/edit/:id'
+                render={({ match }) => (<EditProduct match={match} />)}/>
 
               <Route exact path='/admin/editCategory/:name'
                 render={({ match }) => (
