@@ -42,15 +42,18 @@ export default function ProductCRUD({ match }){
 
     const handleSubmit = (e)=>{
         e.preventDefault();
-        const newProduct = { 
-            name: input.name, 
+        const newProduct = {
+            name: input.name,
             brand: input.brand,
             price: input.price,
-            pictures: input.pictures,
-            category: input.category,
-            stock: input.stock,
+            pictures: ["input.pictures"],
+            category: input.category.replace(" ", "").split(","),
+            stock: true,
             description: input.description,
+            quantity: input.stock
+
         }
+        console.log(JSON.stringify(newProduct))
         fetch('http://localhost:3001/products', {
             method: 'POST',
             body: JSON.stringify(newProduct),
@@ -110,4 +113,3 @@ export default function ProductCRUD({ match }){
         </div>
     )
 }
-

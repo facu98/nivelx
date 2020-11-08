@@ -31,7 +31,7 @@ server.get('/single/:name', (req, res) => {
 
 	Category.findOne({
 		where: {
-			id: capName,
+			name: capName,
 		},
 	})
 		.then((cat) =>

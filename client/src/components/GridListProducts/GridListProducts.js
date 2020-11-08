@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ImageGridList(props) {
   const classes = useStyles();
-
+  console.log(props.productos)
   return (
     <div className={classes.root}>
       <GridList cellHeight={450} className={classes.gridList} cols={4} spacing={4}>
