@@ -1,15 +1,31 @@
-import React from 'react';
+import React  from 'react';
+import { useFormik } from 'formik';
+import './SearchBar.css';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { NavLink } from 'react-router-dom'
+import SearchIcon from '@material-ui/icons/Search';
+import { NavLink, useHistory } from 'react-router-dom'
+
 
 
 const SearchBar = () => {
+
+
+    let history = useHistory();
+    const formik = useFormik({
+        initialValues : {
+            query: "",
+        },
+        onSubmit : (values) => {
+            history.push(`search?query=${values.query}`);
+        },
+    });
+
     return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className={"container"}>
-                  <NavLink to = "/">
-                <a className="navbar-brand" href="#">Gamers Store</a>
-                  </NavLink>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div className={"container"}>
+                <NavLink to='/' className="navbar-brand">
+                    <h1>Nivel X</h1>
+                </NavLink>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -17,25 +33,35 @@ const SearchBar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item active">
-                        <NavLink to = "/">
-                            <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+                            <NavLink to="/" className='nav-link' >
+                                Productos
                         </NavLink>
                         </li>
                         <li className="nav-item active">
-                            <a className="nav-link" href="#">Juegos <span className="sr-only">(current)</span></a>
+                            <NavLink to="/products/" className='nav-link' >
+                                Juegos
+                        </NavLink>
                         </li>
                         <li className="nav-item active">
-                            <a className="nav-link" href="#">Tienda <span className="sr-only">(current)</span></a>
+                            <NavLink to="/products/" className='nav-link' >
+                                Login
+                        </NavLink>
+                        </li>
+                        <li className="nav-item active">
+                            <NavLink to="/products/" className='nav-link' >
+                                Mi Cuenta
+                            </NavLink>
                         </li>
 
+
                     </ul>
-                    <form className="form-inline my-2 my-lg-0">
-                        <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <form onSubmit={formik.handleSubmit} className="form-inline my-2 my-lg-0">
+                        <input  onChange={formik.handleChange} className="form-control mr-sm-2 input-large" type="text" name="query" placeholder="Find your product!" aria-label="Search" />
+                        <button  className="btn btn-outline-success my-2 my-sm-0" type="submit"><SearchIcon /></button>
                     </form>
                 </div>
-                </div>
-            </nav>
+            </div>
+        </nav>
 
     )
 }
