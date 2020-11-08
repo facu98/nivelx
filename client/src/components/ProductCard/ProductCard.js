@@ -35,9 +35,10 @@ const useStyles = makeStyles((theme) => ({
 export default function ProductCard(props) {
   const classes = useStyles();
   const url = useLocation();
+
   const boton = url.pathname === '/admin/products/edit'
     ? (<>
-      <Link to={`/admin/editproduct/${props.productos.id}`}>
+      <Link to={`/admin/products/edit/${props.productos.id}`}>
         <IconButton>
           <Tooltip title='Editar producto'>
             <EditIcon color='primary' />
