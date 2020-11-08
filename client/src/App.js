@@ -25,6 +25,7 @@ function App() {
               <Route exact path='/' component={Catalogo} />
 
               <Route exact path='/:name' component={Catalogo} />
+
               <Route exact path='/admin/panel' component={PanelAdmin} />
 
               <Route path='/products/category/:id' component={Catalogo} />

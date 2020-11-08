@@ -16,6 +16,7 @@ export default function EditProduct({ match }){
         category: [],
         stock: "",
         description: "",
+        color: [],
     });
 
     const handleInputChange = (e)=>{
@@ -34,6 +35,7 @@ export default function EditProduct({ match }){
             category: [],
             stock: true,
             description: "",
+            color: [],
         })
     };
 
@@ -110,6 +112,10 @@ return(
             <div>
                 <label className={style.labelStock}>Stock</label>
                 <input className={style.inputStock} type='number' name='stock' onChange={handleInputChange} value={input.stock} required autoFocus />
+            </div>
+            <div>
+                <label className={style.labelStock}>Color: </label>
+                <input className={style.inputStock} type='text' name='color' onChange={handleInputChange} value={input.color} required autoFocus />
             </div>
             <div className={style.inputContainer}>
                 <label>Descripción del producto</label>
