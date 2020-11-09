@@ -17,6 +17,7 @@ const SearchBar = () => {
         },
         onSubmit : (values) => {
             history.push(`search?name=${values.query}`);
+            history.go()
         },
     });
 

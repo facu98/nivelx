@@ -14,7 +14,7 @@ export default function Product({match}) {
 
     if (!product) {
         return <h2 className= {s.sectionTitle}> No product to display </h2>}
-  
+
 
 
     return (
