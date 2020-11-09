@@ -43,19 +43,20 @@ export default function ProductCRUD({ match }){
     };
 
     const handleSubmit = (e)=>{
+      var img = input.pictures.replace("C:\\fakepath\\", "http://localhost:3000/assets/img/")
         e.preventDefault();
         const newProduct = {
             name: input.name,
             brand: input.brand,
             price: input.price,
-            pictures: ["input.pictures"],
+            pictures: img.split(),
             category: input.category.replace(" ", "").split(","),
             stock: true,
             description: input.description,
             quantity: input.stock,
-            color: input.color,
+            color: input.color.split(),
         }
-        console.log(JSON.stringify(newProduct))
+        console.log(picture)
         fetch('http://localhost:3001/products', {
             method: 'POST',
             body: JSON.stringify(newProduct),

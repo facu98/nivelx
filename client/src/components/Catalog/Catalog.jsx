@@ -42,7 +42,7 @@ export default function ({ match, location }) {
 				console.log(data)
 			})
 		}
-		}, [])
+	}, [])
 
 	return (
 		<Grid container direction='row'>
@@ -53,7 +53,7 @@ export default function ({ match, location }) {
 			{productos.length > 0 ?
 			<Grid item xs={12} sm={10} md={10}>
 				<GridList productos={productos} />
-			</Grid> : <div><h3>No se encontraron resultados</h3></div> }
+			</Grid> : <div class="mx-auto" ><h3>No se encontraron resultados</h3></div> }
 
 			{/* </div> */}
 		</Grid>

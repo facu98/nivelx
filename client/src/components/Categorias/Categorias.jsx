@@ -25,7 +25,7 @@ export default function () {
 
 
 	return (
-		<div className='p-3'>
+		<div className='p-6'>
 			<h1>Categorias</h1>
 			<hr />
 			<ul className='list-group'>
