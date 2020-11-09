@@ -11,16 +11,12 @@ export default function Product({match}) {
                               .then((product) => product.json())
                               .then((product => {setProduct(product)}))
                           },[]);
-    //console.log(props.id);
-    if (!product) {
-        return <h2 className= {s.sectionTitle}> No product to display </h2>
-    }
-    console.log(product.category);
-    console.log(product.pictures)
 
-    });
-    
-   
+    if (!product) {
+        return <h2 className= {s.sectionTitle}> No product to display </h2>}
+  
+
+
     return (
         <section className={`${s.section} ${s.productSection}`}>
             <Link to='/' className={`${s.btn} ${s.btnPrimary}`}>
