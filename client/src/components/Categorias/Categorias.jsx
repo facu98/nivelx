@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from 'react'
 import { NavLink } from 'react-router-dom'
 import { useLocation, Link } from 'react-router-dom';
@@ -22,10 +23,10 @@ export default function () {
 			})
 	}, [])
 
-
+console.log(categorias)
 
 	return (
-		<div className='p-6'>
+		<div className='p-3'>
 			<h1>Categorias</h1>
 			<hr />
 			<ul className='list-group'>
@@ -59,8 +60,8 @@ export default function () {
 							return (
 							<div className='botones'>
 							<NavLink
-								to={`/${c.name}`}
-								key={c.name}
+								to={`/products/category/${c.id}`}
+								key={c.id}
 								className='list-group-item list-group-item-action'
 							>
 								{c.name}
