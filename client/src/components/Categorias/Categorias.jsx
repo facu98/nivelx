@@ -60,7 +60,7 @@ console.log(categorias)
 							return (
 							<div className='botones'>
 							<NavLink
-								to={`/products/category/${c.id}`}
+								to={`/${c.name}`}
 								key={c.id}
 								className='list-group-item list-group-item-action'
 							>
