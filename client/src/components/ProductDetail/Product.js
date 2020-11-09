@@ -20,26 +20,22 @@ export default function Product({match}) {
     return (
         <section className={`${s.section} ${s.productSection}`}>
             <Link to='/' className={`${s.btn} ${s.btnPrimary}`}>
-                back home
+                Regresar a Pagina Principal
             </Link>
             <h2 className={s.sectionTitle}>{product.name}</h2>
             <div className={s.product}>
-                <img className={s.productImg} src={product.pictures[0].slice(2, product.pictures[0].length -1)} alt={product.id}/>
+                <img className={s.productImg} src={product.pictures[0]} alt={product.id}/>
                 <div className={s.productInfo}>
                     <p>
-                        <span className={s.productData}>Name:</span>
-                        {product.name}
+                        <span className={s.productData}>Precio:</span>
+                         USD {product.price}
                     </p>
                     <p>
-                        <span className={s.productData}>Price:</span>
-                         ${product.price}
+                        <span className={s.productData}>Marca:</span>
+                        {product.brand}
                     </p>
                     <p>
-                        <span className={s.productData}>Quantity:</span>
-                        {product.quantity}
-                    </p>
-                    <p>
-                        <span className={s.productData}>Description:</span>
+                        <span className={s.productData}>Descripción:</span>
                         {product.description}
                     </p>
                 </div>
