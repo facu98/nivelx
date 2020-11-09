@@ -42,8 +42,14 @@ sequelize.models = Object.fromEntries(capsEntries)
 const { Product, Category, Order, User, Review } = sequelize.models
 
 // Aca vendrian las relaciones
-Product.belongsToMany(Category, { through: 'product_category' })
-Category.belongsToMany(Product, { through: 'product_category' })
+Product.belongsToMany(Category, { 
+	through: 'product_category',
+	foreignKey: "product_id"
+})
+Category.belongsToMany(Product, { 
+	through: 'product_category',
+	foreignKey: 'category_id',
+})
 
 
 
