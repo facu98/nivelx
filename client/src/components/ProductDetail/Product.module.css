@@ -192,8 +192,7 @@ Variables
   .productImg {
     height: 20rem;
     object-fit: cover;
-    border-top-left-radius: var(--mainBorderRadius);
-    border-top-right-radius: var(--mainBorderRadius);
+    border-radius: var(--mainBorderRadius);
   }
   .productFooter {
     padding: 1.5rem;
