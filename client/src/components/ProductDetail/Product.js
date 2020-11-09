@@ -5,20 +5,22 @@ import { useParams, Link } from 'react-router-dom';
 
 
 export default function Product({match}) {
-    //const { id, name, price, quantity } = useParams();
-    //const url = useParams();
     const [product, setProduct] = React.useState(null);
     React.useEffect(() => {
-        fetch(`http://localhost:3001/products/${match.params.id}`)
-        .then((product) => product.json())
-        .then((product => {setProduct(product)}))
-    },[]);
+                          fetch(`http://localhost:3001/products/${match.params.id}`)
+                              .then((product) => product.json())
+                              .then((product => {setProduct(product)}))
+                          },[]);
     //console.log(props.id);
     if (!product) {
         return <h2 className= {s.sectionTitle}> No product to display </h2>
     }
     console.log(product.category);
     console.log(product.pictures)
+
+    });
+    
+   
     return (
         <section className={`${s.section} ${s.productSection}`}>
             <Link to='/' className={`${s.btn} ${s.btnPrimary}`}>
@@ -26,10 +28,10 @@ export default function Product({match}) {
             </Link>
             <h2 className={s.sectionTitle}>{product.name}</h2>
             <div className={s.product}>
-                <img src={product.pictures[0].slice(2, product.pictures[0].length -1)} alt={product.id}/>
+                <img className={s.productImg} src={product.pictures[0].slice(2, product.pictures[0].length -1)} alt={product.id}/>
                 <div className={s.productInfo}>
                     <p>
-                        <span className={s.productData}>Title:</span>
+                        <span className={s.productData}>Name:</span>
                         {product.name}
                     </p>
                     <p>
