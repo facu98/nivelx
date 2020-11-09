@@ -71,7 +71,7 @@ export default function EditProduct({ match }){
 
     const deletedProd = async function(){
         swal("Success","Producto eliminado","success");
-        await fetch(`http://localhost:3001/productS/${id}`, {
+        await fetch(`http://localhost:3001/products/${id}`, {
             method: "DELETE",
             headers: {
                 'Accept': 'application/json',
