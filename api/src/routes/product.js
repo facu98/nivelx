@@ -126,6 +126,38 @@ server.delete("/:productId", (req, res) => {
 		.catch(err => {
 		  res.status(500).send('Hubo un error: ' + err);
 		});
-  });
+});
+
+// Agregar categoría al producto
+
+server.post('/products/:productId/category/:categoryId', (req, res) => {
+	let productId = req.params.productId;
+	let categoryId = req.params.categoryId;
+
+	Category.findByPk(categoryId)
+	.then(category => {
+		product = Product.findByPk(productId);
+		return product.addCategory(category);
+	})
+	.then(newCategory => {
+		res.send.json();
+	})
+	.catch((err) => res.send.err);
+});
+
+// Eliminar categoría al producto
+
+server.delete('/products/:productId/category/:categoryId', (req, res) => {
+	let productId = req.params.productId;
+	let categoryId = req.params.categoryId;
+
+	Category.findByPk(categoryId)
+	.then(category => {
+		product = Product.findByPk(productId);
+		product.delete(category);
+	})
+	res.send.json();
+});
+
 
 module.exports = server;
