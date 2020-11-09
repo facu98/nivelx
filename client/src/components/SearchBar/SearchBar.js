@@ -16,7 +16,7 @@ const SearchBar = () => {
             query: "",
         },
         onSubmit : (values) => {
-            history.push(`search?query=${values.query}`);
+            history.push(`search?name=${values.query}`);
         },
     });
 
@@ -48,8 +48,8 @@ const SearchBar = () => {
                         </NavLink>
                         </li>
                         <li className="nav-item active">
-                            <NavLink to="/products/" className='nav-link' >
-                                Mi Cuenta
+                            <NavLink to="/admin/panel" className='nav-link' >
+                                Admin
                             </NavLink>
                         </li>
 
