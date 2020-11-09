@@ -69,7 +69,7 @@ export default function ProductCard(props) {
        <CardHeader/>
       <CardMedia
         className={classes.media}
-        image={props.productos.pictures[0].slice(2, props.productos.pictures[0].length -1)}
+        image={props.productos.pictures[0]}
       />
       <CardContent>
         <Link to={`/products/${props.productos.id}`}>
