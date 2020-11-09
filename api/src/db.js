@@ -44,12 +44,10 @@ const { Product, Category, Order, User, Review } = sequelize.models
 // Aca vendrian las relaciones
 Product.belongsToMany(Category, { 
 	through: 'product_category',
-	as: 'categories',
 	foreignKey: "product_id"
 })
 Category.belongsToMany(Product, { 
 	through: 'product_category',
-	as: 'products',
 	foreignKey: 'category_id',
 })
 
