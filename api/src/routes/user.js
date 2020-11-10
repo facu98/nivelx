@@ -3,7 +3,7 @@ const { User} = require('../db.js');
 const { Op } = require('sequelize')
 const trash = [];
 
-server.post("/", (req,res) => {
+server.post("/users", (req,res) => {
 	const { name, lastname, email, password, directionOne, directionTwo, phone , status } = req.body
 	if(!name || !lastname || !email || !password || !directionOne || !directionTwo || !phone || !status) {
         return res.status(400).send( "Debe rellenar los campos requeridos" )
