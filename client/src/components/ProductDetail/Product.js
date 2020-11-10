@@ -16,7 +16,7 @@ export default function Product({match}) {
         return <h2 className= {s.sectionTitle}> No product to display </h2>}
 
 
-
+console.log(product)
     return (
         <section className={`${s.section} ${s.productSection}`}>
             <Link to='/' className={`${s.btn} ${s.btnPrimary}`}>

@@ -8,16 +8,30 @@ export default function EditProduct({ match }){
     let id = match.params.id;
     let name = match.params.name
     const history = useHistory();
+    const [categorias, setCategorias] = useState([])
     const [input, setInput] = useState({
         name: "",
         brand: "",
         price: "",
         pictures: "",
         category: [],
-        stock: "",
+        quantity: "",
         description: "",
         color: [],
     });
+
+    useEffect(() => {
+      fetch(`http://localhost:3001/category`)
+        .then(function (response) {
+          return response.json()
+        })
+        .then(function (category) {
+          setCategorias(category)
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    }, [])
 
     const handleInputChange = (e)=>{
             setInput({
@@ -26,6 +40,13 @@ export default function EditProduct({ match }){
             })
     };
 
+    const categoryChange = (e) => {
+    const id = parseInt(e.target.value)
+    const finder = input.category.find((cat) => cat === id)
+    finder ? input.category = input.category.filter((cat) => cat !== id) : input.category.push(id)
+
+    }
+
     const resetForm = ()=> {
         setInput({
             name: "",
@@ -33,25 +54,25 @@ export default function EditProduct({ match }){
             price: "",
             pictures: "",
             category: [],
-            stock: true,
+            quantity: "",
             description: "",
             color: [],
         })
     };
 
-    // useEffect( () => {
-    //     if(id){
-    //     fetch(`http://localhost:3001/product/${id}`)
-    //     .then(response => response.json())
-    //     .then(function(product){
-    //     setInput(
-    //         product
-    //         );
-    //     })
-    //     .catch(function(err){
-    //     swal("Error","Producto no encontrado","error")
-    //     });
-    // }},[id]);
+    useEffect( () => {
+        if(id){
+        fetch(`http://localhost:3001/products/${id}`)
+        .then(response => response.json())
+        .then(function(product){
+        setInput(
+            product
+            );
+        })
+        .catch(function(err){
+        swal("Error","Producto no encontrado","error")
+        });
+    }},[id]);
 
     const updateProduct = async function(){
         await fetch(`http://localhost:3001/products/${id}`, {
@@ -107,11 +128,17 @@ return(
             </div>*/}
             <div className={style.inputContainer}>
                 <label>Categoría</label>
-                <input type='text' name='category' onChange={handleInputChange} value={input.category} required autoFocus />
+                {categorias && categorias.map((cat) => {
+
+                  return (<div>
+                    <input type="checkbox" name={cat.name} id={cat.id} value={cat.id} onChange={categoryChange}/>
+                    <label for={cat.id}>{cat.name}</label>
+                    </div>)
+                })}
             </div>
             <div>
                 <label className={style.labelStock}>Stock</label>
-                <input className={style.inputStock} type='number' name='stock' onChange={handleInputChange} value={input.stock} required autoFocus />
+                <input className={style.inputStock} type='number' name='quantity' onChange={handleInputChange} value={input.quantity} required autoFocus />
             </div>
             <div>
                 <label className={style.labelStock}>Color: </label>
