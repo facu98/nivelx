@@ -87,7 +87,7 @@ server.put("/:id", (req,res) => {
 		color && (product.color = color)
 		category && (product.category = category)
 		product.save()
-		.then((producto) => res.send(product))
+		.then((product) => res.send(product))
 		.catch((err) => res.send(err))
 		})
 	.catch((err) => {console.log(err)
