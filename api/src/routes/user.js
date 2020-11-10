@@ -3,6 +3,12 @@ const { User} = require('../db.js');
 const { Op } = require('sequelize')
 const trash = [];
 
+server.get("/users", (req, res) => {
+	User.findAll()
+	.then(users => res.send(users))
+	.catch(err => res.status(404).send(err))
+});
+
 server.post("/users", (req,res) => {
 	const { name, lastname, email, password, directionOne, directionTwo, phone , status } = req.body
 	if(!name || !lastname || !email || !password || !directionOne || !directionTwo || !phone || !status) {
