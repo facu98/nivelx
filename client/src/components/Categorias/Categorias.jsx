@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from 'react'
 import { NavLink } from 'react-router-dom'
 import { useLocation, Link } from 'react-router-dom';
@@ -59,7 +60,7 @@ console.log(categorias)
 							return (
 							<div className='botones'>
 							<NavLink
-								to={`/products/category/${c.id}`}
+								to={`/${c.name}`}
 								key={c.id}
 								className='list-group-item list-group-item-action'
 							>

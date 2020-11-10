@@ -1,8 +1,7 @@
 import React from 'react'
 
-export const Carrousel = () => {
-// export default function () {
-
+// export const Carrousel = () => {
+ export default function () {
   return (
     <div
       style={{ maxHeight: '400px' }}
@@ -16,8 +15,8 @@ export const Carrousel = () => {
           data-slide-to='0'
           className='active'
         ></li>
-        <li data-target='#carouselExampleIndicators' data-slide-to='1'></li>
-        <li data-target='#carouselExampleIndicators' data-slide-to='2'></li>
+        <li data-target='carouselExampleIndicators' data-slide-to='1'></li>
+        <li data-target='carouselExampleIndicators' data-slide-to='2'></li>
       </ol>
       <div className='carousel-inner'>
         <div className='carousel-item active'>
@@ -47,7 +46,7 @@ export const Carrousel = () => {
       </div>
       <a
         className='carousel-control-prev'
-        href='#carouselExampleIndicators'
+        href='carouselExampleIndicators'
         role='button'
         data-slide='prev'
       >
@@ -56,7 +55,7 @@ export const Carrousel = () => {
       </a>
       <a
         className='carousel-control-next'
-        href='#carouselExampleIndicators'
+        href='carouselExampleIndicators'
         role='button'
         data-slide='next'
       >

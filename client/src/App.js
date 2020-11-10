@@ -5,15 +5,16 @@ import { Route, Switch, useLocation } from "react-router-dom";
 
 
 import ProductsCards from './components/ProductCard/ProductCard';
+import Carrousel from './components/Carrousel/Carrousel'
 import Catalogo from './components/Catalog/Catalog';
 import Categorias from './components/Categorias/Categorias';
 import FormCategory from './components/FormCategory/FormCategory';
 import FormProduct from './components/FormProduct/FormProduct';
 import SearchBar from './components/SearchBar/SearchBar';
 import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
-import EditCategory from './components/FormProduct/FormUpdateDeleteProduct';
+import EditProduct from './components/FormProduct/FormUpdateDeleteProduct';
 import ProductDetail from "./components/ProductDetail/Product"
-
+import PanelAdmin from "./components/AdminPanel/PanelAdmin"
 import Container from '@material-ui/core/Container'
 
 function App() {
@@ -21,15 +22,13 @@ function App() {
   return (
     <div className="App">
           <SearchBar />
+          <Route exact path='/' render={() => <Carrousel />} />
           <Container>
               <Route exact path='/' component={Catalogo} />
 
               <Route exact path='/:name' component={Catalogo} />
 
-              <Route path='/category/:idCategory'
-                render={({ match }) => (
-                  <FormCategory match={match} />
-                  )} />
+              <Route exact path='/admin/panel' component={PanelAdmin} />
 
               <Route path='/products/category/:id' component={Catalogo} />
 
@@ -40,6 +39,9 @@ function App() {
               />
               <Route exact path='/admin/editCategory' component={Categorias} />
               <Route exact path='/admin/products/edit' component={Catalogo} />
+              <Route exact path='/admin/createProduct' component ={FormProduct} />
+              <Route exact path='/admin/products/edit/:id'
+                render={({ match }) => (<EditProduct match={match} />)}/>
 
               <Route exact path='/admin/editCategory/:name'
                 render={({ match }) => (

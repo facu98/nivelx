@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import style from './Product.module.css';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
@@ -11,6 +11,8 @@ const data = [
 ]
 
 export default function ProductCRUD({ match }){
+  const [categorias, setCategorias] = useState([])
+
     const [input, setInput] = useState({
         name: "",
         brand: "",
@@ -21,13 +23,34 @@ export default function ProductCRUD({ match }){
         description: "",
     })
 
+    useEffect(() => {
+      fetch(`http://localhost:3001/category`)
+        .then(function (response) {
+          return response.json()
+        })
+        .then(function (category) {
+          setCategorias(category)
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    }, [])
+
 
     const handleInputChange = (e)=>{
         setInput({
             ...input,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         })
     };
+
+    const categoryChange = (e) => {
+    const id = parseInt(e.target.value)
+    const finder = input.category.find((cat) => cat === id)
+    finder ? input.category = input.category.filter((cat) => cat !== id) : input.category.push(id)
+
+    }
+
     const resetForm = ()=> {
         setInput({
             name: "",
@@ -42,15 +65,18 @@ export default function ProductCRUD({ match }){
 
     const handleSubmit = (e)=>{
         e.preventDefault();
-        const newProduct = { 
-            name: input.name, 
+        const newProduct = {
+            name: input.name,
             brand: input.brand,
             price: input.price,
-            pictures: input.pictures,
+            pictures: ["input.pictures"],
             category: input.category,
-            stock: input.stock,
+            stock: true,
             description: input.description,
+            quantity: input.stock
+
         }
+        console.log(JSON.stringify(newProduct))
         fetch('http://localhost:3001/products', {
             method: 'POST',
             body: JSON.stringify(newProduct),
@@ -67,6 +93,7 @@ export default function ProductCRUD({ match }){
              console.log(err)
         })
     }
+
     return (
         <div className={style.formStyle}>
             <h3>Crear Producto</h3>
@@ -90,7 +117,12 @@ export default function ProductCRUD({ match }){
                 </div>
                 <div className={style.inputContainer}>
                     <label>Categoría</label>
-                    <input type='text' name='category' onChange={handleInputChange} value={input.category} required autoFocus />
+                    {categorias && categorias.map((cat) => {
+                      return (<div>
+                        <input type="checkbox" name={cat.name} id={cat.id} value={cat.id} onChange={categoryChange}/>
+                        <label for={cat.id}>{cat.name}</label>
+                        </div>)
+                    })}
                 </div>
                 <div>
                     <label className={style.labelStock}>Stock</label>
@@ -110,4 +142,3 @@ export default function ProductCRUD({ match }){
         </div>
     )
 }
-

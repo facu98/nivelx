@@ -1,6 +1,7 @@
 const server = require('express').Router();
 const { Product, Category } = require('../db.js');
-const { Op } = require('sequelize');
+const { Op } = require('sequelize')
+const trash = [];
 
 const trash = []
 server.get('/', (req, res, next) => {
@@ -18,7 +19,6 @@ o descripción (/search?query={valor})*/
 server.get('/search', (req, res) => {
 
 	const { name, description } = req.query;
-	console.log(typeof name)
 
 	Product.findAll( {
 		where: {
@@ -36,7 +36,7 @@ server.get('/search', (req, res) => {
 
 
 server.post("/", (req,res) => {
-	const {name, description, price, stock, pictures, brand, model , asessment, quantity, color,category} = req.body
+	const {name, description, price, stock, pictures, brand, model , asessment, quantity, color, category} = req.body
 	if(!name || !description || !price || !stock || !pictures || !quantity || !brand || !category){return res.status(400).send("Debe rellenar los campos requeridos")}
 	Product.findOne({
 		where: {
@@ -49,11 +49,11 @@ server.post("/", (req,res) => {
 		const newProduct = Product.create({
 			name,
 			description,
-			price,
+			price : parseInt(price),
 			stock,
 			pictures,
 			brand,
-			quantity,
+			quantity : parseInt(quantity),
 			asessment,
 			model,
 			color,
@@ -63,7 +63,7 @@ server.post("/", (req,res) => {
 		.catch(err => console.log(err))
 	})
 	.catch((err) =>  console.log(err))
-})
+});
 
 
 server.put("/:id", (req,res) => {
@@ -127,6 +127,38 @@ server.delete("/:productId", (req, res) => {
 		.catch(err => {
 		  res.status(500).send('Hubo un error: ' + err);
 		});
-  });
+});
+
+// Agregar categoría al producto
+
+server.post('/products/:productId/category/:categoryId', (req, res) => {
+	let productId = req.params.productId;
+	let categoryId = req.params.categoryId;
+
+	Category.findByPk(categoryId)
+	.then(category => {
+		product = Product.findByPk(productId);
+		return product.addCategory(category);
+	})
+	.then(newCategory => {
+		res.send.json();
+	})
+	.catch((err) => res.send.err);
+});
+
+// Eliminar categoría al producto
+
+server.delete('/products/:productId/category/:categoryId', (req, res) => {
+	let productId = req.params.productId;
+	let categoryId = req.params.categoryId;
+
+	Category.findByPk(categoryId)
+	.then(category => {
+		product = Product.findByPk(productId);
+		product.delete(category);
+	})
+	res.send.json();
+});
+
 
 module.exports = server;
