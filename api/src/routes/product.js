@@ -35,7 +35,7 @@ server.get('/search', (req, res) => {
 
 
 server.post("/", (req,res) => {
-	const {name, description, price, stock, pictures, brand, model , asessment, quantity, color,category} = req.body
+	const {name, description, price, stock, pictures, brand, model , asessment, quantity, color, category} = req.body
 	if(!name || !description || !price || !stock || !pictures || !quantity || !brand || !category){return res.status(400).send("Debe rellenar los campos requeridos")}
 	Product.findOne({
 		where: {
@@ -62,7 +62,7 @@ server.post("/", (req,res) => {
 		.catch(err => console.log(err))
 	})
 	.catch((err) =>  console.log(err))
-})
+});
 
 
 server.put("/:id", (req,res) => {
