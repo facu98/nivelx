@@ -8,7 +8,7 @@ server.post("/users", (req,res) => {
 	if(!name || !lastname || !email || !password || !directionOne || !directionTwo || !phone || !status) {
         return res.status(400).send( "Debe rellenar los campos requeridos" )
     }
-	Product.findOne({
+	User.findOne({
 		where: {
 			name, lastname, email, directionOne, directionTwo, phone, status, password
 		}
