@@ -64,4 +64,44 @@ server.post("/users", (req,res) => {
 	.catch((err) =>  console.log(err))
 });
 
+// Eliminar carrito
+
+server.delete('/users/:idUser/cart/', (req, res) => {
+    let id = req.params.idUser;
+	User.findByPk(id)
+	.then( cart => {
+		trash.push(cart);
+		cart.destroy()
+		res.send('Carrito vaciado');
+	})
+	.catch(err => {
+		res.status(500).send(err);
+	});
+});
+
+// Editar cantidad del carrito
+
+server.put('/users/:idUser/cart', (req, res) => {
+	let id = req.params.idUser;
+	const { quantity } = req.body;
+	if(Object.entries(req.body).length < 1 ){return res.status(400).send("Debe rellenar este campo")}
+
+	User.findByPk(id)
+	.then(cart => {
+		if(!cart) {
+			return res.status(400).send("No se encuentra el carrito requerido")
+		}
+		quantity && (cart.quantity = quantity)
+		cart.save()
+		.then((cart) => res.send(cart))
+		.catch((err) => res.send(err))
+	})
+	.catch((err) => {
+		console.log(err);
+		return res.status(400).send("No se encuentra la información requerida");
+	})
+})
+
+module.exports = server;
+
 module.exports = server;
