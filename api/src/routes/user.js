@@ -161,7 +161,11 @@ server.get(('/:idUser/cart'), (req, res, next) => {
 
 server.get('/:id/orders', (req, res) => {
 	let id = req.params.id;
-	User.findByPk(id)
+	Order.findOne({
+	where: {
+		user_id: id
+		}
+	})
 	.then(orders => res.send(orders))
 	.catch(err => res.status(404).send(err));
 });
@@ -171,7 +175,11 @@ server.get('/:id/orders', (req, res) => {
 server.put('/:id/orders', (req, res) => {
 	const { state, date } = req.body
 	let id = req.params.id;
-	User.findByPk(id)
+	Order.findOne({
+	where: {
+		user_id: id
+		}
+	})
 	.then(order => {
 		if(!order){
 			res.status(400).send(`No se encuentran órdenes de este usuario`);
