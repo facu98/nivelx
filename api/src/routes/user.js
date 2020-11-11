@@ -129,6 +129,27 @@ server.put('/user/:idUser/cart', (req, res) => {
 	})
 })
 
+//Retorna todos los items del Carrito
+
+server.get(('/:idUser/cart'), (req, res, next) => {
+    const id = req.params.idUser;
+
+    User.findByPk(id, {
+        where: {
+            idOrder: id
+        },
+        include: {
+            model: Order
+        }
+    })
+        .then(contentOrder => {
+            if (!contentOrder) {
+                return res.status(400).send('Order does not exist');
+            }
+            res.send(contentOrder);
+        })
+        .catch(next);
+});
 
 module.exports = server;
 
