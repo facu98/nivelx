@@ -93,7 +93,7 @@ export default function ProductCRUD({ match }){
              console.log(err)
         })
     }
-
+    console.log(input.category)
     return (
         <div className={style.formStyle}>
             <h3>Crear Producto</h3>

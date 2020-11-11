@@ -9,6 +9,7 @@ export default function EditProduct({ match }){
     let name = match.params.name
     const history = useHistory();
     const [categorias, setCategorias] = useState([])
+    const [checked, setChecked] = useState({})
     const [input, setInput] = useState({
         name: "",
         brand: "",
@@ -41,10 +42,10 @@ export default function EditProduct({ match }){
     };
 
     const categoryChange = (e) => {
+      console.log(e.target)
     const id = parseInt(e.target.value)
-    const finder = input.category.find((cat) => cat === id)
+    const finder = input.category.find((cat) => cat == id)
     finder ? input.category = input.category.filter((cat) => cat !== id) : input.category.push(id)
-
     }
 
     const resetForm = ()=> {
@@ -65,10 +66,9 @@ export default function EditProduct({ match }){
         fetch(`http://localhost:3001/products/${id}`)
         .then(response => response.json())
         .then(function(product){
-        setInput(
-            product
-            );
-        })
+        product.category = product.category.map((cat) => parseInt(cat))
+        setInput(product)
+        ;})
         .catch(function(err){
         swal("Error","Producto no encontrado","error")
         });
@@ -129,11 +129,16 @@ return(
             <div className={style.inputContainer}>
                 <label>Categoría</label>
                 {categorias && categorias.map((cat) => {
+                  let finder = input.category.find((c) => c == cat.id)
 
-                  return (<div>
-                    <input type="checkbox" name={cat.name} id={cat.id} value={cat.id} onChange={categoryChange}/>
+                  return finder ? (<div>
+                    <input type="checkbox" name={cat.name} id={cat.id} value={cat.id} onChange={categoryChange} defaultChecked = {true}/>
                     <label for={cat.id}>{cat.name}</label>
-                    </div>)
+                    </div>) :
+                    (<div>
+                      <input type="checkbox" name={cat.name} id={cat.id} value={cat.id} onChange={categoryChange}/>
+                      <label for={cat.id}>{cat.name}</label>
+                      </div>)
                 })}
             </div>
             <div>
