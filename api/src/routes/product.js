@@ -9,7 +9,7 @@ server.get('/', (req, res, next) => {
 			res.send(products);
 		})
 		.catch(next);
-});
+});<
 
 
 /* Retorna los productos que tengan query={valor} en su nombre

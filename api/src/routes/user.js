@@ -100,7 +100,7 @@ server.delete('/:id', (req, res) => {
 
 // Editar cantidad del carrito
 
-server.put('/users/:idUser/cart', (req, res) => {
+server.put('/user/:idUser/cart', (req, res) => {
 	let id = req.params.idUser;
 	const { quantity } = req.body;
 	if(Object.entries(req.body).length < 1 ){return res.status(400).send("Debe rellenar este campo")}
