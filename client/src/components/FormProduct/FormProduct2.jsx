@@ -315,4 +315,4 @@ export default function SignUp(props) {
       .catch((err)=>{
            console.log(err)
       })
-  
+  }
