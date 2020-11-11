@@ -21,6 +21,7 @@ export default function ProductCRUD({ match }){
         category: [],
         stock: "",
         description: "",
+        color: ""
     })
 
     useEffect(() => {
@@ -73,7 +74,8 @@ export default function ProductCRUD({ match }){
             category: input.category,
             stock: true,
             description: input.description,
-            quantity: input.stock
+            quantity: input.stock,
+            color: ["Azul","Amarillo"]
 
         }
         console.log(JSON.stringify(newProduct))
@@ -93,7 +95,7 @@ export default function ProductCRUD({ match }){
              console.log(err)
         })
     }
-
+    console.log(input.category)
     return (
         <div className={style.formStyle}>
             <h3>Crear Producto</h3>

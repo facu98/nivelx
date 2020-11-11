@@ -9,6 +9,7 @@ export default function EditProduct({ match }){
     let name = match.params.name
     const history = useHistory();
     const [categorias, setCategorias] = useState([])
+    const [checked, setChecked] = useState({})
     const [input, setInput] = useState({
         name: "",
         brand: "",
@@ -41,10 +42,16 @@ export default function EditProduct({ match }){
     };
 
     const categoryChange = (e) => {
+    setChecked({...checked,
+    [e.target.name] : !checked})
     const id = parseInt(e.target.value)
-    const finder = input.category.find((cat) => cat === id)
+    const finder = input.category.find((cat) => cat == id)
     finder ? input.category = input.category.filter((cat) => cat !== id) : input.category.push(id)
+    }
 
+    const colorChange = (e) => {
+  input.color = input.color.filter((col) => col !== e.target.value)
+  console.log(input.color)
     }
 
     const resetForm = ()=> {
@@ -57,6 +64,7 @@ export default function EditProduct({ match }){
             quantity: "",
             description: "",
             color: [],
+
         })
     };
 
@@ -65,16 +73,16 @@ export default function EditProduct({ match }){
         fetch(`http://localhost:3001/products/${id}`)
         .then(response => response.json())
         .then(function(product){
-        setInput(
-            product
-            );
-        })
+        product.category = product.category.map((cat) => parseInt(cat))
+        setInput(product)
+        ;})
         .catch(function(err){
         swal("Error","Producto no encontrado","error")
         });
     }},[id]);
 
     const updateProduct = async function(){
+
         await fetch(`http://localhost:3001/products/${id}`, {
             method: "PUT",
             body: JSON.stringify(input),
@@ -129,9 +137,13 @@ return(
             <div className={style.inputContainer}>
                 <label>Categoría</label>
                 {categorias && categorias.map((cat) => {
+                  let finder = input.category.find((c) => c == cat.id)
+                  var check
+                  finder ? (check = true) : (check = false)
+                  checked[cat.name] = check
 
                   return (<div>
-                    <input type="checkbox" name={cat.name} id={cat.id} value={cat.id} onChange={categoryChange}/>
+                    <input type="checkbox" name={cat.name} id={cat.id} value={cat.id} onChange={categoryChange} checked ={checked[cat.name]}/>
                     <label for={cat.id}>{cat.name}</label>
                     </div>)
                 })}
@@ -140,13 +152,33 @@ return(
                 <label className={style.labelStock}>Stock</label>
                 <input className={style.inputStock} type='number' name='quantity' onChange={handleInputChange} value={input.quantity} required autoFocus />
             </div>
+
             <div>
-                <label className={style.labelStock}>Color: </label>
-                <input className={style.inputStock} type='text' name='color' onChange={handleInputChange} value={input.color} required autoFocus />
+    <label className={style.labelStock}>Color: </label>
+    <input className={style.inputStock} type='text' name='color' onChange={handleInputChange} value={""} required autoFocus />
+          </div>
+            {/*<div>
+                <label className={style.labelStock}>Colores: </label>
+                {input.color.map((col) => {
+
+                  return col !== null && (<div>
+                    <input  type="checkbox"  name = {col} value={col}  onChange = {colorChange} defaultChecked required autoFocus />
+                    <label for={col}>{col}</label>
+                    </div>)
+                })}
+
             </div>
+
+            <div className={style.inputContainer}>
+                <label>Agregar color</label>
+                <textarea name="newColor" onChange={handleInputChange} value={input.newColor} required />
+
+            </div>*/}
+
             <div className={style.inputContainer}>
                 <label>Descripción del producto</label>
                 <textarea name="description" onChange={handleInputChange} value={input.description} required />
+
             </div>
 
             <div className="buttonContainer">
