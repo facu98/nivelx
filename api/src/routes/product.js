@@ -11,10 +11,6 @@ server.get('/', (req, res, next) => {
 		.catch(next);
 });<
 
-
-/* Retorna los productos que tengan query={valor} en su nombre
-o descripción (/search?query={valor})*/
-
 server.get('/search', (req, res) => {
 
 	const { name, description } = req.query;
@@ -32,7 +28,6 @@ server.get('/search', (req, res) => {
 
 	.catch((err) => res.status(404).send(err));
 })
-
 
 server.post("/", (req,res) => {
 	const {name, description, price, stock, pictures, brand, model , asessment, quantity, color, category} = req.body
@@ -127,7 +122,6 @@ server.delete("/:productId", (req, res) => {
 		  res.status(500).send('Hubo un error: ' + err);
 		});
 });
-
 // Agregar categoría al producto
 
 server.post('/products/:productId/category/:categoryId', (req, res) => {
