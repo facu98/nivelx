@@ -72,7 +72,7 @@ server.delete('/users/:idUser/cart/', (req, res) => {
 	.then( cart => {
 		trash.push(cart);
 		cart.destroy()
-		res.send('Carrito borrado');
+		res.send('Carrito vaciado');
 	})
 	.catch(err => {
 		res.status(500).send(err);
