@@ -3,7 +3,6 @@ const { Product, Category } = require('../db.js');
 const { Op } = require('sequelize')
 const trash = [];
 
-const trash = []
 server.get('/', (req, res, next) => {
 	Product.findAll()
 		.then(products => {
