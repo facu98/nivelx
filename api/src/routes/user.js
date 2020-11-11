@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { User } = require('../db.js');
+const { User, Order } = require('../db.js');
 const { Op } = require('sequelize')
 const trash = [];
 
@@ -68,7 +68,11 @@ server.post("/users", (req,res) => {
 
 server.delete('/users/:idUser/cart/', (req, res) => {
     let id = req.params.idUser;
-	User.findByPk(id)
+	Order.findOne({
+		where: {
+			user_id: id
+		}
+	})
 	.then( cart => {
 		trash.push(cart);
 		cart.destroy()
@@ -86,7 +90,11 @@ server.put('/users/:idUser/cart', (req, res) => {
 	const { quantity } = req.body;
 	if(Object.entries(req.body).length < 1 ){return res.status(400).send("Debe rellenar este campo")}
 
-	User.findByPk(id)
+	Order.findOne({
+		where: {
+			user_id: id
+		}
+	})
 	.then(cart => {
 		if(!cart) {
 			return res.status(400).send("No se encuentra el carrito requerido")
