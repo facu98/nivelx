@@ -64,6 +64,21 @@ server.post("/users", (req,res) => {
 	.catch((err) =>  console.log(err))
 });
 
+
+//
+// ELIMINA EL usuario
+server.delete('/:id', (req, res) => {
+	User.findByPk(req.params.id)
+		.then((user) => {
+			user.destroy().then((user) => {
+				res.status(200).send(user)
+			})
+		})
+		.catch(() => res.status(404).send('Id no valido'))
+})
+
+
+
 // Eliminar carrito
 
 server.delete('/users/:idUser/cart/', (req, res) => {
@@ -79,9 +94,10 @@ server.delete('/users/:idUser/cart/', (req, res) => {
 	});
 });
 
+
 // Editar cantidad del carrito
 
-server.put('/users/:idUser/cart', (req, res) => {
+server.put('/user/:idUser/cart', (req, res) => {
 	let id = req.params.idUser;
 	const { quantity } = req.body;
 	if(Object.entries(req.body).length < 1 ){return res.status(400).send("Debe rellenar este campo")}
@@ -102,6 +118,5 @@ server.put('/users/:idUser/cart', (req, res) => {
 	})
 })
 
-module.exports = server;
 
 module.exports = server;
