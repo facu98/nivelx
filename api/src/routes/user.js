@@ -161,7 +161,7 @@ server.get(('/:idUser/cart'), (req, res, next) => {
 
 server.get('/:id/orders', (req, res) => {
 	let id = req.params.id;
-	Order.findOne({
+	Order.findAll({
 	where: {
 		user_id: id
 		}
@@ -175,7 +175,7 @@ server.get('/:id/orders', (req, res) => {
 server.put('/:id/orders', (req, res) => {
 	const { state, date } = req.body
 	let id = req.params.id;
-	Order.findOne({
+	Order.findAll({
 	where: {
 		user_id: id
 		}
