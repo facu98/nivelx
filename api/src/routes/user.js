@@ -3,13 +3,13 @@ const { User } = require('../db.js');
 const { Op } = require('sequelize')
 const trash = [];
 
-server.get("/users", (req, res) => {
+server.get("/", (req, res) => {
 	User.findAll()
 	.then(users => res.send(users))
 	.catch(err => res.status(404).send(err))
 });
 
-server.put("/users/:id", (req, res) => {
+server.put("/:id", (req, res) => {
 	const { name, lastname, email, password, directionOne, directionTwo, phone , status } = req.body
 	const id = req.params.id;
 	User.findByPk(id)
@@ -35,7 +35,7 @@ server.put("/users/:id", (req, res) => {
 	});
 });
 
-server.post("/users", (req,res) => {
+server.post("/", (req,res) => {
 	const { name, lastname, email, password, directionOne, directionTwo, phone , status } = req.body
 	if(!name || !lastname || !email || !password || !directionOne || !directionTwo || !phone || !status) {
         return res.status(400).send( "Debe rellenar los campos requeridos" )
@@ -81,7 +81,7 @@ server.delete('/:id', (req, res) => {
 
 // Eliminar carrito
 
-server.delete('/users/:idUser/cart/', (req, res) => {
+server.delete('/:idUser/cart/', (req, res) => {
     let id = req.params.idUser;
 	User.findByPk(id)
 	.then( cart => {
@@ -97,7 +97,7 @@ server.delete('/users/:idUser/cart/', (req, res) => {
 
 // Editar cantidad del carrito
 
-server.put('/user/:idUser/cart', (req, res) => {
+server.put('/:idUser/cart', (req, res) => {
 	let id = req.params.idUser;
 	const { quantity } = req.body;
 	if(Object.entries(req.body).length < 1 ){return res.status(400).send("Debe rellenar este campo")}
