@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { User } = require('../db.js');
+const { User, Order } = require('../db.js');
 const { Op } = require('sequelize')
 const trash = [];
 
@@ -83,7 +83,11 @@ server.delete('/:id', (req, res) => {
 
 server.delete('/:idUser/cart/', (req, res) => {
     let id = req.params.idUser;
-	User.findByPk(id)
+	Order.findOne({
+		where: {
+			user_id: id
+		}
+	})
 	.then( cart => {
 		trash.push(cart);
 		cart.destroy()
@@ -94,6 +98,15 @@ server.delete('/:idUser/cart/', (req, res) => {
 	});
 });
 
+server.delete('/:id', (req, res) => {
+	User.findByPk(req.params.id)
+		.then((user) => {
+			user.destroy().then((user) => {
+				res.status(200).send(user)
+			})
+		})
+		.catch(() => res.status(404).send('Id no valido'))
+})
 
 // Editar cantidad del carrito
 
@@ -102,7 +115,11 @@ server.put('/:idUser/cart', (req, res) => {
 	const { quantity } = req.body;
 	if(Object.entries(req.body).length < 1 ){return res.status(400).send("Debe rellenar este campo")}
 
-	User.findByPk(id)
+	Order.findOne({
+		where: {
+			user_id: id
+		}
+	})
 	.then(cart => {
 		if(!cart) {
 			return res.status(400).send("No se encuentra el carrito requerido")
@@ -118,5 +135,26 @@ server.put('/:idUser/cart', (req, res) => {
 	})
 })
 
+//Retorna todos los items del Carrito
+
+server.get(('/:idUser/cart'), (req, res, next) => {
+    const id = req.params.idUser;
+
+    User.findByPk(id, {
+        where: {
+            idOrder: id
+        },
+        include: {
+            model: Order
+        }
+    })
+        .then(contentOrder => {
+            if (!contentOrder) {
+                return res.status(400).send('Order does not exist');
+            }
+            res.send(contentOrder);
+        })
+        .catch(next);
+});
 
 module.exports = server;
