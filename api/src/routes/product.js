@@ -3,14 +3,13 @@ const { Product, Category } = require('../db.js');
 const { Op } = require('sequelize')
 const trash = [];
 
-const trash = []
 server.get('/', (req, res, next) => {
 	Product.findAll()
 		.then(products => {
 			res.send(products);
 		})
 		.catch(next);
-});
+});<
 
 
 /* Retorna los productos que tengan query={valor} en su nombre

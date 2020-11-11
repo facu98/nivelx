@@ -83,9 +83,28 @@ server.delete('/users/:idUser/cart/', (req, res) => {
 	});
 });
 
+//
+server.delete('/:id', (req, res) => {
+	User.findByPk(req.params.id)
+		.then((user) => {
+			user.destroy().then((user) => {
+				res.status(200).send(user)
+			})
+		})
+		.catch(() => res.status(404).send('Id no valido'))
+})
+
+
+
+
+
+
+
+
+
 // Editar cantidad del carrito
 
-server.put('/users/:idUser/cart', (req, res) => {
+server.put('/user/:idUser/cart', (req, res) => {
 	let id = req.params.idUser;
 	const { quantity } = req.body;
 	if(Object.entries(req.body).length < 1 ){return res.status(400).send("Debe rellenar este campo")}
@@ -109,6 +128,7 @@ server.put('/users/:idUser/cart', (req, res) => {
 		return res.status(400).send("No se encuentra la información requerida");
 	})
 })
+
 
 module.exports = server;
 
