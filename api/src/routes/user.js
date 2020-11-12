@@ -157,4 +157,42 @@ server.get(('/:idUser/cart'), (req, res, next) => {
         .catch(next);
 });
 
+// Retorna las órdenes del usuario
+
+server.get('/:id/orders', (req, res) => {
+	let id = req.params.id;
+	Order.findAll({
+	where: {
+		user_id: id
+		}
+	})
+	.then(orders => res.send(orders))
+	.catch(err => res.status(404).send(err));
+});
+
+// Modifica las órdenes del usuario
+
+server.put('/:id/orders', (req, res) => {
+	const { state, date } = req.body
+	let id = req.params.id;
+	Order.findAll({
+	where: {
+		user_id: id
+		}
+	})
+	.then(order => {
+		if(!order){
+			res.status(400).send(`No se encuentran órdenes de este usuario`);
+		}
+		if( !state || !date ){
+			res.status(400).send(`Debe completar los campos obligatorios`);
+		}
+
+		order.state = state;
+		order.date = date;
+		order.save()
+		.then(order => res.send(order))
+		.catch(err => res.status(404).send(err))
+	});
+})
 module.exports = server;
