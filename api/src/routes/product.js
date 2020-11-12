@@ -51,7 +51,7 @@ server.post("/", (req,res) => {
 			asessment,
 			model,
 			color,
-			category
+			category : category.map((cat) => parseInt(cat))
 		})
 		.then((product) => res.status(201).send(product))
 		.catch(err => console.log(err))
