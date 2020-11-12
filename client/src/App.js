@@ -16,6 +16,7 @@ import EditProduct from './components/FormProduct/FormUpdateDeleteProduct';
 import ProductDetail from "./components/ProductDetail/Product"
 import PanelAdmin from "./components/AdminPanel/PanelAdmin"
 import Container from '@material-ui/core/Container'
+import CreateUser from "./components/CreateUser/CreateUser"
 
 function App() {
 
@@ -25,6 +26,8 @@ function App() {
           <Route exact path='/' render={() => <Carrousel />} />
           <Container>
               <Route exact path='/' component={Catalogo} />
+
+                <Route exact path='/user/create' component={CreateUser} />
 
               <Route exact path='/:name' component={Catalogo} />
 

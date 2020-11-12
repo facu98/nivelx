@@ -3,13 +3,13 @@ const { User } = require('../db.js');
 const { Op } = require('sequelize')
 const trash = [];
 
-server.get("/users", (req, res) => {
+server.get("/", (req, res) => {
 	User.findAll()
 	.then(users => res.send(users))
 	.catch(err => res.status(404).send(err))
 });
 
-server.put("/users/:id", (req, res) => {
+server.put("/:id", (req, res) => {
 	const { name, lastname, email, password, directionOne, directionTwo, phone , status } = req.body
 	const id = req.params.id;
 	User.findByPk(id)
@@ -35,19 +35,18 @@ server.put("/users/:id", (req, res) => {
 	});
 });
 
-server.post("/users", (req,res) => {
+server.post("/", (req,res) => {
 	const { name, lastname, email, password, directionOne, directionTwo, phone , status } = req.body
-	if(!name || !lastname || !email || !password || !directionOne || !directionTwo || !phone || !status) {
+	if(!name || !lastname || !email || !password || !directionOne || !phone || !status) {
         return res.status(400).send( "Debe rellenar los campos requeridos" )
     }
 	User.findOne({
 		where: {
-			name, lastname, email, directionOne, directionTwo, phone, status, password
+			email
 		}
 	})
 	.then((user) => {
-		if(user) { return res.status(400).send( "Este usuario ya existe" )}
-
+		if(user) { return res.status(400).send( "Ya existe un usuario con este mail" )}
 		const newUser = User.create({
 			name,
 			lastname,
@@ -55,13 +54,13 @@ server.post("/users", (req,res) => {
 			password,
 			directionOne,
 			directionTwo,
-			phone,
+			phone: parseInt(phone),
 			status,
 		})
 		.then((user) => res.status(201).send(user))
-		.catch(err => console.log(err))
+		.catch(err => res.send(err))
 	})
-	.catch((err) =>  console.log(err))
+	.catch((err) =>  res.send(err))
 });
 
 module.exports = server;
