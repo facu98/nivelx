@@ -97,43 +97,6 @@ server.delete('/:idUser/cart/', (req, res) => {
 	});
 });
 
-<<<<<<< HEAD
-=======
-
-//
-// ELIMINA EL usuario
-server.delete('/:id', (req, res) => {
-	User.findByPk(req.params.id)
-		.then((user) => {
-			user.destroy().then((user) => {
-				res.status(200).send(user)
-			})
-		})
-		.catch(() => res.status(404).send('Id no valido'))
-})
-
-
-
-// Eliminar carrito
-
-server.delete('/:idUser/cart/', (req, res) => {
-    let id = req.params.idUser;
-	Order.findOne({
-		where: {
-			user_id: id
-		}
-	})
-	.then( cart => {
-		trash.push(cart);
-		cart.destroy()
-		res.send('Carrito vaciado');
-	})
-	.catch(err => {
-		res.status(500).send(err);
-	});
-});
-
->>>>>>> master
 server.delete('/:id', (req, res) => {
 	User.findByPk(req.params.id)
 		.then((user) => {
