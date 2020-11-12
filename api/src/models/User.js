@@ -35,8 +35,9 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    status: {
-        type: DataTypes.ENUM('admin', 'user')
-    }
+    isAdmin: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false,
+		},
   });
 };
