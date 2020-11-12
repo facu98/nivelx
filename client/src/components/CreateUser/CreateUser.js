@@ -54,6 +54,17 @@ const useStyles = makeStyles((theme) => ({
       mail:"",
       password:""
     })
+
+    const [error, setError] = useState({
+      name: false,
+      lastname: false,
+      email:false,
+      phone:false,
+      directionOne:false,
+      password:false,
+      passwordrepeat:false,
+    })
+
     const [input, setInput] = useState({
       name: '',
       lastname: '',
@@ -73,6 +84,11 @@ const useStyles = makeStyles((theme) => ({
         })
 
 
+        setError({...error,
+        [e.target.name] : false})
+
+
+
     };
 
 
@@ -82,14 +98,27 @@ const useStyles = makeStyles((theme) => ({
         ...input,
         phone : onlyNums
       })
+
+      onlyNums.length > 0 && (
+      setError({...error,
+      [e.target.name] : false})
+    )
     }
 
     const nameChange = (e) => {
         const onlyLetters = e.target.value.replace(/[^a-zA-Z]/g, '');
+
+
         setInput({
           ...input,
           [e.target.name] : onlyLetters
         })
+
+        onlyLetters.length > 0 && (
+        setError({...error,
+        [e.target.name] : false})
+      )
+
     }
 
     const emailChange = (e) =>  {
@@ -100,9 +129,22 @@ const useStyles = makeStyles((theme) => ({
         [e.target.name] : e.target.value
       })
 
-      validation ? setValidate({...validate,
-      mail:""}) : setValidate({...validate,
-      mail:"Mail invalido"})
+      if(validation){
+        setValidate({...validate,
+        mail:""})
+
+        setError({...error,
+        [e.target.name] : false})
+      }
+      else{
+        setValidate({...validate,
+        mail:"Mail invalido"})
+
+        setError({...error,
+        [e.target.name] : true})
+      }
+
+
     }
 
     const validatePassword = (e) => {
@@ -115,12 +157,24 @@ const useStyles = makeStyles((theme) => ({
           ...validate,
           password:"Las contraseñas no coinciden"
         })
-      }
-      else{
-        setValidate({
-          ...validate,
-          password:""
+
+        setError({
+          ...error,
+          password:true,
+          passwordrepeat:true
         })
+      }
+      else
+      {
+          setValidate({
+          ...validate,
+          password:"" })
+
+          setError({
+            ...error,
+            password:false,
+            passwordrepeat:false
+          })
       }
     }
 
@@ -135,11 +189,29 @@ const useStyles = makeStyles((theme) => ({
           directionOne:'',
           directionTwo:'',
           password:'',
-          passwordrepeat:''
+          passwordrepeat:'',
+          state:'user'
         })
     };
     const handleSubmit = (e)=>{
         e.preventDefault();
+      var err = false
+        for( let [key , value] of Object.entries(input)){
+
+          if(!value){
+          console.log(err)
+          error[key] = true
+          err = true
+          }
+          else if(value && key !== "status"){
+            err = false
+          }
+
+        }
+
+        setError({...error})
+
+        if(!err)
 
         fetch('http://localhost:3001/users',{
           method: 'POST',
@@ -176,6 +248,7 @@ const useStyles = makeStyles((theme) => ({
             variant="outlined"
             required
             fullWidth
+            error={error.name}
             onChange={nameChange}
               value={input.name}
             // id="firstName"
@@ -193,6 +266,7 @@ const useStyles = makeStyles((theme) => ({
             name="lastname"
             variant="outlined"
             required
+            error={error.lastname}
             onChange={nameChange}
                value={input.lastname}
             />
@@ -208,6 +282,7 @@ const useStyles = makeStyles((theme) => ({
             name="email"
             variant="outlined"
             required
+            error={error.email}
             helperText = {validate.mail}
             onChange={emailChange}
             value={input.email}
@@ -223,6 +298,7 @@ const useStyles = makeStyles((theme) => ({
             id="outlined-textarea"
             label="Telefono"
             name="phone"
+            error={error.phone}
             variant="outlined"
             required
             onChange={phoneChange}
@@ -238,8 +314,10 @@ const useStyles = makeStyles((theme) => ({
             id="outlined-textarea"
             label="Dirección"
             name="directionOne"
+            error={error.directionOne}
             variant="outlined"
             required
+            value={input.directionOne}
             onChange={handleInputChange}
             //   value={input.description}
             />
@@ -253,6 +331,7 @@ const useStyles = makeStyles((theme) => ({
             label="Segunda dirección (opcional)"
             name="directionTwo"
             variant="outlined"
+            value={input.directionTwo}
             onChange={handleInputChange}
             //   value={input.description}
             />
@@ -266,8 +345,10 @@ const useStyles = makeStyles((theme) => ({
             label="Contraseña"
             name="password"
             type="password"
+            error={error.password}
             variant="outlined"
             required
+            value={input.password}
             onChange={handleInputChange}
             //   value={input.description}
             />
@@ -283,6 +364,7 @@ const useStyles = makeStyles((theme) => ({
             variant="outlined"
             type="password"
             required
+            error={error.passwordrepeat}
             helperText={validate.password}
             onChange={validatePassword}
             value={input.passwordrepeat}
