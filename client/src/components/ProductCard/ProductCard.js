@@ -70,7 +70,7 @@ export default function ProductCard(props) {
        <CardHeader/>
       <CardMedia
         className={classes.media}
-        image={props.productos.pictures[0]}
+        image={"http://localhost:3000/assets/img/logo_store.jpg"}
       />
       <CardContent>
         <Link to={`/products/${props.productos.id}`}>

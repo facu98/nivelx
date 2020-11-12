@@ -18,7 +18,6 @@ const SearchBar = () => {
         },
         onSubmit : (values) => {
             history.push(`search?name=${values.query}`);
-            history.go()
         },
     });
 
@@ -29,8 +28,7 @@ const SearchBar = () => {
                 <div  className="row justify-content-center justify-content-md-start m-3">
                 <div className="col-md-4 text-center" >
                     <NavLink to="/" className='nav-link'>
-                    {/* <img src="https://www.canva.com/design/DAEMshrihhw/Y4Sh9WKSEbRiBDliw88EVA/view?utm_content=DAEMshrihhw&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink" alt="Logo_store" /> */}
-                    <h1>NIVEL X</h1>
+                     <img src={"http://localhost:3000/assets/img/banner.png"} height ="100px" width="400px" alt="Logo_store" />
                     </NavLink>
                 </div>
                 <div className="col-md-8 m-auto" >
@@ -43,8 +41,8 @@ const SearchBar = () => {
             </div>
             <Navbar />
         </div>
-            
-       
+
+
 
     )
 }
