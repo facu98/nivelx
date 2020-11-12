@@ -6,37 +6,24 @@ import EditIcon from '@material-ui/icons/Edit';
 import { Tooltip} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
-export default function () {
+export default function (props) {
 	const [categorias, setCategorias] = useState()
 	const url = useLocation();
 
-	useEffect(() => {
-		fetch(`http://localhost:3001/category`)
-			.then(function (response) {
-				return response.json()
-			})
-			.then(function (category) {
-				setCategorias(category)
-			})
-			.catch(function (err) {
-				console.log(err)
-			})
-	}, [])
-
-console.log(categorias)
+	
 
 	return (
 		<div className='p-3'>
 			<h1>Categorias</h1>
 			<hr />
 			<ul className='list-group'>
-				{categorias &&
-					categorias.map((c) => {
+				{props.categories &&
+					props.categories.map((c) => {
 						if (url.pathname === '/admin/editCategory') {
 							return (
 								<div className='botones'>
 							<NavLink
-								to={`/products/category/${c.id}`}
+								to={`/${c.id}`}
 								key={c.id}
 								className='list-group-item list-group-item-action'
 							>
@@ -60,7 +47,7 @@ console.log(categorias)
 							return (
 							<div className='botones'>
 							<NavLink
-								to={`/${c.name}`}
+								to={`/${c.id}`}
 								key={c.id}
 								className='list-group-item list-group-item-action'
 							>

@@ -1,5 +1,60 @@
 import swal from  'sweetalert';
 
+//ACTIONS PRODUCTOS
+export function getProducts(){
+	return function(dispatch){
+		return fetch('http://localhost:3001/products')
+				.then((res) => res.json())
+				.then((data) => {
+					dispatch(
+						{
+								type: 'GET_PRODUCTS',
+								payload: data
+						})
+					console.log(data) })
+	}
+}
+
+export function searchbyCategory(name) {
+	return function(dispatch){
+		return fetch(`http://localhost:3001/category/${name}`)
+					.then((res) => res.json())
+					.then((data) => {
+						dispatch(
+							{
+								type: "GET_CATEGORY_PRODUCTS",
+								payload:data
+							})
+						})
+	}}
+
+	export function searchbyQuery(query) {
+		return function(dispatch){
+			return fetch(`http://localhost:3001/products/search?name=${query}`)
+						.then((res) => res.json())
+						.then((data) => {
+							dispatch(
+								{
+									type: "GET_QUERY_PRODUCTS",
+									payload:data
+								})
+							})
+		}}
+
+//ACTIONS PARA CATEGORIAS
+export function getCategories(){
+	return function(dispatch){
+		return fetch('http://localhost:3001/category')
+				.then((res) => res.json())
+				.then((data) => {
+					dispatch(
+						{
+								type: 'GET_CATEGORIES',
+								payload: data
+						})
+					 		})
+	}
+}
 
 
 // ACTIONS RELACIONADAS AL CARRITO DE COMPRAS

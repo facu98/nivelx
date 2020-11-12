@@ -9,7 +9,7 @@ export const Navbar = () => {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <div className='container'>   
+                <div className='container'>
                 <ul className="navbar-nav m-auto align-items-center">
                     <li className="nav-item active">
                         <NavLink to="/" className='nav-link' >
@@ -23,7 +23,12 @@ export const Navbar = () => {
                     </li>
                     <li className="nav-item offset-1 active">
                         <NavLink to="/products/" className='nav-link' >
-                            Login
+                            Ingresar
+                        </NavLink>
+                    </li>
+                    <li className="nav-item offset-1 active">
+                        <NavLink to="/user/create" className='nav-link' >
+                            Registrarse
                         </NavLink>
                     </li>
                     <li className="nav-item offset-1 active">
@@ -33,7 +38,7 @@ export const Navbar = () => {
                     </li>
                 </ul>
                 </div>
-                
+
             </div>
         </nav>
     )
