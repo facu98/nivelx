@@ -9,7 +9,7 @@ server.get('/', (req, res, next) => {
 			res.send(products);
 		})
 		.catch(next);
-});
+});<
 
 server.get('/search', (req, res) => {
 
