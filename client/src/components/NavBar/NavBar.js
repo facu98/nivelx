@@ -1,5 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom'
+// IMPORTS DE MATERIAL UI
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import IconButton from '@material-ui/core/IconButton';
+import Badge from '@material-ui/core/Badge';
 
 
 export const Navbar = () => {
@@ -36,6 +40,18 @@ export const Navbar = () => {
                             Administrador
                         </NavLink>
                     </li>
+
+                    <li>
+                          <NavLink to='/user/cart'>
+                                      <IconButton aria-label="cart">
+                                                <Badge badgeContent=4{/*cart.length*/} color="secondary">
+                                                    <ShoppingCartIcon style={{ color: 'white' }} />
+                                                </Badge>
+                                      </IconButton>
+                          </NavLink>
+                    </li>
+
+
                 </ul>
                 </div>
 
