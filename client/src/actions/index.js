@@ -56,6 +56,58 @@ export function getCategories(){
 	}
 }
 
+//ACTIONS PARA USERS
+export function getUsers(){
+	return function(dispatch){
+		return fetch('http://localhost:3001/users')
+				.then((res) => res.json())
+				.then((data) => {
+					dispatch(
+						{
+								type: 'GET_USERS',
+								payload: data
+						})
+					 	})
+				}
+}
+
+export function getUserById(id){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/users/${id}`)
+				.then((res) => res.json())
+				.then((data) => {
+					dispatch(
+						{
+								type: 'GET_USER_ID',
+								payload: data
+						})
+					 	})
+				}
+}
+
+export function editUser(id,data){
+	console.log("action", data)
+	return function(dispatch){
+		return fetch(`http://localhost:3001/users/${id}`,
+		{
+				method: "PUT",
+				body: JSON.stringify(data),
+				headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+				}
+		})
+		.then((data) => {
+			dispatch(
+				{
+						type: 'PUT_USER_ID',
+				})
+
+		})
+		.then(alert("CHANGED!"))
+	}
+}
+
 
 // ACTIONS RELACIONADAS AL CARRITO DE COMPRAS
 // addProductCart (agrega al carrito)

@@ -9,6 +9,15 @@ server.get("/", (req, res) => {
 	.catch(err => res.status(404).send(err))
 });
 
+server.get("/:id", (req,res) => {
+	const {id} = req.params
+	User.findByPk(id)
+	.then((user) => {
+		if(!user){return res.status(400).send("User not found")}
+		res.status(201).send(user)
+	})
+})
+
 server.put("/:id", (req, res) => {
 	const { name, lastname, email, password, directionOne, directionTwo, phone , status } = req.body
 	const id = req.params.id;
@@ -17,7 +26,7 @@ server.put("/:id", (req, res) => {
 		if(!user){
 			res.status(400).send(`No existe el usuario con ID: ${id}`);
 		}
-		if(!email || !password || !name || !lastname || !directionOne || directionTwo || !phone){
+		if(!email || !password || !name || !lastname || !directionOne || !phone){
 			res.status(400).send(`Debe completar los campos obligatorios`);
 		}
 
@@ -28,7 +37,6 @@ server.put("/:id", (req, res) => {
 		user.directionOne = directionOne;
 		user.directionTwo = directionTwo;
 		user.phone = phone;
-		user.status = status;
 		user.save()
 		.then(user => res.send(user))
 		.catch(err => res.status(404).send(err))

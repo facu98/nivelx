@@ -41,7 +41,7 @@ console.log(product)
                 </div>
 
             <Button
-                      onClick={comprar}
+
                       disabled={!product || product.stock === 0}
                       variant="contained" color="primary"
                       size="medium"
@@ -50,7 +50,7 @@ console.log(product)
             </Button>
 
             <Button
-                      onClick={addtoCart}
+                    
                       disabled={!product || product.stock === 0}
                       variant="outlined"
                       color="primary"
