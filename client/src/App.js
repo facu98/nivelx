@@ -17,6 +17,8 @@ import ProductDetail from "./components/ProductDetail/Product"
 import PanelAdmin from "./components/AdminPanel/PanelAdmin"
 import Container from '@material-ui/core/Container'
 import CreateUser from "./components/CreateUser/CreateUser"
+import AdminUsers  from "./components/AdminUsers/AdminUsers"
+import EditUser from './components/AdminUsers/EditDeleteUser'
 
 function App() {
 
@@ -41,6 +43,8 @@ function App() {
                 render={({ match }) => <FormCategory match={match} />}
               />
               <Route exact path='/admin/editCategory' component={Categorias} />
+              <Route exact path='/admin/users' component={AdminUsers} />
+              <Route exact path='/admin/users/:id' component={EditUser} />
               <Route exact path='/admin/products/edit' component={Catalogo} />
               <Route exact path='/admin/createProduct' component ={FormProduct} />
               <Route exact path='/admin/products/edit/:id'

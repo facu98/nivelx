@@ -44,7 +44,7 @@ export const Navbar = () => {
                     <li>
                           <NavLink to='/user/cart'>
                                       <IconButton aria-label="cart">
-                                                <Badge badgeContent=4{/*cart.length*/} color="secondary">
+                                                <Badge badgeContent={4}color="secondary">
                                                     <ShoppingCartIcon style={{ color: 'white' }} />
                                                 </Badge>
                                       </IconButton>
