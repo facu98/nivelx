@@ -1,5 +1,6 @@
 import React from 'react';
 import s from './Product.module.css';
+import Stock from '../Stock/Stock.js'
 
 import { useParams, Link } from 'react-router-dom';
 
@@ -39,6 +40,10 @@ console.log(product)
                         {product.description}
                     </p>
                 </div>
+                <Stock
+                quantity = {product.quantity}
+                price = {product.price}
+                />
             </div>
         </section>
     );
