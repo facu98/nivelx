@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux"
-import {editUser} from "../../actions"
+import {editUser, deleteUser} from "../../actions"
 import "./FormStyle.css"
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -22,13 +22,14 @@ import { Input } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import swal from 'sweetalert';
+import { NavLink, useHistory } from 'react-router-dom'
 
 
 
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-      marginLeft: '500px',
+      marginLeft: '400px',
       display: 'flex',
       flexDirection: 'column',
       alignItems:'center',
@@ -54,13 +55,17 @@ const useStyles = makeStyles((theme) => ({
     container:{
       display:'flex',
       justifyContent:'center'
+    },
+
+    title:{
+      marginLeft:'100px'
     }
   }));
 
 	export default function FormUser(props){
     const user = useSelector(state => state.user)
     const dispatch = useDispatch()
-
+    const history = useHistory()
 
 
     const classes = useStyles();
@@ -121,6 +126,8 @@ const useStyles = makeStyles((theme) => ({
     }
 
     const nameChange = (e) => {
+      console.log(input.directionTwo)
+      console.log(input.lastname)
         const onlyLetters = e.target.value.replace(/[^a-zA-Z]/g, '');
 
 
@@ -210,24 +217,48 @@ const useStyles = makeStyles((theme) => ({
     };
     const handleSubmit = (e)=>{
         e.preventDefault();
-        console.log(input)
-        dispatch(editUser(props.user.id, input))
+        var err = false
+
+        if(!input.passwordrepeat || input.passwordrepeat !== input.password){
+          error.passwordrepeat = true
+          err = true
+        }
+
+        setError({...error})
+
+        if(!err){
+          props.user && dispatch(editUser(props.user.id, input))
+
+          resetForm()
+        }
+
       }
 
       useEffect(() => {
-        setInput(props.user)
+        if(props.user){
+        !props.user.directionTwo && (props.user.directionTwo = "")
+        !props.user.passwordrepeat && (props.user.passwordrepeat = "")
+        setInput(props && props.user)
+      }
 
       },[props])
 
-console.log(props)
+      const handleDelete = () => {
+        if(window.confirm(`Seguro que deseas eliminar el user ${props.user.id}?`))
+        props.user && dispatch(deleteUser(props.user.id))
+
+      }
+
+
     return(
 
     <Container component="main" maxWidth="xs">
     <CssBaseline />
-    <div className={classes.paper}>
-    <Typography component="h1" variant="h4">
-        EDIT
+    <Typography className = {classes.title} component="h1" variant="h4">
+        EDIT USER {props.user && props.user.id}
     </Typography>
+    <div className={classes.paper}>
+
     <form className={classes.form} noValidate >
         <Grid className={classes.container} container spacing={5}>
         <Grid item xs={5}>
@@ -369,7 +400,7 @@ console.log(props)
             </Button>
 
             <Button
-                    onClick={() => {dispatch(editUser(1))}}
+                    onClick={handleDelete}
                     fullWidth
                     variant="contained"
                     color="primary"

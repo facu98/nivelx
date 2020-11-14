@@ -42,13 +42,16 @@ function rootReducer(state = initialState, action) {
     case 'GET_USER_ID':
     return{
       ...state,
-      user:action.payload
+      user: action.payload
     }
 
-    case 'PUT_USER_ID':
-    return{
-      ...state
+    case 'CREATE_USER':
+    return {
+      ...state,
+      user: action.payload
     }
+
+
 
   default:
 

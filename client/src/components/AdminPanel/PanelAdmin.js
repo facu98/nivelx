@@ -23,6 +23,10 @@ export default function (){
         <div class= {style.link}>
             <NavLink to = "/admin/editCategory" className='list-group-item list-group-item-dark list-group-item-action'>EDITAR O ELIMINAR CATEGORIA</NavLink>
         </div>
+
+        <div class= {style.link}>
+            <NavLink to = "/admin/users" className='list-group-item list-group-item-dark list-group-item-action'>EDITAR O ELIMINAR USUARIOS</NavLink>
+        </div>
       </div>
   );
 }

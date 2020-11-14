@@ -86,7 +86,6 @@ export function getUserById(id){
 }
 
 export function editUser(id,data){
-	console.log("action", data)
 	return function(dispatch){
 		return fetch(`http://localhost:3001/users/${id}`,
 		{
@@ -98,14 +97,55 @@ export function editUser(id,data){
 				}
 		})
 		.then((data) => {
-			dispatch(
-				{
-						type: 'PUT_USER_ID',
-				})
+
+			return dispatch(getUsers())
 
 		})
 		.then(alert("CHANGED!"))
 	}
+}
+
+export function deleteUser(id){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/users/${id}`,
+		{
+				method: "DELETE"
+		})
+		.then((data) => {
+
+			return dispatch(getUsers())
+
+		})
+		.then((alert("DELETED!")))
+
+} }
+
+export function createUser(data){
+	return function(dispatch){
+	return fetch('http://localhost:3001/users',{
+		method: 'POST',
+		body: JSON.stringify(data),
+		headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}
+	})
+	.then((data) => {
+									dispatch({
+														type:'CREATE_USER',
+															payload:data
+														})
+	})
+	.then((res)=>{
+			console.log(res)
+			swal("GENIAL!", "Se ha creado el usuario exitosamente","success");
+
+	})
+	.catch((err)=>{
+			 swal("ERROR")
+	})
+	}
+
 }
 
 
