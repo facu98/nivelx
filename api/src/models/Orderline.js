@@ -5,11 +5,19 @@ module.exports = (sequelize) => {
   sequelize.define('orderline', {
     price:{
       type: DataTypes.DECIMAL,
-      allowNull:false
+
     },
     quantity:{
       type:DataTypes.INTEGER,
-      allowNull:false
+      defaultValue:0
+    },
+
+    product_name:{
+      type: DataTypes.TEXT
+    },
+
+    product_desc:{
+      type: DataTypes.TEXT
     }
 
   });
