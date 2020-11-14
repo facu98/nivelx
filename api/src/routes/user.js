@@ -4,7 +4,9 @@ const { Op } = require('sequelize')
 const trash = [];
 
 server.get("/", (req, res) => {
-	User.findAll()
+	User.findAll({
+		order:['id']
+	})
 	.then(users => res.send(users))
 	.catch(err => res.status(404).send(err))
 });
@@ -44,8 +46,9 @@ server.put("/:id", (req, res) => {
 });
 
 server.post("/", (req,res) => {
-	const { name, lastname, email, password, directionOne, directionTwo, phone , status } = req.body
-	if(!name || !lastname || !email || !password || !directionOne || !phone || !status) {
+	const { name, lastname, email, password, directionOne, directionTwo, phone } = req.body
+	console.log(req.body)
+	if(!name || !lastname || !email || !password || !directionOne || !phone ) {
         return res.status(400).send( "Debe rellenar los campos requeridos" )
     }
 	User.findOne({
@@ -63,7 +66,6 @@ server.post("/", (req,res) => {
 			directionOne,
 			directionTwo,
 			phone: parseInt(phone),
-			status,
 		})
 		.then((user) => res.status(201).send(user))
 		.catch(err => res.send(err))

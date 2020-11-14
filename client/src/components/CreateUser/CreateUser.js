@@ -1,4 +1,6 @@
 import React, {useState,useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux"
+import {createUser} from "../../actions"
 import "./FormStyle.css"
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -49,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 	export default function FormUser({ match }){
+    const user = useSelector(state => state.user)
+    const dispatch = useDispatch()
     const classes = useStyles();
     const [validate, setValidate] = useState({
       mail:"",
@@ -74,7 +78,6 @@ const useStyles = makeStyles((theme) => ({
       directionTwo:'',
       password:'',
       passwordrepeat:'',
-      status:'user'
     });
 
     const handleInputChange = (e)=>{
@@ -190,7 +193,6 @@ const useStyles = makeStyles((theme) => ({
           directionTwo:'',
           password:'',
           passwordrepeat:'',
-          state:'user'
         })
     };
     const handleSubmit = (e)=>{
@@ -199,36 +201,25 @@ const useStyles = makeStyles((theme) => ({
         for( let [key , value] of Object.entries(input)){
 
           if(!value){
-          console.log(err)
+
           error[key] = true
           err = true
           }
-          else if(value && key !== "status"){
+          else {
             err = false
+
           }
 
         }
 
         setError({...error})
 
-        if(!err)
+        if(!err){
 
-        fetch('http://localhost:3001/users',{
-          method: 'POST',
-          body: JSON.stringify(input),
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-        })
-        .then((res)=>{
+          dispatch(createUser(input))
+          resetForm()
+        }
 
-            swal("GENIAL!", "Se ha creado el usuario exitosamente","success");
-            resetForm();
-        })
-        .catch((err)=>{
-             swal("ERROR")
-        })
       }
 
     return(
