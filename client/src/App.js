@@ -20,7 +20,7 @@ import CreateUser from "./components/CreateUser/CreateUser"
 import AdminUsers  from "./components/AdminUsers/AdminUsers"
 import EditUser from './components/AdminUsers/EditDeleteUser'
 import UserCart from './components/Cart/Shopping/Shopping'
-import OrdersAdmin from './components/Order/Order'
+import OrdersAdmin from './components/Order/AdminOrder'
 
 function App() {
 
