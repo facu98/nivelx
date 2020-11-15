@@ -3,7 +3,8 @@ const initialState = {
   products: [],
   categories: [],
   users: [],
-  user:[]
+  user:[],
+  orders:[]
 
 };
 
@@ -49,6 +50,18 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       user: action.payload
+    }
+
+    case 'GET_ORDERS':
+    return{
+      ...state,
+      orders: action.payload
+    }
+
+    case 'GET_ORDER_ID':
+    return{
+      ...state,
+      orders: [action.payload]
     }
 
 

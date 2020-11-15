@@ -47,7 +47,7 @@ server.put("/:id", (req, res) => {
 
 server.post("/", (req,res) => {
 	const { name, lastname, email, password, directionOne, directionTwo, phone } = req.body
-	console.log(req.body)
+
 	if(!name || !lastname || !email || !password || !directionOne || !phone ) {
         return res.status(400).send( "Debe rellenar los campos requeridos" )
     }
@@ -57,7 +57,7 @@ server.post("/", (req,res) => {
 		}
 	})
 	.then((user) => {
-		if(user) { return res.status(400).send( "Ya existe un usuario con este mail" )}
+		if(user) { return res.status(409).send( "Ya existe un usuario con este mail" )}
 		const newUser = User.create({
 			name,
 			lastname,
@@ -203,5 +203,17 @@ server.put('/:id/orders', (req, res) => {
 		.then(order => res.send(order))
 		.catch(err => res.status(404).send(err))
 	});
+})
+
+//Crear orden
+
+server.post('/order', (req,res) => {
+
+	const newOrder = Order.create({
+
+		state:'carrito',
+	})
+	.then((data) => res.send(data))
+	.catch((err) => console.log(err))
 })
 module.exports = server;

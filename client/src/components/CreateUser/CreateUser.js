@@ -151,11 +151,20 @@ const useStyles = makeStyles((theme) => ({
     }
 
     const validatePassword = (e) => {
-      setInput({
-        ...input,
-        [e.target.name] : e.target.value
-      })
-      if(e.target.value !== input.password){
+
+      const validation = () => {
+        setValidate({
+        ...validate,
+        password:"" })
+
+        setError({
+          ...error,
+          password:false,
+          passwordrepeat:false
+        })
+      }
+
+      const notValid = () => {
         setValidate({
           ...validate,
           password:"Las contraseñas no coinciden"
@@ -167,18 +176,23 @@ const useStyles = makeStyles((theme) => ({
           passwordrepeat:true
         })
       }
-      else
-      {
-          setValidate({
-          ...validate,
-          password:"" })
 
-          setError({
-            ...error,
-            password:false,
-            passwordrepeat:false
-          })
-      }
+      setInput({
+        ...input,
+        [e.target.name] : e.target.value
+      })
+
+      if(e.target.name == 'password'){
+
+      (e.target.value !== input.passwordrepeat && input.passwordrepeat.length > 0) ? notValid() : validation()  }
+
+
+      if(e.target.name == 'passwordrepeat'){
+
+      e.target.value !== input.password ? notValid() : validation()  }
+
+
+
     }
 
 
@@ -214,7 +228,7 @@ const useStyles = makeStyles((theme) => ({
 
         setError({...error})
 
-        if(!err){
+        if(!err && input.passwordrepeat == input.password){
 
           dispatch(createUser(input))
           resetForm()
@@ -340,7 +354,7 @@ const useStyles = makeStyles((theme) => ({
             variant="outlined"
             required
             value={input.password}
-            onChange={handleInputChange}
+            onChange={validatePassword}
             //   value={input.description}
             />
         </Grid>
