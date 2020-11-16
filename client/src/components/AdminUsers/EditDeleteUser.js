@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux"
-import {createUser} from "../../actions"
+import {editUser, deleteUser} from "../../actions"
 import "./FormStyle.css"
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -22,13 +22,18 @@ import { Input } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import swal from 'sweetalert';
+import { NavLink, useHistory } from 'react-router-dom'
+
+
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(8),
+      marginLeft: '400px',
       display: 'flex',
       flexDirection: 'column',
-      alignItems:'center'
+      alignItems:'center',
+      marginTop:'10px'
 
     },
     avatar: {
@@ -37,22 +42,32 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
 
-      width: '200%', // Fix IE 11 issue.
+      width: '800px', // Fix IE 11 issue.
       marginTop: theme.spacing(3),
 
     },
     submit: {
-      margin: theme.spacing(3, 0, 2),
+      width: '80%',
+      margin: theme.spacing(2, 0, 2),
+      marginLeft:'80px'
+
     },
     container:{
       display:'flex',
       justifyContent:'center'
+    },
+
+    title:{
+      marginLeft:'100px'
     }
   }));
 
-	export default function FormUser({ match }){
+	export default function FormUser(props){
     const user = useSelector(state => state.user)
     const dispatch = useDispatch()
+    const history = useHistory()
+
+
     const classes = useStyles();
     const [validate, setValidate] = useState({
       mail:"",
@@ -78,7 +93,9 @@ const useStyles = makeStyles((theme) => ({
       directionTwo:'',
       password:'',
       passwordrepeat:'',
+      state:'user'
     });
+
 
     const handleInputChange = (e)=>{
         setInput({
@@ -109,6 +126,8 @@ const useStyles = makeStyles((theme) => ({
     }
 
     const nameChange = (e) => {
+      console.log(input.directionTwo)
+      console.log(input.lastname)
         const onlyLetters = e.target.value.replace(/[^a-zA-Z]/g, '');
 
 
@@ -151,20 +170,11 @@ const useStyles = makeStyles((theme) => ({
     }
 
     const validatePassword = (e) => {
-
-      const validation = () => {
-        setValidate({
-        ...validate,
-        password:"" })
-
-        setError({
-          ...error,
-          password:false,
-          passwordrepeat:false
-        })
-      }
-
-      const notValid = () => {
+      setInput({
+        ...input,
+        [e.target.name] : e.target.value
+      })
+      if(e.target.value !== input.password){
         setValidate({
           ...validate,
           password:"Las contraseñas no coinciden"
@@ -176,23 +186,18 @@ const useStyles = makeStyles((theme) => ({
           passwordrepeat:true
         })
       }
+      else
+      {
+          setValidate({
+          ...validate,
+          password:"" })
 
-      setInput({
-        ...input,
-        [e.target.name] : e.target.value
-      })
-
-      if(e.target.name == 'password'){
-
-      (e.target.value !== input.passwordrepeat && input.passwordrepeat.length > 0) ? notValid() : validation()  }
-
-
-      if(e.target.name == 'passwordrepeat'){
-
-      e.target.value !== input.password ? notValid() : validation()  }
-
-
-
+          setError({
+            ...error,
+            password:false,
+            passwordrepeat:false
+          })
+      }
     }
 
 
@@ -207,44 +212,54 @@ const useStyles = makeStyles((theme) => ({
           directionTwo:'',
           password:'',
           passwordrepeat:'',
+          state:'user'
         })
     };
     const handleSubmit = (e)=>{
         e.preventDefault();
-      var err = false
-        for( let [key , value] of Object.entries(input)){
+        var err = false
 
-          if(!value){
-
-          error[key] = true
+        if(!input.passwordrepeat || input.passwordrepeat !== input.password){
+          error.passwordrepeat = true
           err = true
-          }
-          else {
-            err = false
-
-          }
-
         }
 
         setError({...error})
 
-        if(!err && input.passwordrepeat == input.password){
+        if(!err){
+          props.user && dispatch(editUser(props.user.id, input))
 
-          dispatch(createUser(input))
           resetForm()
         }
 
       }
 
+      useEffect(() => {
+        if(props.user){
+        !props.user.directionTwo && (props.user.directionTwo = "")
+        !props.user.passwordrepeat && (props.user.passwordrepeat = "")
+        setInput(props && props.user)
+      }
+
+      },[props])
+
+      const handleDelete = () => {
+        if(window.confirm(`Seguro que deseas eliminar el user ${props.user.id}?`))
+        props.user && dispatch(deleteUser(props.user.id))
+
+      }
+
+
     return(
 
     <Container component="main" maxWidth="xs">
     <CssBaseline />
-    <div className={classes.paper}>
-    <Typography component="h1" variant="h2">
-        Crear usuario
+    <Typography className = {classes.title} component="h1" variant="h4">
+        EDIT USER {props.user && props.user.id}
     </Typography>
-    <form className={classes.form} noValidate onSubmit={handleSubmit} >
+    <div className={classes.paper}>
+
+    <form className={classes.form} noValidate >
         <Grid className={classes.container} container spacing={5}>
         <Grid item xs={5}>
             <TextField
@@ -349,12 +364,11 @@ const useStyles = makeStyles((theme) => ({
             id="outlined-textarea"
             label="Contraseña"
             name="password"
-            type="password"
             error={error.password}
             variant="outlined"
             required
             value={input.password}
-            onChange={validatePassword}
+            onChange={handleInputChange}
             //   value={input.description}
             />
         </Grid>
@@ -367,7 +381,6 @@ const useStyles = makeStyles((theme) => ({
             label="Vuelve a introducir la contraseña"
             name="passwordrepeat"
             variant="outlined"
-            type="password"
             required
             error={error.passwordrepeat}
             helperText={validate.password}
@@ -377,14 +390,24 @@ const useStyles = makeStyles((theme) => ({
         </Grid>
         </Grid>
         <Button
-                type="submit"
+                onClick={handleSubmit}
                 fullWidth
                 variant="contained"
                 color="primary"
                 className={classes.submit}
             >
-                Crear
+                EDITAR
             </Button>
+
+            <Button
+                    onClick={handleDelete}
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                >
+                    ELIMINAR
+                </Button>
     </form>
     </div>
     <Box mt={5}>

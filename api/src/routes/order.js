@@ -13,3 +13,5 @@ server.get("/:id", (req, res) => {
 	.then(order => res.send(order))
 	.catch(err => res.status(404).send(err))
 });
+
+module.exports = server

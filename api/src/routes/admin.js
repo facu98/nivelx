@@ -1,14 +1,6 @@
 const server = require('express').Router()
 const { User } = require('../db.js')
 
-// function isAdmin(req, res, next) {
-// 	if (req.user.isAdmin) {
-// 		next()
-// 	} else {
-// 		res.status(403).send('No es un administrador')
-// 	}
-// }
-
 server.put('/promote/:id', /*isAdmin,*/ (req, res) => {
 	const estado  = req.body.isAdmin;
 	User.findByPk(req.params.id)

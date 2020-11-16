@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux"
-import {createUser} from "../../actions"
+import {loginUser} from "../../actions"
 import "./FormStyle.css"
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
 
-      width: '200%', // Fix IE 11 issue.
+      width: '150%', // Fix IE 11 issue.
       marginTop: theme.spacing(3),
 
     },
@@ -54,30 +54,25 @@ const useStyles = makeStyles((theme) => ({
     const user = useSelector(state => state.user)
     const dispatch = useDispatch()
     const classes = useStyles();
+
     const [validate, setValidate] = useState({
-      mail:"",
-      password:""
+      mail:""
     })
 
+
     const [error, setError] = useState({
-      name: false,
-      lastname: false,
       email:false,
-      phone:false,
-      directionOne:false,
+
       password:false,
-      passwordrepeat:false,
+
     })
 
     const [input, setInput] = useState({
-      name: '',
-      lastname: '',
+
       email:'',
-      phone:'',
-      directionOne:'',
-      directionTwo:'',
+
       password:'',
-      passwordrepeat:'',
+
     });
 
     const handleInputChange = (e)=>{
@@ -95,34 +90,6 @@ const useStyles = makeStyles((theme) => ({
     };
 
 
-    const phoneChange = (e) => {
-      const onlyNums = e.target.value.replace(/[^0-9]/g, '');
-      setInput({
-        ...input,
-        phone : onlyNums
-      })
-
-      onlyNums.length > 0 && (
-      setError({...error,
-      [e.target.name] : false})
-    )
-    }
-
-    const nameChange = (e) => {
-        const onlyLetters = e.target.value.replace(/[^a-zA-Z]/g, '');
-
-
-        setInput({
-          ...input,
-          [e.target.name] : onlyLetters
-        })
-
-        onlyLetters.length > 0 && (
-        setError({...error,
-        [e.target.name] : false})
-      )
-
-    }
 
     const emailChange = (e) =>  {
       var validation = /.+@.+\.[A-Za-z]+$/.test(e.target.value)
@@ -150,65 +117,19 @@ const useStyles = makeStyles((theme) => ({
 
     }
 
-    const validatePassword = (e) => {
-
-      const validation = () => {
-        setValidate({
-        ...validate,
-        password:"" })
-
-        setError({
-          ...error,
-          password:false,
-          passwordrepeat:false
-        })
-      }
-
-      const notValid = () => {
-        setValidate({
-          ...validate,
-          password:"Las contraseñas no coinciden"
-        })
-
-        setError({
-          ...error,
-          password:true,
-          passwordrepeat:true
-        })
-      }
-
-      setInput({
-        ...input,
-        [e.target.name] : e.target.value
-      })
-
-      if(e.target.name == 'password'){
-
-      (e.target.value !== input.passwordrepeat && input.passwordrepeat.length > 0) ? notValid() : validation()  }
-
-
-      if(e.target.name == 'passwordrepeat'){
-
-      e.target.value !== input.password ? notValid() : validation()  }
-
-
-
-    }
 
 
 
     const resetForm = ()=> {
         setInput({
-          name: '',
-          lastname: '',
+
           email:'',
-          phone:'',
-          directionOne:'',
-          directionTwo:'',
+
           password:'',
-          passwordrepeat:'',
+
         })
     };
+
     const handleSubmit = (e)=>{
         e.preventDefault();
       var err = false
@@ -228,9 +149,9 @@ const useStyles = makeStyles((theme) => ({
 
         setError({...error})
 
-        if(!err && input.passwordrepeat == input.password){
+        if(!err){
 
-          dispatch(createUser(input))
+          dispatch(loginUser(input.email, input.password))
           resetForm()
         }
 
@@ -242,40 +163,11 @@ const useStyles = makeStyles((theme) => ({
     <CssBaseline />
     <div className={classes.paper}>
     <Typography component="h1" variant="h2">
-        Crear usuario
+        Ingresar
     </Typography>
     <form className={classes.form} noValidate onSubmit={handleSubmit} >
         <Grid className={classes.container} container spacing={5}>
-        <Grid item xs={5}>
-            <TextField
-            autoComplete="fname"
-            name="name"
-            variant="outlined"
-            required
-            fullWidth
-            error={error.name}
-            onChange={nameChange}
-              value={input.name}
-            // id="firstName"
-            label="Nombre"
-            autoFocus
-            />
-        </Grid>
 
-
-        <Grid item xs={5}>
-            <TextField
-            fullWidth
-            id="outlined-textarea"
-            label="Apellido"
-            name="lastname"
-            variant="outlined"
-            required
-            error={error.lastname}
-            onChange={nameChange}
-               value={input.lastname}
-            />
-        </Grid>
 
 
         <Grid item xs={5}>
@@ -296,53 +188,6 @@ const useStyles = makeStyles((theme) => ({
         </Grid>
 
 
-
-        <Grid item xs={5}>
-            <TextField
-            fullWidth
-            id="outlined-textarea"
-            label="Telefono"
-            name="phone"
-            error={error.phone}
-            variant="outlined"
-            required
-            onChange={phoneChange}
-               value={input.phone}
-            />
-        </Grid>
-
-
-
-        <Grid item xs={5}>
-            <TextField
-            fullWidth
-            id="outlined-textarea"
-            label="Dirección"
-            name="directionOne"
-            error={error.directionOne}
-            variant="outlined"
-            required
-            value={input.directionOne}
-            onChange={handleInputChange}
-            //   value={input.description}
-            />
-        </Grid>
-
-
-        <Grid item xs={5}>
-            <TextField
-            fullWidth
-            id="outlined-textarea"
-            label="Segunda dirección (opcional)"
-            name="directionTwo"
-            variant="outlined"
-            value={input.directionTwo}
-            onChange={handleInputChange}
-            //   value={input.description}
-            />
-        </Grid>
-
-
         <Grid item xs={5}>
             <TextField
             fullWidth
@@ -354,27 +199,13 @@ const useStyles = makeStyles((theme) => ({
             variant="outlined"
             required
             value={input.password}
-            onChange={validatePassword}
+            onChange={handleInputChange}
             //   value={input.description}
             />
         </Grid>
 
 
-        <Grid item xs={5}>
-            <TextField
-            fullWidth
-            id="outlined-textarea"
-            label="Vuelve a introducir la contraseña"
-            name="passwordrepeat"
-            variant="outlined"
-            type="password"
-            required
-            error={error.passwordrepeat}
-            helperText={validate.password}
-            onChange={validatePassword}
-            value={input.passwordrepeat}
-            />
-        </Grid>
+
         </Grid>
         <Button
                 type="submit"
@@ -383,7 +214,7 @@ const useStyles = makeStyles((theme) => ({
                 color="primary"
                 className={classes.submit}
             >
-                Crear
+                Ingresar
             </Button>
     </form>
     </div>

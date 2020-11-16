@@ -60,7 +60,11 @@ foreignKey:"product_id"})
 
 Order.belongsToMany(Product,{
 through: Orderline,
-foreignKey:"order_id"})
+foreignKey:"order_id",
+as: 'cart'},
+)
+
+
 
 
 

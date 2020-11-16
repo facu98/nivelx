@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { fetchOrders } from "../../actions/orderActions";
 import totalCurrency from "./TotalCurrency";
 
+
 class Order extends Component {
     componentDidMount() {
       this.props.fetchOrders();
@@ -20,7 +21,7 @@ class Order extends Component {
                 <th>ID</th>
                 <th>DATE</th>
                 <th>TOTAL</th>
-                <th>NOMBRE</th>
+                <th>NAME</th>
                 <th>ITEMS</th>
               </tr>
             </thead>
