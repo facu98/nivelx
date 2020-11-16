@@ -19,7 +19,7 @@ import Container from '@material-ui/core/Container'
 import CreateUser from "./components/CreateUser/CreateUser"
 import AdminUsers  from "./components/AdminUsers/AdminUsers"
 import EditUser from './components/AdminUsers/EditDeleteUser'
-import UserCart from './components/Cart/Shopping/Shopping'
+import {Cart} from './components/Cart/index'
 import OrdersAdmin from './components/Order/AdminOrder'
 import Login from './components/LogIn/LogIn'
 
@@ -38,7 +38,7 @@ function App() {
 
               <Route path='/admin/orders' component = {OrdersAdmin} />
 
-              <Route exact path='/user/cart' component={UserCart} />
+              <Route exact path='/user/cart' component={Cart} />
 
               <Route exact path='/:name' component={Catalogo} />
 
