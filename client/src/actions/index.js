@@ -191,43 +191,47 @@ export function getOrderbyID(id){
 // updateCountProductInCart (actualiza el contador del carrito)
 
 
-export const addProductCart = (idUser, idProduct, priceProduct) => async dispatch => {
-		await fetch(`http://localhost:3001/user/${idUser}/cart`, {
+export const addProductCart = (idUser, idProduct) => async dispatch => {
+		await fetch(`http://localhost:3001/users/${idUser}/cart`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ productId: idProduct, price: priceProduct }),
+			body: JSON.stringify({ productId: idProduct }),
 		})
 			.then((res) => res.json())
 			.then((data) => {
 				dispatch({
 					type: 'ADD_PRODUCT_IN_CART',
-					payload: data.products,
+					payload: data[0]
 				})
+			})
+			.then(() => {
+				return dispatch(getProductsCart(1))
 			})
 }
 
 
 export const deleteProductInCart = (userId, idProduct) => async dispatch => {
-      		await fetch(`http://localhost:3001/user/${userId}/cart`, {
+      		await fetch(`http://localhost:3001/users/${userId}/cart`, {
       			method: 'DELETE',
-      			credentials: 'include',
       			headers: {
       				Accept: 'application/json',
       				'Content-Type': 'application/json',
       			},
       			body: JSON.stringify({ productId: idProduct }),
       		})
-      			.then((res) => res.json())
       			.then((product) => {
       				dispatch({
       					type: 'DELETE_PRODUCT_CART',
-      					payload: product.productId,
+
       				})
       			})
+						.then(() => {
+							return dispatch(getProductsCart(1))
+						})
       }
 
 
@@ -256,11 +260,9 @@ export const updateCountProductInCart = (userId, idProduct, count) => async disp
 
 }
 
-export function getProductsCart() {
+export function getProductsCart(id) {
   return function (dispatch) {
-    return fetch(`http://localhost:3002/user/cart`, {
-      credentials: 'include',
-    })
+    return fetch(`http://localhost:3001/users/${id}/cart`)
       .then((res) => res.json())
       .then((order) => {
         order.error || order.length === 0
@@ -270,7 +272,7 @@ export function getProductsCart() {
             })
           : dispatch({
               type: 'GET_PRODUCTS_IN_CART',
-              payload: order[0].products,
+              payload: order,
             })
       })
   }

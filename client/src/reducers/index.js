@@ -4,7 +4,9 @@ const initialState = {
   categories: [],
   users: [],
   user:[],
+  cart:[],
   orders:[]
+
 
 };
 
@@ -52,6 +54,22 @@ function rootReducer(state = initialState, action) {
       user: action.payload
     }
 
+
+    case 'ADD_PRODUCT_IN_CART':
+    return {
+      ...state
+    }
+
+    case 'GET_PRODUCTS_IN_CART':
+    return {
+      ...state,
+      cart: action.payload
+    }
+
+    case 'DELETE_PRODUCT_CART':
+    return{
+      ...state
+}
     case 'GET_ORDERS':
     return{
       ...state,
@@ -62,6 +80,7 @@ function rootReducer(state = initialState, action) {
     return{
       ...state,
       orders: [action.payload]
+
     }
 
 
