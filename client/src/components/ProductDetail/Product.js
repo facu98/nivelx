@@ -50,7 +50,7 @@ console.log(product)
             </Button>
 
             <Button
-                    
+
                       disabled={!product || product.stock === 0}
                       variant="outlined"
                       color="primary"

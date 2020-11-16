@@ -87,10 +87,13 @@ export default function ProductCard(props) {
       />
       <CardContent>
         <Link to={`/products/${props.productos.id}`}>
-          <Typography variant='body2' color="textSecondary" component="p">
+          <Typography variant='h5' color="textSecondary" component="p">
             {props.productos.name}
           </Typography>
         </Link>
+        <Typography variant='h7' color='textSecondary'>
+          {props.productos.brand}
+        </Typography>
         <Typography gutterBottom variant='body1' color='primary' component='p'>
           {`USD ${props.productos.price}`}
         </Typography>

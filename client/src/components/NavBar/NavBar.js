@@ -21,9 +21,11 @@ export const Navbar = () => {
 
 
     return (
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <button onClick = {() => {dispatch(getProductsCart(1))}}class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
+
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <div className='container'>
@@ -57,6 +59,7 @@ export const Navbar = () => {
                     <li>
                           <NavLink to='/user/cart'>
                                       <IconButton aria-label="cart">
+                                        
                                                 <Badge badgeContent={cart && cart.length} color="secondary">
                                                     <ShoppingCartIcon style={{ color: 'white' }} />
                                                 </Badge>
