@@ -1,4 +1,5 @@
 import swal from  'sweetalert';
+import {Redirect, Route, Switch, useLocation } from "react-router-dom";
 
 //ACTIONS PRODUCTOS
 export function getProducts(){
@@ -87,11 +88,18 @@ export function loginUser(email, password){
 						payload: res
 					})
 				})
-				.catch((err) => alert(err))
 
-	}
-}
+				.then((res)=>{
+					console.log("Respuesta",res);
+						swal("Bienvenido!", "","success");
 
+						})
+				.catch((err) => {
+														var title = `${err}`
+														swal("Ups", title, 'error')
+											  })
+
+											}}
 export function getUserById(id){
 	return function(dispatch){
 		return fetch(`http://localhost:3001/users/${id}`)

@@ -150,11 +150,12 @@ const useStyles = makeStyles((theme) => ({
         setError({...error})
 
         if(!err){
-
           dispatch(loginUser(input.email, input.password))
           resetForm()
+          swal("Bienvenido", (input.email),"success");
         }
-
+        else{
+          }
       }
 
     return(
