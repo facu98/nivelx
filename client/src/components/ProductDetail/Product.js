@@ -1,5 +1,7 @@
 import React from 'react';
 import s from './Product.module.css';
+import Stock from '../Stock/Stock.js'
+
 import { useParams, Link } from 'react-router-dom';
 //IMPORTE EL COMPONENTE BUTTON DE MATERIAL UI
 import Button from '@material-ui/core/Button';
@@ -40,26 +42,10 @@ console.log(product)
                     </p>
                 </div>
 
-            <Button
-
-                      disabled={!product || product.stock === 0}
-                      variant="contained" color="primary"
-                      size="medium"
-                      style={{ padding: '5px 25px' }}>
-            Comprar
-            </Button>
-
-            <Button
-                    
-                      disabled={!product || product.stock === 0}
-                      variant="outlined"
-                      color="primary"
-                      size='medium'
-                      style={{ marginLeft: 'auto', padding: '5px 25px' }}>
-            Carrito
-            </Button>
-
-
+                <Stock
+                quantity = {product.quantity}
+                price = {product.price}
+                />
             </div>
         </section>
     );

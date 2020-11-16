@@ -1,4 +1,5 @@
 import swal from  'sweetalert';
+import {Redirect, Route, Switch, useLocation } from "react-router-dom";
 
 
 //ACTIONS PRODUCTOS
@@ -98,10 +99,17 @@ export function loginUser(data){
 						payload: res
 					})
 				})
-				.catch((err) => alert(err))
 
-	}
-}
+				.then((res)=>{
+					console.log("Respuesta",res);
+						swal("Bienvenido!", "","success");
+
+						})
+				.catch((err) => {
+														var title = `${err}`
+														swal("Ups", title, 'error')
+											  })
+											}}
 
 export function logOut(){
 	return function(dispatch){

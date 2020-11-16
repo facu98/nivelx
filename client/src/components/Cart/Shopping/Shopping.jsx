@@ -3,14 +3,11 @@ import { connect } from 'react-redux'
 import Counter from '../Counter/Counter'
 import { getProductsCart, deleteProductInCart } from '../../../actions'
 //fix
-
-
 export const Shopping = ({
 	cart,
 	getProductsCart,
 	deleteProductInCart,
 	user
-
 }) => {
 
 
@@ -27,12 +24,15 @@ export const Shopping = ({
 						<div className='card mb-3 p-3' key={cart.product_id}>
 							<div className='row'>
 								<div className='col-md-4'>
-								{/*	<img
-										src={product.image}
-										className='card-img'
-										alt='...'
-									/>*/}
+
+							{/*}	// <img
+								// 	src={`http://localhost:3001/images/${cart.product_id.p[0]}`}
+								// 	className='card-img'
+								// 	alt='...'
+								// />
+								*/}
 								</div>
+
 								<div className='col-md-5'>
 									<div className='card-body'>
 										<h5 className='card-title'>
@@ -52,7 +52,7 @@ export const Shopping = ({
 										}
 									/>
 									<button
-										className='btn btn-danger align-self-start'
+										className='btn align-self-start'
 										onClick={() => {
 											deleteProductInCart(user.id, cart.product_id)
 										}}

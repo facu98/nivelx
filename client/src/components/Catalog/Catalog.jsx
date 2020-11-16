@@ -6,10 +6,14 @@ import GridList from '../GridListProducts/GridListProducts'
 import Grid from '@material-ui/core/Grid'
 import {useDispatch, useSelector} from "react-redux"
 import {getProducts, searchbyCategory, searchbyQuery, getCategories} from "../../actions"
+import Button from '@material-ui/core/Button';
+import { Box } from '@material-ui/core'
+import { usePaginatedQuery} from 'react-query';
 
 function useQuery() {
 	return new URLSearchParams(useLocation().search);
 }
+
 
 export default function ({ match, location }) {
 
@@ -22,7 +26,6 @@ export default function ({ match, location }) {
 	const nameCategory = match.params.name
 	//const  id  = useParams()
 	let query = useQuery().get('name');
-
 
 
 	useEffect(() => {
