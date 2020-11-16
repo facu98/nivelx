@@ -9,9 +9,5 @@ module.exports = (sequelize) => {
       allowNull:false
     },
 
-    date:{
-      type: DataTypes.STRING,
-      allowNull:false              //ACA TAMBIEN SE PUEDE USAR LA COLUMNA CreatedAt
-    }
   });
 };
