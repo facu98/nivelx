@@ -3,16 +3,18 @@ import { connect } from 'react-redux'
 import Counter from '../Counter/Counter'
 import { getProductsCart, deleteProductInCart } from '../../../actions'
 
+
 export const Shopping = ({
 	cart,
 	getProductsCart,
 	deleteProductInCart,
+	user
 
 }) => {
 
-	useEffect(() => {
-		getProductsCart(1)
 
+	useEffect(() => {
+		getProductsCart(user.id)
 	}, [])
 
 	return (
@@ -50,7 +52,7 @@ export const Shopping = ({
 									<button
 										className='btn btn-danger align-self-start'
 										onClick={() => {
-											deleteProductInCart(1, cart.product_id)
+											deleteProductInCart(user.id, cart.product_id)
 										}}
 									>
 										X
@@ -66,6 +68,7 @@ export const Shopping = ({
 const mapStateToProps = (store) => {
 	return {
 		cart: store.cart,
+		user: store.user
 	}
 }
 
