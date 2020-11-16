@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import Counter from '../Counter/Counter'
 import { getProductsCart, deleteProductInCart } from '../../../actions'
+//fix
 
 
 export const Shopping = ({
