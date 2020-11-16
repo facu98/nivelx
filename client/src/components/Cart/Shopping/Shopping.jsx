@@ -15,11 +15,12 @@ export const Shopping = ({
 
 	useEffect(() => {
 		getProductsCart(user.id)
+
 	}, [])
 
 	return (
 		<div>
-			{cart.length === 0
+			{cart && cart.length === 0
 				? null
 				: cart.map((cart) => (
 						<div className='card mb-3 p-3' key={cart.product_id}>

@@ -57,7 +57,7 @@ export const Navbar = () => {
                     <li>
                           <NavLink to='/user/cart'>
                                       <IconButton aria-label="cart">
-                                                <Badge badgeContent={cart.length} color="secondary">
+                                                <Badge badgeContent={cart && cart.length} color="secondary">
                                                     <ShoppingCartIcon style={{ color: 'white' }} />
                                                 </Badge>
                                       </IconButton>
