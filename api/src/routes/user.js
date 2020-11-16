@@ -47,7 +47,7 @@ server.put("/:id", (req, res) => {
 
 server.post("/", (req,res) => {
 	const { name, lastname, email, password, directionOne, directionTwo, phone } = req.body
-	console.log(req.body)
+
 	if(!name || !lastname || !email || !password || !directionOne || !phone ) {
         return res.status(400).send( "Debe rellenar los campos requeridos" )
     }
@@ -57,7 +57,7 @@ server.post("/", (req,res) => {
 		}
 	})
 	.then((user) => {
-		if(user) { return res.status(400).send( "Ya existe un usuario con este mail" )}
+		if(user) { return res.status(409).send( "Ya existe un usuario con este mail" )}
 		const newUser = User.create({
 			name,
 			lastname,
@@ -113,7 +113,7 @@ Product.findByPk(productId)
 		})
 		.then((data) => {
 			data[0].destroy()
-			
+
 		})
 		.then(() => res.send("deleted"))
 	})
@@ -300,4 +300,15 @@ Product.findByPk(productId)
 
 //Elimina un producto en particular del carrito
 
+//Crear orden
+
+server.post('/order', (req,res) => {
+
+	const newOrder = Order.create({
+
+		state:'carrito',
+	})
+	.then((data) => res.send(data))
+	.catch((err) => console.log(err))
+})
 module.exports = server;

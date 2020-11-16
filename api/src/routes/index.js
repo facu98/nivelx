@@ -7,10 +7,12 @@ const router = Router();
 const productRouter     = require   ('./product.js');
 const productCategory   = require   ('./category.js');
 const userRouter        = require   ('./user.js');
+const orderRoutes       = require   ('./order.js')
 
 router.use('/products', productRouter);
 router.use('/category', productCategory);
 router.use('/users', userRouter);
+router.use('/orders', orderRoutes);
 
 // load each router on a route
 // i.e: router.use('/auth', authRouter);

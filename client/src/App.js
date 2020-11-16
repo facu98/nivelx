@@ -20,6 +20,7 @@ import CreateUser from "./components/CreateUser/CreateUser"
 import AdminUsers  from "./components/AdminUsers/AdminUsers"
 import EditUser from './components/AdminUsers/EditDeleteUser'
 import UserCart from './components/Cart/Shopping/Shopping'
+import OrdersAdmin from './components/Order/AdminOrder'
 
 function App() {
 
@@ -31,6 +32,8 @@ function App() {
               <Route exact path='/' component={Catalogo} />
 
               <Route exact path='/user/create' component={CreateUser} />
+
+              <Route path='/admin/orders' component = {OrdersAdmin} />
 
               <Route exact path='/user/cart' component={UserCart} />
 

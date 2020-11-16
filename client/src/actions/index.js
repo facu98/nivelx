@@ -131,21 +131,57 @@ export function createUser(data){
 			}
 	})
 	.then((data) => {
+		if(data.status === 409){throw new Error(409)}
+		else if (data.status !== 201){throw new Error(`${data.status}`)}
+		else
 									dispatch({
 														type:'CREATE_USER',
 															payload:data
 														})
 	})
 	.then((res)=>{
-			console.log(res)
 			swal("GENIAL!", "Se ha creado el usuario exitosamente","success");
 
 	})
 	.catch((err)=>{
-			 swal("ERROR")
+			var title = `${err}`
+
+			title == 'Error: 409' ? swal(title, 'Ya existe un usuario con ese mail', 'error') : swal(title, 'Algo salió mal..', 'error')
 	})
 	}
 
+}
+
+//ACTIONS para manipular orders (ADMIN)
+
+export function getOrders(){
+	return function(dispatch){
+		return fetch('http://localhost:3001/orders')
+				.then((res) => res.json())
+				.then((data) => {
+					dispatch(
+						{
+								type: 'GET_ORDERS',
+								payload: data
+						})
+					 				})
+
+	}
+}
+
+export function getOrderbyID(id){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/orders/${id}`)
+				.then((res) => res.json())
+				.then((data) => {
+					dispatch(
+						{
+								type: 'GET_ORDER_ID',
+								payload: data
+						})
+					 				})
+
+	}
 }
 
 
