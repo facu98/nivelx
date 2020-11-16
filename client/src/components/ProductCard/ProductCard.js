@@ -38,13 +38,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProductCard(props) {
   const cart = useSelector(state => state.cart)
+  const user = useSelector(state => state.user)
   const dispatch = useDispatch()
   const classes = useStyles();
   const url = useLocation();
 
   const handleCart = () => {
 
-    dispatch(addProductCart(1, props.productos.id))
+    dispatch(addProductCart(user.id, props.productos.id))
 
   }
 

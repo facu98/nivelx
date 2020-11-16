@@ -7,7 +7,7 @@ server.get("/", (req, res) => {
 	User.findAll({
 		order:['id']
 	})
-	.then(users => res.send(users))
+	.then(users => {return res.send(users)})
 	.catch(err => res.status(404).send(err))
 });
 
@@ -310,5 +310,22 @@ server.post('/order', (req,res) => {
 	})
 	.then((data) => res.send(data))
 	.catch((err) => console.log(err))
+})
+
+//LOGIN
+
+server.get('/login/:email/:password', (req,res) => {
+	const {email,password} = req.params
+	User.findOne({
+		where:{
+			email
+		}
+	})
+	.then((user) => {
+		if(!user){return res.status(404).send('El user no existe')}
+		if(user.password !== password){return res.status(401).send('password invalido')}
+		res.status(201).send(user)
+	})
+
 })
 module.exports = server;

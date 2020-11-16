@@ -10,14 +10,15 @@ import {getProductsCart} from "../../actions"
 
 export const Navbar = () => {
   const cart = useSelector(state => state.cart)
+  const user = useSelector(state => state.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getProductsCart(1))
+    (user.length > 0) && dispatch(getProductsCart(user.id))
 
   },[])
 
-console.log(cart)
+
 
     return (
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -38,7 +39,7 @@ console.log(cart)
                         </NavLink>
                     </li>
                     <li className="nav-item offset-1 active">
-                        <NavLink to="/products/" className='nav-link' >
+                        <NavLink to="/user/login" className='nav-link' >
                             Ingresar
                         </NavLink>
                     </li>

@@ -51,7 +51,7 @@ function rootReducer(state = initialState, action) {
     case 'CREATE_USER':
     return {
       ...state,
-      user: action.payload
+
     }
 
 
@@ -81,6 +81,12 @@ function rootReducer(state = initialState, action) {
       ...state,
       orders: [action.payload]
 
+    }
+
+    case 'LOGIN_USER':
+    return {
+      ...state,
+      user: action.payload
     }
 
 

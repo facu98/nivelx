@@ -71,6 +71,27 @@ export function getUsers(){
 				}
 }
 
+export function loginUser(email, password){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/users/login/${email}/${password}`)
+			.then((res) => {
+				console.log(res)
+				if(!res){alert("error")}
+				if(res.status === 404){throw new Error('El usuario no existe')}
+				else if(res.status === 401){throw new Error('Password invalido')}
+				else return res.json()
+			})
+				.then((res) => {
+					dispatch({
+						type: 'LOGIN_USER',
+						payload: res
+					})
+				})
+				.catch((err) => alert(err))
+
+	}
+}
+
 export function getUserById(id){
 	return function(dispatch){
 		return fetch(`http://localhost:3001/users/${id}`)
@@ -104,6 +125,8 @@ export function editUser(id,data){
 		.then(alert("CHANGED!"))
 	}
 }
+
+
 
 export function deleteUser(id){
 	return function(dispatch){
@@ -209,7 +232,7 @@ export const addProductCart = (idUser, idProduct) => async dispatch => {
 				})
 			})
 			.then(() => {
-				return dispatch(getProductsCart(1))
+				return dispatch(getProductsCart(idUser))
 			})
 }
 
@@ -230,7 +253,7 @@ export const deleteProductInCart = (userId, idProduct) => async dispatch => {
       				})
       			})
 						.then(() => {
-							return dispatch(getProductsCart(1))
+							return dispatch(getProductsCart(userId))
 						})
       }
 
