@@ -41,7 +41,7 @@ console.log(product)
                 </div>
 
             <Button
-                      
+
                       disabled={!product || product.stock === 0}
                       variant="contained" color="primary"
                       size="medium"
@@ -50,7 +50,7 @@ console.log(product)
             </Button>
 
             <Button
-                      
+
                       disabled={!product || product.stock === 0}
                       variant="outlined"
                       color="primary"

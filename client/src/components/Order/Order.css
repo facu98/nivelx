@@ -1,0 +1,42 @@
+/* Detalle de la orden */
+.order-details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.order-details li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-details li div{
+    padding: 10px;
+}
+
+.order-details .items {
+    text-align: right;
+    padding: 0;
+}
+
+.succes-message {
+    color: green;
+}
+
+/* Ordenes */
+.orders {
+    width: 100%;
+    padding: 10px;
+  }
+  tbody > tr:nth-child(odd) {
+    background-color: #f0f0f0;
+  }
+  td {
+    padding: 5px;
+  }
+  th {
+    text-align: left;
+  }

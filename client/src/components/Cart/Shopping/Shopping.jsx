@@ -2,51 +2,59 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import Counter from '../Counter/Counter'
 import { getProductsCart, deleteProductInCart } from '../../../actions'
+//fix
+
 
 export const Shopping = ({
-	products,
+	cart,
 	getProductsCart,
 	deleteProductInCart,
+	user
+
 }) => {
+
+
 	useEffect(() => {
-		getProductsCart(1)
+		getProductsCart(user.id)
+
 	}, [])
+
 	return (
 		<div>
-			{products.length === 0
+			{cart && cart.length === 0
 				? null
-				: products.map((product) => (
-						<div className='card mb-3 p-3' key={product.id}>
+				: cart.map((cart) => (
+						<div className='card mb-3 p-3' key={cart.product_id}>
 							<div className='row'>
 								<div className='col-md-4'>
-									<img
+								{/*	<img
 										src={product.image}
 										className='card-img'
 										alt='...'
-									/>
+									/>*/}
 								</div>
 								<div className='col-md-5'>
 									<div className='card-body'>
 										<h5 className='card-title'>
-											{product.name}
+											{cart.product_name}
 										</h5>
 										<p className='card-text'>
-											{product.description.slice(0, 50) +
+											{cart.product_desc.slice(0, 50) +
 												'...'}
 										</p>
 									</div>
 								</div>
 								<div className='col-md-3 d-flex align-items-center justify-content-center'>
 									<Counter
-										idProduct={product.id}
+										idProduct={cart.product_id}
 										quantity={
-											product.order_product.quantity
+											cart.quantity
 										}
 									/>
 									<button
 										className='btn btn-danger align-self-start'
 										onClick={() => {
-											deleteProductInCart(1, product.id)
+											deleteProductInCart(user.id, cart.product_id)
 										}}
 									>
 										X
@@ -61,7 +69,8 @@ export const Shopping = ({
 
 const mapStateToProps = (store) => {
 	return {
-		products: store.cart,
+		cart: store.cart,
+		user: store.user
 	}
 }
 
