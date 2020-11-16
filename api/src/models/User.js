@@ -39,5 +39,9 @@ module.exports = (sequelize) => {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false,
 		},
+    logged:{
+      type: DataTypes.BOOLEAN,
+      defaultValue:false
+    }
   });
 };

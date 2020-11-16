@@ -4,7 +4,7 @@ import React, { useEffect, useState} from 'react'
 import { useLocation, useParams } from "react-router-dom";
 import { NavLink, useHistory } from 'react-router-dom'
 import { DataGrid } from '@material-ui/data-grid';
-
+import styles from './orders.module.css'
 
 
 export default function ({match}){
@@ -58,8 +58,8 @@ const handleSearch = () => {
 
   return (
     <div>
-    <div >
-    <h1 href ="#">GET ORDERS</h1>
+    <div className = {styles.getOrders} >
+    <h1 href ="#" onClick = {() => {dispatch(getOrders())}}>GET ORDERS</h1>
     </div>
     <input value = {search} name = 'search' onChange = {handleChange} aria-label="Search" placeholder ="Filtrar por ID de orden"/>
     <button onClick = {handleSearch} >Buscar</button>
