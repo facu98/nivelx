@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Categorias from '../Categorias/Categorias'
-import ProductsCards from '../ProductCard/ProductCard'
+// import ProductsCards from '../ProductCard/ProductCard'
 import GridList from '../GridListProducts/GridListProducts'
 import Grid from '@material-ui/core/Grid'
 import {useDispatch, useSelector} from "react-redux"
 import {getProducts, searchbyCategory, searchbyQuery, getCategories} from "../../actions"
-import Button from '@material-ui/core/Button';
-import { Box } from '@material-ui/core'
-import { usePaginatedQuery} from 'react-query';
+// import Button from '@material-ui/core/Button';
+// import { Box } from '@material-ui/core'
+// import { usePaginatedQuery} from 'react-query';
 
 function useQuery() {
 	return new URLSearchParams(useLocation().search);

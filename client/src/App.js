@@ -1,10 +1,10 @@
 
 //IMPORTAMOS LIBRERIAS DE REACT
-import React, { useEffect } from 'react';
-import { Route, Switch, useLocation } from "react-router-dom";
+import React from 'react';
+import { Route } from "react-router-dom";
 
 
-import ProductsCards from './components/ProductCard/ProductCard';
+// import ProductsCards from './components/ProductCard/ProductCard';
 import Carrousel from './components/Carrousel/Carrousel'
 import Catalogo from './components/Catalog/Catalog';
 import Categorias from './components/Categorias/Categorias';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Button, TextField } from '@material-ui/core';
+// import { Grid, Button, TextField } from '@material-ui/core';
 import swal from 'sweetalert';
 import { useHistory } from "react-router-dom";
 import style from './EditProduct.module.css';
@@ -45,7 +45,7 @@ export default function EditProduct({ match }){
     setChecked({...checked,
     [e.target.name] : !checked})
     const id = parseInt(e.target.value)
-    const finder = input.category.find((cat) => cat == id)
+    const finder = input.category.find((cat) => cat === id)
     finder ? input.category = input.category.filter((cat) => cat !== id) : input.category.push(id)
     }
 
@@ -137,7 +137,7 @@ return(
             <div className={style.inputContainer}>
                 <label>Categoría</label>
                 {categorias && categorias.map((cat) => {
-                  let finder = input.category.find((c) => c == cat.id)
+                  let finder = input.category.find((c) => c === cat.id)
                   var check
                   finder ? (check = true) : (check = false)
                   checked[cat.name] = check
