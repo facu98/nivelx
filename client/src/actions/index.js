@@ -285,10 +285,12 @@ export const updateCountProductInCart = (userId, idProduct, count) => async disp
 
 export function getProductsCart(id) {
   return function (dispatch) {
+		console.log("ID", id)
     return fetch(`http://localhost:3001/users/${id}/cart`)
       .then((res) => res.json())
       .then((order) => {
-        order.error || order.length === 0
+
+        order.name == 'SequelizeDatabaseError' || order.length === 0
           ? dispatch({
               type: 'GET_PRODUCTS_IN_CART',
               payload: [],
