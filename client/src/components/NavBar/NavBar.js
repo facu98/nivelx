@@ -1,22 +1,29 @@
 import React, {useEffect} from 'react';
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 // IMPORTS DE MATERIAL UI
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import {useDispatch, useSelector} from "react-redux"
-import {getProductsCart} from "../../actions"
+import {getProductsCart, logOut} from "../../actions"
 
 
 export const Navbar = () => {
   const cart = useSelector(state => state.cart)
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
-
+  const history = useHistory()
   useEffect(() => {
-    (user.length > 0) && dispatch(getProductsCart(user.id))
+    user && dispatch(getProductsCart(user.id))
 
   },[])
+
+  const handlelogOut = () => {
+    if(window.confirm(`Seguro que deseas cerrar sesión?`)){
+      dispatch(logOut())
+    }
+
+  }
 
 
 
@@ -38,11 +45,14 @@ export const Navbar = () => {
                             Juegos
                         </NavLink>
                     </li>
-                    <li className="nav-item offset-1 active">
-                        <NavLink to="/user/login" className='nav-link' >
+                    {<li className="nav-item offset-1 active">
+                        {user.id ? <NavLink onClick = {handlelogOut} to = '#' className='nav-link' >
+                            Salir
+                        </NavLink> :
+                        <NavLink to="/user/login"  className='nav-link' >
                             Ingresar
-                        </NavLink>
-                    </li>
+                        </NavLink> }
+                    </li>}
                     <li className="nav-item offset-1 active">
                         <NavLink to="/user/create" className='nav-link' >
                             Registrarse

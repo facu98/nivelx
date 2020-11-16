@@ -195,10 +195,12 @@ server.get(('/:idUser/cart'), (req, res, next) => {
 					order_id : order.id
 				},
 			})
-			.then((data) => res.json(data))
+			.then((data) => {
+				if(!data){return res.status(404).json([])}
+				res.json(data)})
 
 		})
-		.catch((err) => res.status(400).json(err))
+		.catch((err) => res.status(400).json([]))
 
 
     // User.findByPk(id, {
@@ -314,8 +316,9 @@ server.post('/order', (req,res) => {
 
 //LOGIN
 
-server.get('/login/:email/:password', (req,res) => {
-	const {email,password} = req.params
+server.post('/login', (req,res) => {
+	const {email,password} = req.body
+
 	User.findOne({
 		where:{
 			email

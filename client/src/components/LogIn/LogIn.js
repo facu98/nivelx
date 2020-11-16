@@ -151,7 +151,7 @@ const useStyles = makeStyles((theme) => ({
 
         if(!err){
 
-          dispatch(loginUser(input.email, input.password))
+          dispatch(loginUser(input))
           resetForm()
         }
 

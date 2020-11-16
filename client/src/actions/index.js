@@ -1,5 +1,6 @@
 import swal from  'sweetalert';
 
+
 //ACTIONS PRODUCTOS
 export function getProducts(){
 	return function(dispatch){
@@ -71,9 +72,16 @@ export function getUsers(){
 				}
 }
 
-export function loginUser(email, password){
+export function loginUser(data){
 	return function(dispatch){
-		return fetch(`http://localhost:3001/users/login/${email}/${password}`)
+		return fetch(`http://localhost:3001/users/login/`,
+			{
+				method: 'POST',
+				body: JSON.stringify(data),
+				headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					}})
 			.then((res) => {
 				console.log(res)
 				if(!res){alert("error")}
@@ -82,6 +90,9 @@ export function loginUser(email, password){
 				else return res.json()
 			})
 				.then((res) => {
+					const serialisedState = JSON.stringify(res);
+					 localStorage.setItem("user", serialisedState)
+
 					dispatch({
 						type: 'LOGIN_USER',
 						payload: res
@@ -90,6 +101,17 @@ export function loginUser(email, password){
 				.catch((err) => alert(err))
 
 	}
+}
+
+export function logOut(){
+	return function(dispatch){
+		localStorage.user = []
+
+		dispatch({
+			type:'LOGOUT_USER'
+		})
+	}
+
 }
 
 export function getUserById(id){
@@ -290,7 +312,7 @@ export function getProductsCart(id) {
       .then((res) => res.json())
       .then((order) => {
 
-        order.name == 'SequelizeDatabaseError' || order.length === 0
+        (order.name == 'SequelizeDatabaseError' || order.length === 0)
           ? dispatch({
               type: 'GET_PRODUCTS_IN_CART',
               payload: [],
