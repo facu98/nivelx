@@ -16,6 +16,12 @@ import EditProduct from './components/FormProduct/FormUpdateDeleteProduct';
 import ProductDetail from "./components/ProductDetail/Product"
 import PanelAdmin from "./components/AdminPanel/PanelAdmin"
 import Container from '@material-ui/core/Container'
+import CreateUser from "./components/CreateUser/CreateUser"
+import AdminUsers  from "./components/AdminUsers/AdminUsers"
+import EditUser from './components/AdminUsers/EditDeleteUser'
+import UserCart from './components/Cart/Shopping/Shopping'
+import OrdersAdmin from './components/Order/AdminOrder'
+import Login from './components/LogIn/LogIn'
 
 function App() {
 
@@ -25,6 +31,14 @@ function App() {
           <Route exact path='/' render={() => <Carrousel />} />
           <Container>
               <Route exact path='/' component={Catalogo} />
+
+              <Route exact path='/user/create' component={CreateUser} />
+
+              <Route exact path='/user/login' component={Login} />
+
+              <Route path='/admin/orders' component = {OrdersAdmin} />
+
+              <Route exact path='/user/cart' component={UserCart} />
 
               <Route exact path='/:name' component={Catalogo} />
 
@@ -38,6 +52,8 @@ function App() {
                 render={({ match }) => <FormCategory match={match} />}
               />
               <Route exact path='/admin/editCategory' component={Categorias} />
+              <Route exact path='/admin/users' component={AdminUsers} />
+              <Route exact path='/admin/users/:id' component={EditUser} />
               <Route exact path='/admin/products/edit' component={Catalogo} />
               <Route exact path='/admin/createProduct' component ={FormProduct} />
               <Route exact path='/admin/products/edit/:id'

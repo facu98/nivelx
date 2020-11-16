@@ -16,6 +16,10 @@ import { Tooltip } from '@material-ui/core';
 import { useLocation, Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import CategoryIcon from '@material-ui/icons/Category';
+import {useDispatch, useSelector} from "react-redux"
+import {addProductCart} from "../../actions"
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,8 +37,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ProductCard(props) {
+  const cart = useSelector(state => state.cart)
+  const user = useSelector(state => state.user)
+  const dispatch = useDispatch()
   const classes = useStyles();
   const url = useLocation();
+
+  const handleCart = () => {
+
+    dispatch(addProductCart(user.id, props.productos.id))
+
+  }
 
   const boton = url.pathname === '/admin/products/edit'
     ? (<>
@@ -59,7 +72,7 @@ export default function ProductCard(props) {
           Comprar
         </Button>
         <Tooltip title='Añadir al carrito'>
-          <IconButton aria-label="addToCart">
+          <IconButton onClick = {handleCart} aria-label="addToCart">
             <ShoppingCartIcon color='primary' />
           </IconButton>
         </Tooltip>
@@ -70,14 +83,17 @@ export default function ProductCard(props) {
        <CardHeader/>
       <CardMedia
         className={classes.media}
-        image={props.productos.pictures[0]}
+        image={"http://localhost:3000/assets/img/logo_store.jpg"}
       />
       <CardContent>
         <Link to={`/products/${props.productos.id}`}>
-          <Typography variant='body2' color="textSecondary" component="p">
+          <Typography variant='h5' color="textSecondary" component="p">
             {props.productos.name}
           </Typography>
         </Link>
+        <Typography variant='h7' color='textSecondary'>
+          {props.productos.brand}
+        </Typography>
         <Typography gutterBottom variant='body1' color='primary' component='p'>
           {`USD ${props.productos.price}`}
         </Typography>
