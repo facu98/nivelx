@@ -18,8 +18,10 @@ server.get('/search', (req, res) => {
 	Product.findAll( {
 		where: {
 			[Op.or]: [
+				{name: {[Op.iLike]: `${name}`}},
 				{name: {[Op.substring]: `${name}`}},
-				{description: {[Op.substring]: `${description}`}}
+				{description: {[Op.substring]: `${description}`}},
+				{description: {[Op.iLike]: `${description}`}}
 			],
 		},
 	})

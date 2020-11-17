@@ -44,7 +44,7 @@ export default function ({ match, location }) {
 			dispatch(getProducts())
 
 		}
-	}, [])
+	}, [nameCategory, query])
 
 	return (
 		<Grid container direction='row'>
