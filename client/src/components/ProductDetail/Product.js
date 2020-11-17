@@ -2,9 +2,9 @@ import React from 'react';
 import s from './Product.module.css';
 import Stock from '../Stock/Stock.js'
 
-import { useParams, Link } from 'react-router-dom';
+import {  Link } from 'react-router-dom';
 //IMPORTE EL COMPONENTE BUTTON DE MATERIAL UI
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 
 export default function Product({match}) {
     const [product, setProduct] = React.useState(null);

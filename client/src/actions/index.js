@@ -199,7 +199,7 @@ export function createUser(data){
 	.catch((err)=>{
 			var title = `${err}`
 
-			title == 'Error: 409' ? swal(title, 'Ya existe un usuario con ese mail', 'error') : swal(title, 'Algo salió mal..', 'error')
+			title === 'Error: 409' ? swal(title, 'Ya existe un usuario con ese mail', 'error') : swal(title, 'Algo salió mal..', 'error')
 	})
 	}
 
@@ -320,7 +320,8 @@ export function getProductsCart(id) {
       .then((res) => res.json())
       .then((order) => {
 
-        (order.name == 'SequelizeDatabaseError' || order.length === 0)
+        order.name === 'SequelizeDatabaseError' || order.length === 0
+
           ? dispatch({
               type: 'GET_PRODUCTS_IN_CART',
               payload: [],

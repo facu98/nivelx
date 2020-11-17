@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useLocation, Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
@@ -7,7 +7,7 @@ import { Tooltip} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
 export default function (props) {
-	const [categorias, setCategorias] = useState()
+	// const [categorias, setCategorias] = useState()
 	const url = useLocation();
 
 	
