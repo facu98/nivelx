@@ -17,6 +17,21 @@ export function getProducts(){
 	}
 }
 
+export function getProductById(id){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/products/${id}`)
+				.then((res) => res.json())
+				.then((data) => {
+					dispatch(
+						{
+								type: 'GET_PRODUCTS_ID',
+								payload: data
+						})
+					 				})
+
+	}
+}
+
 export function searchbyCategory(name) {
 	return function(dispatch){
 		return fetch(`http://localhost:3001/category/${name}`)
