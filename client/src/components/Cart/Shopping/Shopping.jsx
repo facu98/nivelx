@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import Counter from '../Counter/Counter'
-import { getProductsCart, deleteProductInCart } from '../../../actions'
+import Count from '../Counter/Count'
+import { getProductsCart, deleteProductInCart, getProductById } from '../../../actions'
 //fix
 export const Shopping = ({
 	cart,
+	user,
+	product,
 	getProductsCart,
-	deleteProductInCart,
-	user
+	getProductById,
+	deleteProductInCart
 }) => {
 
 
 	useEffect(() => {
 		getProductsCart(user.id)
-
+		getProductById(cart.product_id)
 	}, [])
 
 	return (
@@ -45,11 +47,11 @@ export const Shopping = ({
 									</div>
 								</div>
 								<div className='col-md-3 d-flex align-items-center justify-content-center'>
-									<Counter
-										idProduct={cart.product_id}
-										quantity={
-											cart.quantity
-										}
+									<Count
+										price= {product.price}
+										quantity= {product.quantity}
+										name= {product.name}
+										function= {getProductById(cart.product_id).payload}
 									/>
 									<button
 										className='btn align-self-start'
@@ -70,15 +72,16 @@ export const Shopping = ({
 const mapStateToProps = (store) => {
 	return {
 		cart: store.cart,
-		user: store.user
+		user: store.user,
+		product: store.products
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		getProductsCart: (userId) => dispatch(getProductsCart(userId)),
-		deleteProductInCart: (userId, productId) =>
-			dispatch(deleteProductInCart(userId, productId)),
+		deleteProductInCart: (userId, productId) => dispatch(deleteProductInCart(userId, productId)),
+		getProductById: (productId) => dispatch(getProductById(productId))
 	}
 }
 
