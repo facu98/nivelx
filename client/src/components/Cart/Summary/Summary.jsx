@@ -4,17 +4,17 @@ import { connect } from 'react-redux'
 
 export const Summary = ({ products, cancelOrder }) => {
 	const [total, setTotal] = useState(0)
-
-	useEffect(() => {
-		if (products) {
-			const totalProducts = products.reduce(
-				(acc, el) =>
-					acc + el.order_product.price * el.order_product.quantity,
-				0
-			)
-			setTotal(totalProducts)
-		}
-	}, [products])
+	// 
+	// useEffect(() => {
+	// 	if (products) {
+	// 		const totalProducts = products.reduce(
+	// 			(acc, el) =>
+	// 				acc + el.order_product.price * el.order_product.quantity,
+	// 			0
+	// 		)
+	// 		setTotal(totalProducts)
+	// 	}
+	// }, [products])
 
 	return (
 		<div>
@@ -44,7 +44,7 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		cancelOrder: (idUser) => dispatch(cancelOrder(idUser)),
+	//	cancelOrder: (idUser) => dispatch(cancelOrder(idUser)),
 	}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Summary)

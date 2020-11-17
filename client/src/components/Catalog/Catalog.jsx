@@ -29,6 +29,8 @@ export default function ({ match, location }) {
 
 
 	useEffect(() => {
+
+
 		dispatch(getCategories())
 
 		if(nameCategory && nameCategory !== "search") {

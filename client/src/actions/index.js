@@ -1,4 +1,6 @@
 import swal from  'sweetalert';
+import {Redirect, Route, Switch, useLocation } from "react-router-dom";
+
 
 //ACTIONS PRODUCTOS
 export function getProducts(){
@@ -71,9 +73,16 @@ export function getUsers(){
 				}
 }
 
-export function loginUser(email, password){
+export function loginUser(data){
 	return function(dispatch){
-		return fetch(`http://localhost:3001/users/login/${email}/${password}`)
+		return fetch(`http://localhost:3001/users/login/`,
+			{
+				method: 'POST',
+				body: JSON.stringify(data),
+				headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					}})
 			.then((res) => {
 				console.log(res)
 				if(!res){alert("error")}
@@ -82,14 +91,35 @@ export function loginUser(email, password){
 				else return res.json()
 			})
 				.then((res) => {
+					const serialisedState = JSON.stringify(res);
+					 localStorage.setItem("user", serialisedState)
+
 					dispatch({
 						type: 'LOGIN_USER',
 						payload: res
 					})
 				})
-				.catch((err) => alert(err))
 
+				.then((res)=>{
+					console.log("Respuesta",res);
+						swal("Bienvenido!", "","success");
+
+						})
+				.catch((err) => {
+														var title = `${err}`
+														swal("Ups", title, 'error')
+											  })
+											}}
+
+export function logOut(){
+	return function(dispatch){
+		localStorage.user = []
+
+		dispatch({
+			type:'LOGOUT_USER'
+		})
 	}
+
 }
 
 export function getUserById(id){
@@ -291,6 +321,7 @@ export function getProductsCart(id) {
       .then((order) => {
 
         order.name === 'SequelizeDatabaseError' || order.length === 0
+
           ? dispatch({
               type: 'GET_PRODUCTS_IN_CART',
               payload: [],
