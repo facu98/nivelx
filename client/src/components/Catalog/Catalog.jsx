@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from "react-router-dom";
 import Categorias from '../Categorias/Categorias'
 // import ProductsCards from '../ProductCard/ProductCard'
@@ -21,7 +21,7 @@ export default function ({ match, location }) {
 	const categories = useSelector(state => state.categories)
 	const dispatch = useDispatch()
 
-	const [productos, setProductos] = useState([])
+	// const [productos, setProductos] = useState([])
 	//const searchProduct = location.search
 	const nameCategory = match.params.name
 	//const  id  = useParams()

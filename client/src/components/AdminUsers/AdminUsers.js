@@ -9,7 +9,7 @@ import styles from './adminstyle.module.css'
 export default function (){
 const state = useSelector(state => state.users)
 
-const [users, setUsers] = useState(state)
+// const [users, setUsers] = useState(state)
 const dispatch = useDispatch()
 var [show,setShow] = useState(false)
 const [user, setUser] = useState({})
@@ -20,9 +20,6 @@ const [find, setFind] = useState(false)
 
 useEffect(() => {
   dispatch(getUsers())
-
-
-
 },[])
 
 const handleClick = (data) => {
@@ -56,7 +53,7 @@ const handleChange = (e) => {
 const renderForm = () => {
   var asd = state.find((us) => us.id === user.id)
   return(
-  <EditDeleteUser user={asd}/> : null)
+  <EditDeleteUser user={asd}/> )
 }
 
 
