@@ -10,7 +10,7 @@ export default function (props) {
 	const [categorias, setCategorias] = useState()
 	const url = useLocation();
 
-	
+
 
 	return (
 		<div className='p-3'>
@@ -47,7 +47,7 @@ export default function (props) {
 							return (
 							<div className='botones'>
 							<NavLink
-								to={`/${c.id}`}
+								to={`/${c.name}`}
 								key={c.id}
 								className='list-group-item list-group-item-action'
 							>
