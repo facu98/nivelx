@@ -17,6 +17,21 @@ export function getProducts(){
 	}
 }
 
+export function getProductById(id){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/products/${id}`)
+				.then((res) => res.json())
+				.then((data) => {
+					dispatch(
+						{
+								type: 'GET_PRODUCTS_ID',
+								payload: data
+						})
+					 				})
+
+	}
+}
+
 export function searchbyCategory(name) {
 	return function(dispatch){
 		return fetch(`http://localhost:3001/category/${name}`)
@@ -212,7 +227,7 @@ export function createUser(data){
 	.catch((err)=>{
 			var title = `${err}`
 
-			title == 'Error: 409' ? swal(title, 'Ya existe un usuario con ese mail', 'error') : swal(title, 'Algo salió mal..', 'error')
+			title === 'Error: 409' ? swal(title, 'Ya existe un usuario con ese mail', 'error') : swal(title, 'Algo salió mal..', 'error')
 	})
 	}
 
@@ -333,7 +348,8 @@ export function getProductsCart(id) {
       .then((res) => res.json())
       .then((order) => {
 
-        (order.name == 'SequelizeDatabaseError' || order.length === 0)
+        order.name === 'SequelizeDatabaseError' || order.length === 0
+
           ? dispatch({
               type: 'GET_PRODUCTS_IN_CART',
               payload: [],
