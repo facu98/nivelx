@@ -105,6 +105,12 @@ function rootReducer(state = initialState, action) {
       user: localStorage.user
     }
 
+    case 'PRODUCTS_PAGE':
+    return {
+      ...state,
+      products: state.products.slice(action.payload * 12, action.payload * 12 + 12)
+    }
+
 
 
   default:

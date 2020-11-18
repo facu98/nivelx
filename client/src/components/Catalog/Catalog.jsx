@@ -5,7 +5,7 @@ import Categorias from '../Categorias/Categorias'
 import GridList from '../GridListProducts/GridListProducts'
 import Grid from '@material-ui/core/Grid'
 import {useDispatch, useSelector} from "react-redux"
-import {getProducts, searchbyCategory, searchbyQuery, getCategories} from "../../actions"
+import {getProducts, searchbyCategory, searchbyQuery, getCategories, productsPage} from "../../actions"
 // import Button from '@material-ui/core/Button';
 // import { Box } from '@material-ui/core'
 // import { usePaginatedQuery} from 'react-query';
@@ -27,24 +27,30 @@ export default function ({ match, location }) {
 	//const  id  = useParams()
 	let query = useQuery().get('name');
 
+	let page = useQuery().get('page')
+
 
 	useEffect(() => {
-
+		window.scrollTo(0, 0)
 
 		dispatch(getCategories())
 
-		if(nameCategory && nameCategory !== "search") {
+		if (query) {
+			dispatch(searchbyQuery(query))}
+
+		else if(page){
+			dispatch(productsPage(page))
+		}
+
+		else if(nameCategory) {
 			dispatch(searchbyCategory(nameCategory))
 		}
-		else if (query) {
-			dispatch(searchbyQuery(query))
 
-		}
 		else if(query === null){
 			dispatch(getProducts())
 
 		}
-	}, [nameCategory, query])
+	}, [nameCategory, query, page])
 
 	return (
 		<Grid container direction='row'>

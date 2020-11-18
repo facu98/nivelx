@@ -58,6 +58,19 @@ export function searchbyCategory(name) {
 							})
 		}}
 
+		export function productsPage(page){
+			return function (dispatch){
+				return dispatch(getProducts())
+				.then(() => {
+					dispatch({
+						type: 'PRODUCTS_PAGE',
+						payload: page - 1
+					})
+				})
+
+			}
+		}
+
 //ACTIONS PARA CATEGORIAS
 export function getCategories(){
 	return function(dispatch){
