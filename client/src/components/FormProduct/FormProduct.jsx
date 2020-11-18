@@ -4,11 +4,6 @@ import style from './Product.module.css';
 // import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// const data = [
-//     { id: 1, name: "Lavarropas", description: "0 km", price: 50000, stock: 6, pictures: "", brand: "Drean", model: "R200", valoration: "9", category: "Electro", category2: "Home" },
-//     { id: 2, name: "Secarropas", description: "0 km", price: 20000, stock: 2, picture: "", brand: "Drean", model: "R200", valoration: "9", category: "Electro", category2: "Home" },
-//     { id: 3, name: "PlayStation 3", description: "0 km", price: 40000, stock: 4, picture: "", brand: "Sony", model: "Slim", valoration: "9", category: "Game", category2: "Enterteinment" }
-// ]
 
 export default function ProductCRUD({ match }){
   const [categorias, setCategorias] = useState([])
@@ -77,7 +72,6 @@ export default function ProductCRUD({ match }){
             description: input.description,
             quantity: input.stock,
             color: ["Azul","Amarillo"]
-
         }
         console.log(JSON.stringify(newProduct))
         fetch('http://localhost:3001/products', {
