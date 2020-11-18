@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { Product, Category } = require('../db.js');
+const { Product, Category , Review} = require('../db.js');
 const { Op } = require('sequelize')
 const trash = [];
 
@@ -156,4 +156,139 @@ server.delete('/products/:productId/category/:categoryId', (req, res) => {
 });
 
 
+/* ---------------------------------------------------------------------------
+
+RUTAS DE REVIEWS
+S53 al s57
+------------------------------------------------------------------------------
+*/
+//Crear reviews --S54
+server.post("/:id/review", /*isAuthenticated*/ (req, res) => {
+
+		const {score, title, comments, userId} = req.body
+
+		if(!score || !tittle || !comments )
+						{
+							res.status(400).send('Debe enviar los campos requeridos')
+							return
+						}
+
+		Review.create({
+									score,
+									comments,
+									productId: req.params.id,
+									userId
+								})
+
+			.then  (review => res.status(201).send(review))
+			.catch (err	=> res.status(400).send("ERROR EN REVIEW " + err))
+
+						})
+
+
+//Modificar y actualizar reviews s55
+server.put("/:idProduct/review/:idReview", /* isAuthenticated*/ (req, res) =>{
+		const {score,title, comments, userId} = req.body
+
+		if(!score || !title || !comments )
+			{
+				res.status(400).send('Debe enviar los campos requeridos')
+				return
+			}
+
+		Review.findOne({
+							where: {
+									[Op.and]: [
+										{
+											productId: req.params.idProduct
+										},
+										{
+											id: req.params.idReview,
+										},
+									],
+								}})
+
+					.then(review => {
+									review.userId 	= userId 	 || review.userId
+									review.score 		= score    || review.score
+									review.title 		= title    || review.title
+									review.comments = comments || review.comments
+									review.save().then(rev => {
+																						res.status(200).send(rev)
+																						})
+
+								})
+					.catch((err) => res.status(404).send(err))
+							})
+
+
+//Eliminar reviews s56
+server.delete("/:idProduct/review/:idReview", /* isAuthenticated, */ (req, res) => {
+	//BUSCA LA REVIEW
+	Review.findOne({
+								where: {
+									[Op.and]: [	{productId: req.params.idProduct},
+										{	id: req.params.idReview,},
+									],
+								}})
+  // PROMISE CON LA QUERY DE LA BUSQUEDA
+	.then(review => { //destroy() destruye la query que matechea review y despues nos renvia el review vacio
+											review.destroy().then(() => {
+																										res.send(review) })
+										})
+	//SI NO PUDO ENCONTRAR NADA FUE XQ ALGUNO DE LOS DOS ID FUE INVALIDO
+	.catch(() => res.status(404).send('Id no valido'))
+
+})
+
+
+
+// Trae reviews de un producto en particular, detalle producto s57
+server.get('/:productId/productreview', /*isAuthenticated*/ async (req, res) => {
+	try {
+		const data = await Review.findAll({
+			where: {
+				productId: req.params.productId
+			},
+			include:
+			[{
+				model: Product
+			},
+			{
+				model: User
+			}]
+		})
+		if (data) {
+			res.status(200).send(data)
+		}
+		else {
+			res.status(404).send('Reviews no encontradas')
+		}
+	}
+	catch (err) {console.log(err)}
+})
+
+
+// Trae todas las reviews de un usuario
+
+//CREE ESTA RUTA POR LAS DUDAS
+server.get('/:userId/:productId/review', /* isAuthenticated,*/ async (req, res) => {
+	try {
+			const data = await Review.findAll({
+						where: {
+											userId: req.params.userId
+										}
+								})
+
+			if (data) {
+								res.status(200).send(data)
+								}
+			else 	{
+						res.status(404).send('Reviews no encontradas')
+						}
+				}
+	catch (err) {console.log(err)}
+})
+
+// Trae reviews de un usuario en particular, panel usuario
 module.exports = server;

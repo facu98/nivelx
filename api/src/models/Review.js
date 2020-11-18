@@ -1,13 +1,19 @@
 const { DataTypes } = require('sequelize');
-
 // Creacion del modelo de Reviews
+
 module.exports = (sequelize) => {
     sequelize.define('review',{
+
         /* Calificacion del producto por sistema de 5 estrellas*/
-        stars: {
-            type: DataTypes.ENUM('1','2','3','4','5'),
-            allowNull: false,
-        },
+        score: {
+                  type: DataTypes.INTEGER,
+                  allowNull: false,
+                  defaultValue: 1,
+                  validate: {
+                              min: 1,
+                              max: 5
+            			          },
+  		         },
         // Titulo del review
         title: {
             type: DataTypes.TEXT,
@@ -16,13 +22,13 @@ module.exports = (sequelize) => {
                 notEmpty: false,
             },
         },
-        //Descrpcion del review
-        description: {
+        //comentario del review
+        comments: {
             type: DataTypes.TEXT,
             allowNull: false,
             validate: {
                 notEmpty: false,
             },
-        }, 
+        },
     });
 }
