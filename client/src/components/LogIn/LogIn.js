@@ -21,7 +21,7 @@ import '../UploadImageButton/styleUploadButton.css'
 // import { Input } from '@material-ui/core';
 // import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 // import InputAdornment from '@material-ui/core/InputAdornment';
-// import swal from 'sweetalert';
+import swal from 'sweetalert';
 
 const useStyles = makeStyles((theme) => ({
     paper: {

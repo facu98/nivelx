@@ -55,8 +55,8 @@ export default function ImageGridList(props) {
   setPage(page + 1)
 
   setSlice({...slice,
-    init: slice.init + 12,
-    end: slice.end + 12
+    init: slice.init + 13,
+    end: slice.end + 13
   })
  }
 
@@ -64,8 +64,8 @@ export default function ImageGridList(props) {
 
    setPage(page - 1)
    setSlice({...slice,
-     init: slice.init - 12,
-     end: slice.end - 12
+     init: slice.init - 13,
+     end: slice.end - 13
    })
  }
 
