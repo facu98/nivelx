@@ -14,14 +14,13 @@ server.get('/', (req, res, next) => {
 server.get('/search', (req, res) => {
 
 	const { name, description } = req.query;
-
 	Product.findAll( {
 		where: {
 			[Op.or]: [
-				{name: {[Op.iLike]: `${name}`}},
+				{name: {[Op.iLike]: `%${name}%`}},
 				{name: {[Op.substring]: `${name}`}},
-				{description: {[Op.substring]: `${description}`}},
-				{description: {[Op.iLike]: `${description}`}}
+				{description: {[Op.substring]: `${name}`}},
+				{description: {[Op.iLike]: `%${name}%`}}
 			],
 		},
 	})
@@ -53,7 +52,7 @@ server.post("/", (req,res) => {
 			asessment,
 			model,
 			color,
-			category : category.map((cat) => parseInt(cat))
+			category
 		})
 		.then((product) => res.status(201).send(product))
 		.catch(err => console.log(err))
