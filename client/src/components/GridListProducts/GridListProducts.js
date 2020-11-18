@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core'
 import { usePaginatedQuery} from 'react-query';
 import Grid from '@material-ui/core/Grid'
+import {useHistory } from 'react-router-dom'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ImageGridList(props) {
+  const history = useHistory()
   const classes = useStyles();
   // console.log(props.productos)
 
@@ -36,19 +39,45 @@ export default function ImageGridList(props) {
     isFetching,
   } = usePaginatedQuery(['products', page], fetchProducts);
 
+  var list = props.productos.map((prod) => (
+   <GridListTile key={prod.id} cols={1}>
+         <ProductCard productos={prod}/>
+   </GridListTile>
+ ))
+
+ const [slice, setSlice] = React.useState({
+   init:0,
+   end:12
+ })
+
+
+ const handleNext = () =>{
+  setPage(page + 1)
+
+  setSlice({...slice,
+    init: slice.init + 12,
+    end: slice.end + 12
+  })
+ }
+
+ const handlePrevious = () => {
+
+   setPage(page - 1)
+   setSlice({...slice,
+     init: slice.init - 12,
+     end: slice.end - 12
+   })
+ }
+
   return (
     <div className={classes.root}>
       <GridList cellHeight={450} className={classes.gridList} cols={4} spacing={4}>
       {props.productos.msg? <><h3>No se encontraron productos para tu búsqueda</h3></>
-         :props.productos.map((prod) => (
-          <GridListTile key={prod.id} cols={1}>
-                <ProductCard productos={prod}/>
-          </GridListTile>
-        ))
+         : list.slice(slice.init, slice.end)
       }
       </GridList>
       <Grid container justify = "center">
-				<Button onClick={() => setPage(old => Math.max(old - 1, 0))}
+				<Button onClick={handlePrevious}
 				variant="outlined"
 				disabled={page === 0}
 				>
@@ -56,11 +85,11 @@ export default function ImageGridList(props) {
 				</Button>
 				{/*CURRENT PAGE */}
 				  <Box name='page' m={2}>
-					  { page + 1 } 
+					  { page + 1 }
 				  </Box>
-				<Button onClick={() => setPage(old => (!latestData || !latestData.hasMore ? old : old + 1))}
+				<Button onClick={handleNext}
 					variant="outlined"
-					disabled={!latestData || !latestData.hasMore}
+					disabled={slice.end > list.length}
 				>
 					Siguiente
 				</Button>
