@@ -46,7 +46,8 @@ export default function ProductCRUD({ match }){
     };
 
     const categoryChange = (e) => {
-    const id = parseInt(e.target.value)
+    const id = e.target.value
+    console.log(id)
     const finder = input.category.find((cat) => cat === id)
     finder ? input.category = input.category.filter((cat) => cat !== id) : input.category.push(id)
 
@@ -121,7 +122,7 @@ export default function ProductCRUD({ match }){
                     <label>Categoría</label>
                     {categorias && categorias.map((cat) => {
                       return (<div>
-                        <input type="checkbox" name={cat.name} id={cat.id} value={cat.id} onChange={categoryChange}/>
+                        <input type="checkbox" name={cat.name} id={cat.id} value={cat.name} onChange={categoryChange}/>
                         <label for={cat.id}>{cat.name}</label>
                         </div>)
                     })}

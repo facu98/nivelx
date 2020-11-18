@@ -48,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
         description: ''
     });
 
+    const [error, setError] = useState({
+      name:false,
+      description:false
+    })
+
     const handleInputChange = (e)=>{
         setInput({
             ...input,
@@ -62,7 +67,27 @@ const useStyles = makeStyles((theme) => ({
     };
     const handleSubmit = (e)=>{
         e.preventDefault();
+        var err = false
+        if(!input.name){
+          err = true
+          setError({
+            ...error,
+            name : true})
+        }
+
+        else if(!input.description){
+          err = true
+          setError({
+            ...error,
+            description:true
+          })
+        }
+
+
+        if(!err){
+          console.log(error.name)
         const newCategory = { name: input.name, description: input.description}
+        console.log(newCategory)
         fetch('http://localhost:3001/category', {
             method: 'POST',
             body: JSON.stringify(newCategory),
@@ -78,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
         .catch((err)=>{
              console.log(err)
         })
+      }
     }
 
     return(
@@ -98,9 +124,10 @@ const useStyles = makeStyles((theme) => ({
             required
             fullWidth
             onChange={handleInputChange}
-            //   value={input.name}
+               value={input.name}
             // id="firstName"
             label="Nombre de la categoria"
+            error={error.name}
             autoFocus
             />
         </Grid>
@@ -116,6 +143,8 @@ const useStyles = makeStyles((theme) => ({
             name="description"
             variant="outlined"
             required
+            error={error.description}
+            value = {input.description}
             onChange={handleInputChange}
             //   value={input.description}
             />

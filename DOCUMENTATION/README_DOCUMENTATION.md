@@ -60,4 +60,24 @@ localhost:3000/
 ```
 localhost:3001/     -> Nos re
 
+
+```
+
+# SEEDERS
+
+```
+Instalar sequelize-cli en el back:
+npm install --save-dev sequelize-cli
+
+Editar la carpeta config.json con los datos de su postgres
+
+Para correr todos los seeders ejecutar este comando parado en /api/src:
+npx sequelize-cli db:seed:all
+
+Para quitar los seeders:
+npx sequelize-cli db:seed:undo:all
+
+[Más comandos](https://sequelize.org/master/manual/migrations.html#running-seeds)
+
+
 ```
