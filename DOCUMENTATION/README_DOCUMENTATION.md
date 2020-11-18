@@ -4,9 +4,6 @@
 
 ```
 
-
-
-
 / ecommerce ft06g10
 
 ├───>  /api                  (contiene todas las archivos del back)
@@ -22,7 +19,7 @@
 |            ├───> /routes      (Carpeta que contiene tests sobre las rutas del back)
 |
 |
-├──>  /client          (Carpeta que contiene todos los archivos del Front-end)
+├──>  /client           (Carpeta que contiene todos los archivos del Front-end)
 |    ├─> /node_modules  (Carpeta que contiene las librerias del front generadas por el package.json)
 |    |
 |    ├─> /public        (Carpeta que contiene los archivos publicos globales del index.html y los .ico)

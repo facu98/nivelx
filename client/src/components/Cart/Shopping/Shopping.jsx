@@ -1,21 +1,19 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import Count from '../Counter/Count'
-import { getProductsCart, deleteProductInCart, getProductById } from '../../../actions'
+import Counter from '../Counter/Counter'
+import { getProductsCart, deleteProductInCart } from '../../../actions'
 //fix
 export const Shopping = ({
 	cart,
-	user,
-	product,
 	getProductsCart,
-	getProductById,
-	deleteProductInCart
+	deleteProductInCart,
+	user
 }) => {
 
 
 	useEffect(() => {
 		getProductsCart(user.id)
-		getProductById(cart.product_id)
+
 	}, [])
 
 	return (
@@ -27,12 +25,12 @@ export const Shopping = ({
 							<div className='row'>
 								<div className='col-md-4'>
 
-							{/*}	// <img
-								// 	src={`http://localhost:3001/images/${cart.product_id.p[0]}`}
-								// 	className='card-img'
-								// 	alt='...'
-								// />
-								*/}
+							<img
+								src={`http://localhost:3001/images/${cart.product_id.p[0]}`}
+										className='card-img'
+										alt='...'
+							/>
+
 								</div>
 
 								<div className='col-md-5'>
@@ -47,11 +45,11 @@ export const Shopping = ({
 									</div>
 								</div>
 								<div className='col-md-3 d-flex align-items-center justify-content-center'>
-									<Count
-										price= {product.price}
-										quantity= {product.quantity}
-										name= {product.name}
-										function= {getProductById(cart.product_id).payload}
+									<Counter
+										idProduct={cart.product_id}
+										quantity={
+											cart.quantity
+										}
 									/>
 									<button
 										className='btn align-self-start'
@@ -60,6 +58,7 @@ export const Shopping = ({
 										}}
 									>
 										X
+
 									</button>
 								</div>
 							</div>
@@ -72,16 +71,15 @@ export const Shopping = ({
 const mapStateToProps = (store) => {
 	return {
 		cart: store.cart,
-		user: store.user,
-		product: store.products
+		user: store.user
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		getProductsCart: (userId) => dispatch(getProductsCart(userId)),
-		deleteProductInCart: (userId, productId) => dispatch(deleteProductInCart(userId, productId)),
-		getProductById: (productId) => dispatch(getProductById(productId))
+		deleteProductInCart: (userId, productId) =>
+			dispatch(deleteProductInCart(userId, productId)),
 	}
 }
 
