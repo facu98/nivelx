@@ -55,16 +55,20 @@ User.hasMany(Order)
 Order.belongsTo(User)
 
 Product.belongsToMany(Order,{
-through: Orderline,
-foreignKey:"product_id"})
+															through: Orderline,
+															foreignKey:"product_id"
+														})
 
 Order.belongsToMany(Product,{
-through: Orderline,
-foreignKey:"order_id",
-as: 'cart'},
-)
+															through: Orderline,
+															foreignKey:"order_id",
+															as: 'cart'
+														})
 
-
+// REVIEW CON RELACIONES CON TABLA USER y PRODUCT
+Review.belongsTo(User)
+Review.belongsTo(Product)
+Product.hasMany(Review)
 
 
 

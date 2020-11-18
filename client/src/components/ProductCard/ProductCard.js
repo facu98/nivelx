@@ -84,6 +84,7 @@ export default function ProductCard(props) {
       <CardMedia
         className={classes.media}
         image={props.productos.pictures[0]}
+        loading = "lazy"
       />
       <CardContent>
         <Link to={`/products/${props.productos.id}`}>
