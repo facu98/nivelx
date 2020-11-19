@@ -8,8 +8,8 @@ const initialState = {
   users: [],
   user: user ? user : [],
   cart:[],
-  orders:[]
-
+  orders:[],
+  quantity: 0
 
 };
 
@@ -63,7 +63,6 @@ function rootReducer(state = initialState, action) {
 
     }
 
-
     case 'ADD_PRODUCT_IN_CART':
     return {
       ...state
@@ -105,7 +104,11 @@ function rootReducer(state = initialState, action) {
       user: localStorage.user
     }
 
-
+    case 'GET_QUANTITY':
+      return {
+        ...state,
+        quantity: action.payload
+      }
 
   default:
 

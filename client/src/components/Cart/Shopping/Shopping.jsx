@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import Count from '../Counter/Count'
+import {Count} from '../Counter/Count'
+import Stock from '../../Stock/Stock.js'
 import { getProductsCart, deleteProductInCart, getProductById } from '../../../actions'
 //fix
 export const Shopping = ({
@@ -50,6 +51,7 @@ export const Shopping = ({
 									<Count
 										price= {product.price}
 										quantity= {product.quantity}
+										id= {product.id}
 										name= {product.name}
 										function= {getProductById(cart.product_id).payload}
 									/>
@@ -84,5 +86,4 @@ const mapDispatchToProps = (dispatch) => {
 		getProductById: (productId) => dispatch(getProductById(productId))
 	}
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(Shopping)

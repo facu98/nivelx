@@ -381,3 +381,15 @@ export function getClosedOrders() {
       )
   }
 }
+
+//ACTIONS PARA CART Y DISPONIBILIDAD DE PRODUCTO
+
+export function productQuantity(quantity) {
+	return function(dispatch){
+		dispatch({
+			type: 'GET_QUANTITY',
+			payload: quantity
+	})
+	}
+
+}
