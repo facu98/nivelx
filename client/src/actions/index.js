@@ -1,7 +1,6 @@
 import swal from  'sweetalert';
 import {Redirect, Route, Switch, useLocation } from "react-router-dom";
 
-
 //ACTIONS PRODUCTOS
 export function getProducts(){
 	return function(dispatch){
@@ -394,6 +393,8 @@ export function getClosedOrders() {
         })
       )
   }
+
+
 }
 
 
@@ -419,3 +420,4 @@ export const createProduct = (producto) => async dispatch => {
 		swal('Algo salio mal', ':(', 'error')
 	}
 }
+

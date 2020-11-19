@@ -1,6 +1,7 @@
 const localUser = localStorage.getItem("user")
 const user = localUser && JSON.parse(localUser)
 
+
 const initialState = {
 
   products: [],
@@ -78,7 +79,7 @@ function rootReducer(state = initialState, action) {
     case 'DELETE_PRODUCT_CART':
     return{
       ...state
-}
+    }
     case 'GET_ORDERS':
     return{
       ...state,
@@ -105,6 +106,7 @@ function rootReducer(state = initialState, action) {
       user: localStorage.user
     }
 
+
     case 'PRODUCTS_PAGE':
     return {
       ...state,
@@ -115,8 +117,8 @@ function rootReducer(state = initialState, action) {
 
   default:
 
-  return state
-}
+    return state
+  }
 }
 
 export default rootReducer;
