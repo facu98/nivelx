@@ -2,6 +2,9 @@ const server = require('express').Router();
 const { Product, Category , Review} = require('../db.js');
 const { Op } = require('sequelize')
 const trash = [];
+const {isAuthenticated} = require('./passport')
+
+
 
 server.get('/', (req, res, next) => {
 	Product.findAll()
