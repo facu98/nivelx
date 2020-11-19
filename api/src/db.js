@@ -3,6 +3,8 @@ const { Sequelize } = require('sequelize')
 const fs = require('fs')
 const path = require('path')
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env
+const crypto = require('crypto')
+
 
 const sequelize = new Sequelize(
 	`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/development`,
@@ -69,6 +71,34 @@ Order.belongsToMany(Product,{
 Review.belongsTo(User)
 Review.belongsTo(Product)
 Product.hasMany(Review)
+
+//ENCRIPTAICION
+
+User.generateSalt = function() {
+    return crypto.randomBytes(16).toString('base64')
+}
+
+User.encryptPassword = function(plainText, salt) {
+    return crypto
+        .createHash('RSA-SHA256')
+        .update(plainText)
+        .update(salt)
+        .digest('hex')
+}
+
+const setSaltAndPassword = user => {
+    if (user.changed('password')) {
+        user.salt = User.generateSalt()
+        user.password = User.encryptPassword(user.password(), user.salt())
+    }
+}
+
+User.prototype.correctPassword = function(enteredPassword) {
+    return User.encryptPassword(enteredPassword, this.salt()) === this.password()
+}
+
+User.beforeCreate(setSaltAndPassword)
+User.beforeUpdate(setSaltAndPassword)
 
 
 

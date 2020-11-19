@@ -26,7 +26,7 @@ export const Shopping = ({
 								<div className='col-md-4'>
 
 							<img
-								src={`http://localhost:3001/images/${cart.product_id.p[0]}`}
+								src={cart.product_img[0]}
 										className='card-img'
 										alt='...'
 							/>

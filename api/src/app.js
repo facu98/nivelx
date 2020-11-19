@@ -6,6 +6,10 @@ const routes = require('./routes/index.js');
 const multer = require('multer')
 const path = require('path')
 const { v4: uuidv4 } = require('uuid')
+const session = require('express-session')
+var passport = require('passport');
+const { User } = require('./db.js');
+var Strategy = require('passport-local').Strategy;
 
 var db = require('./db.js')
 
@@ -14,17 +18,83 @@ const server = express();
 
 server.name = 'API';
 
+
+
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
-server.use(cookieParser());
+server.use(cookieParser('secretpassword'))
+server.use(session({
+  secret: 'secretpassword',
+  resave: true,
+  saveUninitializated: true
+}));
+
 server.use(morgan('dev'));
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', "*")
+  res.header('Access-Control-Allow-Methods', "POST, GET, OPTIONS, DELETE, PUT")
   next();
 });
+
+server.use(passport.initialize());
+server.use(passport.session());
+
+server.use((req, res, next) => {
+  console.log(req.session)  ;
+  console.log(req.user && req.user.dataValues.email);
+  next();
+});
+
+
+
+
+
+
+//PASSPORT
+
+passport.use(new Strategy({
+    usernameField: 'email',
+    passwordField: 'password'
+  },
+  function(email, password, done) {
+    console.log('LOGIN CALLED')
+		User.findOne({
+			where:{
+				email
+			}
+		})
+		.then((user) => {
+			if(!user){return done(null, false, { message: 'El usuario no existe.' })}
+			const auth = user.correctPassword(password)
+			if(!auth){ return done(null, false, { message: 'Contraseña incorrecta.' })}
+			return done(null, user)
+		})
+    .catch(err => {
+      return done(err);
+    })
+  }));
+
+	passport.serializeUser(function(user, done) {
+    console.log('SERIALIZADO', user.id)
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  console.log('DESERIALIZADO', id)
+  User.findOne({
+where: {id}
+})
+    .then((user) => {
+      if(user) {return done(null,user)}
+      else return done(null,false)
+    })
+    .catch(err => {
+      return done(err);
+    })
+});
+
 
 server.use('/', routes);
 

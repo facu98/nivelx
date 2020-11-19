@@ -1,6 +1,6 @@
 const localUser = localStorage.getItem("user")
 const user = localUser && JSON.parse(localUser)
-
+console.log(user)
 const initialState = {
 
   products: [],
@@ -20,7 +20,7 @@ function rootReducer(state = initialState, action) {
   			...state,
   			products: action.payload,
         }
-        
+
     case 'GET_PRODUCTS_ID':
   		return {
   			...state,
@@ -93,6 +93,7 @@ function rootReducer(state = initialState, action) {
     }
 
     case 'LOGIN_USER':
+    console.log(localStorage.getItem("user"))
     return {
       ...state,
       user: JSON.parse(localStorage.getItem("user"))
@@ -102,7 +103,7 @@ function rootReducer(state = initialState, action) {
     case 'LOGOUT_USER':
     return {
       ...state,
-      user: localStorage.user
+      user: []
     }
 
     case 'PRODUCTS_PAGE':

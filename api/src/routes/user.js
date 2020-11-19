@@ -1,7 +1,29 @@
 const server = require('express').Router();
 const { User, Order, Product, Orderline } = require('../db.js');
 const { Op } = require('sequelize')
+var passport = require('passport');
 const trash = [];
+
+
+
+
+
+
+//LOGIN
+
+server.post("/login", passport.authenticate("local"),
+  (req, res) => {
+    console.log('LOGIN OK')
+    res.status(200).send({user: req.user.dataValues});
+  }
+);
+
+server.get('/logout',
+  function(req, res){
+    req.logout();
+    res.sendStatus(200)
+  });
+
 
 server.get("/", (req, res) => {
 	User.findAll({
@@ -259,6 +281,8 @@ server.put('/:id/orders', (req, res) => {
 	});
 })
 
+//AÑADE ITEM AL CARRITO
+
 server.post('/:userId/cart', (req, res) =>{
 	const {userId} = req.params
 	const {productId} = req.body
@@ -285,7 +309,8 @@ Product.findByPk(productId)
 				price: parseInt(producto.price),
 				quantity: 1,
 				product_name: producto.name,
-				product_desc: producto.description
+				product_desc: producto.description,
+				product_img: producto.pictures
 			}
 		})
 		.then((order) => {res.send(order)})
@@ -314,21 +339,5 @@ server.post('/order', (req,res) => {
 	.catch((err) => console.log(err))
 })
 
-//LOGIN
 
-server.post('/login', (req,res) => {
-	const {email,password} = req.body
-
-	User.findOne({
-		where:{
-			email
-		}
-	})
-	.then((user) => {
-		if(!user){return res.status(404).send('El user no existe')}
-		if(user.password !== password){return res.status(401).send('password invalido')}
-		res.status(201).send(user)
-	})
-
-})
 module.exports = server;

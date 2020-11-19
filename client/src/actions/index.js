@@ -5,7 +5,7 @@ import {Redirect, Route, Switch, useLocation } from "react-router-dom";
 //ACTIONS PRODUCTOS
 export function getProducts(){
 	return function(dispatch){
-		return fetch('http://localhost:3001/products')
+		return fetch('http://localhost:3001/products', {credentials: 'include'})
 				.then((res) => res.json())
 				.then((data) => {
 					dispatch(
@@ -13,7 +13,7 @@ export function getProducts(){
 								type: 'GET_PRODUCTS',
 								payload: data
 						})
-					console.log(data) })
+				 })
 	}
 }
 
@@ -103,33 +103,29 @@ export function getUsers(){
 
 export function loginUser(data){
 	return function(dispatch){
-		return fetch(`http://localhost:3001/users/login/`,
+		return fetch(`http://localhost:3001/users/login`,
 			{
+				credentials: 'include',
 				method: 'POST',
 				body: JSON.stringify(data),
+				mode: 'cors',
 				headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json'
 					}})
-			.then((res) => {
-				console.log(res)
-				if(!res){alert("error")}
-				if(res.status === 404){throw new Error('El usuario no existe')}
-				else if(res.status === 401){throw new Error('Password invalido')}
-				else return res.json()
-			})
-				.then((res) => {
-					const serialisedState = JSON.stringify(res);
-					 localStorage.setItem("user", serialisedState)
+					.then((res) => res.json())
 
-					dispatch({
-						type: 'LOGIN_USER',
-						payload: res
+					.then((res) => {
+						const serialisedState = JSON.stringify(res.user);
+					 	localStorage.setItem("user", serialisedState)
+						dispatch({
+							type: 'LOGIN_USER',
+							payload: res.user
+						})
 					})
-				})
 
 				.then((res)=>{
-					console.log("Respuesta",res);
+
 						swal("Bienvenido!", "","success");
 
 						})
@@ -137,15 +133,20 @@ export function loginUser(data){
 														var title = `${err}`
 														swal("Ups", title, 'error')
 											  })
-											}}
+				 							}}
+
 
 export function logOut(){
 	return function(dispatch){
-		localStorage.user = []
+		return fetch('http://localhost:3001/users/logout',{credentials:'include'})
+		.then(() => {
+			localStorage.user = []
 
-		dispatch({
-			type:'LOGOUT_USER'
+			dispatch({
+				type:'LOGOUT_USER'
+			})
 		})
+
 	}
 
 }
@@ -343,7 +344,7 @@ export const updateCountProductInCart = (userId, idProduct, count) => async disp
 
 export function getProductsCart(id) {
   return function (dispatch) {
-		console.log("ID", id)
+
     return fetch(`http://localhost:3001/users/${id}/cart`)
       .then((res) => res.json())
       .then((order) => {
@@ -394,28 +395,4 @@ export function getClosedOrders() {
         })
       )
   }
-}
-
-
-///// ACTIONS DE CREAR PRODUCTO ////////////////
-
-export const createProduct = (producto) => async dispatch => {
-	try {
-		const data = await fetch('http://localhost:3001/products', {
-			method: 'POST',
-			body: JSON.stringify(producto),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		})
-		const res = await data.json()
-
-		dispatch({
-			type: 'CREATE_PRODUCT',
-			payload: res.product,
-		})
-	} catch (error) {
-		console.log(error)
-		swal('Algo salio mal', ':(', 'error')
-	}
 }
