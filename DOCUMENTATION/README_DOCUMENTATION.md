@@ -66,7 +66,34 @@ localhost:3001/     -> Nos re
 Instalar sequelize-cli en el back:
 npm install --save-dev sequelize-cli
 
-Editar la carpeta config.json con los datos de su postgres
+Editar la carpeta config.json con los datos de su postgres:
+
+En api/src/config/config.json:
+```
+{
+  "development": {
+    "username": "tu user de postgres",
+    "password": "tu pw",
+    "database": "development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "tu user de postgres",
+    "password": "tu pw",
+    "database": "development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "tu user de postgres",
+    "password": "tu pw",
+    "database": "development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
+```
 
 Para correr todos los seeders ejecutar este comando parado en /api/src:
 npx sequelize-cli db:seed:all
@@ -74,7 +101,7 @@ npx sequelize-cli db:seed:all
 Para quitar los seeders:
 npx sequelize-cli db:seed:undo:all
 
-[Más comandos](https://sequelize.org/master/manual/migrations.html#running-seeds)
-
 
 ```
+
+[Más comandos](https://sequelize.org/master/manual/migrations.html#running-seeds)
