@@ -1,7 +1,6 @@
 import swal from  'sweetalert';
 import {Redirect, Route, Switch, useLocation } from "react-router-dom";
 
-
 //ACTIONS PRODUCTOS
 export function getProducts(){
 	return function(dispatch){
@@ -395,4 +394,41 @@ export function getClosedOrders() {
         })
       )
   }
+
+
+}
+
+//ACTIONS PARA CART Y DISPONIBILIDAD DE PRODUCTO
+
+export function productQuantity(quantity) {
+	return function(dispatch){
+		dispatch({
+			type: 'GET_QUANTITY',
+			payload: quantity
+	})
+	}
+
+}
+
+///// ACTIONS DE CREAR PRODUCTO ////////////////
+
+export const createProduct = (producto) => async dispatch => {
+	try {
+		const data = await fetch('http://localhost:3001/products', {
+			method: 'POST',
+			body: JSON.stringify(producto),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		const res = await data.json()
+
+		dispatch({
+			type: 'CREATE_PRODUCT',
+			payload: res.product,
+		})
+	} catch (error) {
+		console.log(error)
+		swal('Algo salio mal', ':(', 'error')
+	}
 }
