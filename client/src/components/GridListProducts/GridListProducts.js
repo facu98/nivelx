@@ -7,6 +7,9 @@ import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core'
 import { usePaginatedQuery} from 'react-query';
 import Grid from '@material-ui/core/Grid'
+import {useHistory } from 'react-router-dom'
+import { useLocation } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,11 +25,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ImageGridList(props) {
-  const classes = useStyles();
-  console.log(props.productos)
+function useQuery() {
+	return new URLSearchParams(useLocation().search);
+}
 
-  const [page, setPage] = React.useState(0);
+export default function ImageGridList(props) {
+
+
+  const history = useHistory()
+  const classes = useStyles();
+
+  let page = useQuery().get('page')
 
   const fetchProducts = (key, page = 0) => fetch('http://localhost:3000/products?page=' + page);
 
@@ -36,19 +45,39 @@ export default function ImageGridList(props) {
     isFetching,
   } = usePaginatedQuery(['products', page], fetchProducts);
 
+  var list = props.productos.map((prod) => (
+   <GridListTile key={prod.id} cols={1}>
+         <ProductCard productos={prod}/>
+   </GridListTile>
+ ))
+
+
+
+
+ const handleNext = () =>{
+  if(!page){
+    history.push('/search?page=2')
+  }
+  else history.push(`/search?page=${parseInt(page) + 1}`)
+
+
+
+ }
+
+ const handlePrevious = () => {
+history.push(`/search?page=${parseInt(page) - 1}`)
+
+ }
+
   return (
     <div className={classes.root}>
       <GridList cellHeight={450} className={classes.gridList} cols={4} spacing={4}>
       {props.productos.msg? <><h3>No se encontraron productos para tu búsqueda</h3></>
-         :props.productos.map((prod) => (
-          <GridListTile key={prod.id} cols={1}>
-                <ProductCard productos={prod}/>
-          </GridListTile>
-        ))
+         : list.slice(0,12)
       }
       </GridList>
       <Grid container justify = "center">
-				<Button onClick={() => setPage(old => Math.max(old - 1, 0))}
+				<Button onClick={handlePrevious}
 				variant="outlined"
 				disabled={page === 0}
 				>
@@ -56,11 +85,11 @@ export default function ImageGridList(props) {
 				</Button>
 				{/*CURRENT PAGE */}
 				  <Box name='page' m={2}>
-					  { page + 1 } 
+					  { page ? page : 1 }
 				  </Box>
-				<Button onClick={() => setPage(old => (!latestData || !latestData.hasMore ? old : old + 1))}
+				<Button onClick={handleNext}
 					variant="outlined"
-					disabled={!latestData || !latestData.hasMore}
+					disabled={list.length < 12}
 				>
 					Siguiente
 				</Button>

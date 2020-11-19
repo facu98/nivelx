@@ -1,7 +1,6 @@
 import swal from  'sweetalert';
 import {Redirect, Route, Switch, useLocation } from "react-router-dom";
 
-
 //ACTIONS PRODUCTOS
 export function getProducts(){
 	return function(dispatch){
@@ -57,6 +56,19 @@ export function searchbyCategory(name) {
 								})
 							})
 		}}
+
+		export function productsPage(page){
+			return function (dispatch){
+				return dispatch(getProducts())
+				.then(() => {
+					dispatch({
+						type: 'PRODUCTS_PAGE',
+						payload: page - 1
+					})
+				})
+
+			}
+		}
 
 //ACTIONS PARA CATEGORIAS
 export function getCategories(){
@@ -214,7 +226,7 @@ export function createUser(data){
 	.catch((err)=>{
 			var title = `${err}`
 
-			title == 'Error: 409' ? swal(title, 'Ya existe un usuario con ese mail', 'error') : swal(title, 'Algo salió mal..', 'error')
+			title === 'Error: 409' ? swal(title, 'Ya existe un usuario con ese mail', 'error') : swal(title, 'Algo salió mal..', 'error')
 	})
 	}
 
@@ -335,7 +347,8 @@ export function getProductsCart(id) {
       .then((res) => res.json())
       .then((order) => {
 
-        (order.name == 'SequelizeDatabaseError' || order.length === 0)
+        order.name === 'SequelizeDatabaseError' || order.length === 0
+
           ? dispatch({
               type: 'GET_PRODUCTS_IN_CART',
               payload: [],
@@ -380,6 +393,8 @@ export function getClosedOrders() {
         })
       )
   }
+
+
 }
 
 //ACTIONS PARA CART Y DISPONIBILIDAD DE PRODUCTO
@@ -393,3 +408,28 @@ export function productQuantity(quantity) {
 	}
 
 }
+
+///// ACTIONS DE CREAR PRODUCTO ////////////////
+
+export const createProduct = (producto) => async dispatch => {
+	try {
+		const data = await fetch('http://localhost:3001/products', {
+			method: 'POST',
+			body: JSON.stringify(producto),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		const res = await data.json()
+
+		dispatch({
+			type: 'CREATE_PRODUCT',
+			payload: res.product,
+		})
+	} catch (error) {
+		console.log(error)
+		swal('Algo salio mal', ':(', 'error')
+	}
+}
+
+

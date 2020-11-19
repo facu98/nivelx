@@ -1,23 +1,23 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState} from 'react';
 import "./FormStyle.css"
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Link from '@material-ui/core/Link';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import '../UploadImageButton/styleUploadButton.css'
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import { Input } from '@material-ui/core';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+// import FormControl from '@material-ui/core/FormControl';
+// import InputLabel from '@material-ui/core/InputLabel';
+// import Select from '@material-ui/core/Select';
+// import NativeSelect from '@material-ui/core/NativeSelect';
+// import { Input } from '@material-ui/core';
+// import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import swal from 'sweetalert';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
         description: ''
     });
 
+    const [error, setError] = useState({
+      name:false,
+      description:false
+    })
+
     const handleInputChange = (e)=>{
         setInput({
             ...input,
@@ -62,7 +67,27 @@ const useStyles = makeStyles((theme) => ({
     };
     const handleSubmit = (e)=>{
         e.preventDefault();
+        var err = false
+        if(!input.name){
+          err = true
+          setError({
+            ...error,
+            name : true})
+        }
+
+        else if(!input.description){
+          err = true
+          setError({
+            ...error,
+            description:true
+          })
+        }
+
+
+        if(!err){
+          console.log(error.name)
         const newCategory = { name: input.name, description: input.description}
+        console.log(newCategory)
         fetch('http://localhost:3001/category', {
             method: 'POST',
             body: JSON.stringify(newCategory),
@@ -78,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
         .catch((err)=>{
              console.log(err)
         })
+      }
     }
 
     return(
@@ -98,9 +124,10 @@ const useStyles = makeStyles((theme) => ({
             required
             fullWidth
             onChange={handleInputChange}
-            //   value={input.name}
+               value={input.name}
             // id="firstName"
             label="Nombre de la categoria"
+            error={error.name}
             autoFocus
             />
         </Grid>
@@ -116,6 +143,8 @@ const useStyles = makeStyles((theme) => ({
             name="description"
             variant="outlined"
             required
+            error={error.description}
+            value = {input.description}
             onChange={handleInputChange}
             //   value={input.description}
             />
