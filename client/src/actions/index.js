@@ -1,7 +1,6 @@
 import swal from  'sweetalert';
 import {Redirect, Route, Switch, useLocation } from "react-router-dom";
 
-
 //ACTIONS PRODUCTOS
 export function getProducts(){
 	return function(dispatch){
