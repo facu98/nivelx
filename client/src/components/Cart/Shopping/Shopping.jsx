@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import Counter from '../Counter/Counter'
-import { getProductsCart, deleteProductInCart } from '../../../actions'
+import {Count} from '../Counter/Count'
+import Stock from '../../Stock/Stock.js'
+import { getProductsCart, deleteProductInCart, getProductById } from '../../../actions'
+
 //fix
 export const Shopping = ({
 	cart,
@@ -45,11 +47,12 @@ export const Shopping = ({
 									</div>
 								</div>
 								<div className='col-md-3 d-flex align-items-center justify-content-center'>
-									<Counter
-										idProduct={cart.product_id}
-										quantity={
-											cart.quantity
-										}
+									<Count
+										price= {product.price}
+										quantity= {product.quantity}
+										id= {product.id}
+										name= {product.name}
+										function= {getProductById(cart.product_id).payload}
 									/>
 									<button
 										className='btn align-self-start'
@@ -82,5 +85,4 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(deleteProductInCart(userId, productId)),
 	}
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(Shopping)

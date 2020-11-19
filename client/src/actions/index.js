@@ -397,6 +397,17 @@ export function getClosedOrders() {
 
 }
 
+//ACTIONS PARA CART Y DISPONIBILIDAD DE PRODUCTO
+
+export function productQuantity(quantity) {
+	return function(dispatch){
+		dispatch({
+			type: 'GET_QUANTITY',
+			payload: quantity
+	})
+	}
+
+}
 
 ///// ACTIONS DE CREAR PRODUCTO ////////////////
 
@@ -420,4 +431,5 @@ export const createProduct = (producto) => async dispatch => {
 		swal('Algo salio mal', ':(', 'error')
 	}
 }
+
 

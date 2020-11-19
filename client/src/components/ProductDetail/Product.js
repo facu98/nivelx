@@ -1,6 +1,7 @@
 import React from 'react';
 import s from './Product.module.css';
 import Stock from '../Stock/Stock.js'
+import Buttons from '../Stock/Buttons.js'
 
 import {  Link } from 'react-router-dom';
 //IMPORTE EL COMPONENTE BUTTON DE MATERIAL UI
@@ -45,7 +46,13 @@ console.log(product)
                 <Stock
                 quantity = {product.quantity}
                 price = {product.price}
+                id = {product.id}
                 />
+                <Buttons
+                id = {product.id}
+                quantity = {product.quantity}
+                />
+                
             </div>
         </section>
     );
