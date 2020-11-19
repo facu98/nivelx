@@ -69,7 +69,8 @@ npm install --save-dev sequelize-cli
 Editar la carpeta config.json con los datos de su postgres:
 
 En api/src/config/config.json:
-```
+________________________________________________
+
 {
   "development": {
     "username": "tu user de postgres",
@@ -93,7 +94,7 @@ En api/src/config/config.json:
     "dialect": "postgres"
   }
 }
-```
+____________________________________________________
 
 Para correr todos los seeders ejecutar este comando parado en /api/src:
 npx sequelize-cli db:seed:all
@@ -104,4 +105,4 @@ npx sequelize-cli db:seed:undo:all
 
 ```
 
-[Más comandos](https://sequelize.org/master/manual/migrations.html#running-seeds)
+[Documentacion](https://sequelize.org/master/manual/migrations.html#running-seeds)
