@@ -25,12 +25,12 @@ export const Shopping = ({
 							<div className='row'>
 								<div className='col-md-4'>
 
-							{/*}	// <img
-								// 	src={`http://localhost:3001/images/${cart.product_id.p[0]}`}
-								// 	className='card-img'
-								// 	alt='...'
-								// />
-								*/}
+							<img
+								src={`http://localhost:3001/images/${cart.product_id.p[0]}`}
+										className='card-img'
+										alt='...'
+							/>
+
 								</div>
 
 								<div className='col-md-5'>
@@ -58,6 +58,7 @@ export const Shopping = ({
 										}}
 									>
 										X
+
 									</button>
 								</div>
 							</div>

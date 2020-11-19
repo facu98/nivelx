@@ -16,6 +16,21 @@ export function getProducts(){
 	}
 }
 
+export function getProductById(id){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/products/${id}`)
+				.then((res) => res.json())
+				.then((data) => {
+					dispatch(
+						{
+								type: 'GET_PRODUCTS_ID',
+								payload: data
+						})
+					 				})
+
+	}
+}
+
 export function searchbyCategory(name) {
 	return function(dispatch){
 		return fetch(`http://localhost:3001/category/${name}`)
@@ -41,6 +56,19 @@ export function searchbyCategory(name) {
 								})
 							})
 		}}
+
+		export function productsPage(page){
+			return function (dispatch){
+				return dispatch(getProducts())
+				.then(() => {
+					dispatch({
+						type: 'PRODUCTS_PAGE',
+						payload: page - 1
+					})
+				})
+
+			}
+		}
 
 //ACTIONS PARA CATEGORIAS
 export function getCategories(){
@@ -365,4 +393,31 @@ export function getClosedOrders() {
         })
       )
   }
+
+
 }
+
+
+///// ACTIONS DE CREAR PRODUCTO ////////////////
+
+export const createProduct = (producto) => async dispatch => {
+	try {
+		const data = await fetch('http://localhost:3001/products', {
+			method: 'POST',
+			body: JSON.stringify(producto),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		const res = await data.json()
+
+		dispatch({
+			type: 'CREATE_PRODUCT',
+			payload: res.product,
+		})
+	} catch (error) {
+		console.log(error)
+		swal('Algo salio mal', ':(', 'error')
+	}
+}
+
