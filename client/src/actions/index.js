@@ -115,6 +115,7 @@ export function loginUser(data){
 					.then((res) => res.json())
 
 					.then((res) => {
+			
 						const serialisedState = JSON.stringify(res.user);
 					 	localStorage.setItem("user", serialisedState)
 						dispatch({
