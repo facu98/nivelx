@@ -8,6 +8,16 @@ function isAuthenticated(req, res, next) {
   }
 }
 
+function isAdmin(req, res, next){
+  if(req.isAuthenticated() && req.user.isAdmin){
+      next()
+  }
+  else {
+    res.sendStatus(401)
+  }
+}
+
 module.exports = {
-    isAuthenticated
+    isAuthenticated,
+    isAdmin
 }

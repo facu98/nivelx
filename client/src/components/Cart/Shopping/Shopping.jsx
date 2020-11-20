@@ -48,10 +48,10 @@ export const Shopping = ({
 								</div>
 								<div className='col-md-3 d-flex align-items-center justify-content-center'>
 									<Count
-										price= {product.price}
-										quantity= {product.quantity}
-										id= {product.id}
-										name= {product.name}
+										price= {cart.price}
+										quantity= {cart.quantity}
+										id= {cart.product_id}
+										name= {cart.product_name }
 										function= {getProductById(cart.product_id).payload}
 									/>
 									<button

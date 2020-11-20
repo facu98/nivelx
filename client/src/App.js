@@ -1,6 +1,6 @@
 
 //IMPORTAMOS LIBRERIAS DE REACT
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Route } from "react-router-dom";
 
 
@@ -22,6 +22,9 @@ import EditUser from './components/AdminUsers/EditDeleteUser'
 import {Cart} from './components/Cart/index'
 import OrdersAdmin from './components/Order/AdminOrder'
 import Login from './components/LogIn/LogIn'
+
+
+
 
 function App() {
 
