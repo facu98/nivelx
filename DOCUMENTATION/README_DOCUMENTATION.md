@@ -104,5 +104,10 @@ npx sequelize-cli db:seed:undo:all
 
 
 ```
-
 [Documentacion](https://sequelize.org/master/manual/migrations.html#running-seeds)
+
+#PASSPORT: PROTECCIÓN DE RUTAS
+
+```
+Se tiene que poner como segundo parametro de la ruta la funcion de autorizacion, las funciones van en passport.js
+```

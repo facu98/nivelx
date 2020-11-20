@@ -42,7 +42,7 @@ export default function ProductCRUD({ match }){
 
     const categoryChange = (e) => {
     const id = e.target.value
-    console.log(id)
+
     const finder = input.category.find((cat) => cat === id)
     finder ? input.category = input.category.filter((cat) => cat !== id) : input.category.push(id)
 
@@ -73,7 +73,7 @@ export default function ProductCRUD({ match }){
             quantity: input.stock,
             color: ["Azul","Amarillo"]
         }
-        console.log(JSON.stringify(newProduct))
+
         fetch('http://localhost:3001/products', {
             method: 'POST',
             body: JSON.stringify(newProduct),
@@ -82,15 +82,17 @@ export default function ProductCRUD({ match }){
                 'Content-Type': 'application/json'
               }
         })
-        .then(()=>{
+        .then((res)=>{
+            if(res.status !== 401){
             alert(`Se ha creado un nuevo producto exitosamente`)
-            resetForm();
+            resetForm();}
+            else alert('No tienes permisos de administrador')
         })
         .catch((err)=>{
              console.log(err)
         })
     }
-    console.log(input.category)
+
     return (
         <div className={style.formStyle}>
             <h3>Crear Producto</h3>

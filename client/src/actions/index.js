@@ -112,10 +112,13 @@ export function loginUser(data){
 						'Accept': 'application/json',
 						'Content-Type': 'application/json'
 					}})
-					.then((res) => res.json())
+					.then((res) => {
+						if(res.status === 401){throw new Error('Usuario o password incorrecto.')}
+						else if(res.status === 500){throw new Error('Algo salio mal..')}
+						else return res.json()})
 
 					.then((res) => {
-			
+
 						const serialisedState = JSON.stringify(res.user);
 					 	localStorage.setItem("user", serialisedState)
 						dispatch({
@@ -129,11 +132,12 @@ export function loginUser(data){
 						swal("Bienvenido!", "","success");
 
 						})
-				.catch((err) => {
-														var title = `${err}`
-														swal("Ups", title, 'error')
-											  })
-				 							}}
+						.catch((err) => {
+																	var title = `${err}`
+																	swal("Ups", title, 'error')
+														  })
+							 							}}
+
 
 
 export function logOut(){
