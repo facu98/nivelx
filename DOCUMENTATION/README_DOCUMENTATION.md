@@ -109,5 +109,10 @@ npx sequelize-cli db:seed:undo:all
 #PASSPORT: PROTECCIÓN DE RUTAS
 
 ```
+FRONT END:
+El fetch tiene que ir con credenciales, ejemplo: fetch('http://localhost:3001/products', {credentials: 'include'})
+
+BACK END:
 Se tiene que poner como segundo parametro de la ruta la funcion de autorizacion, las funciones van en passport.js
+Ejemplo: server.post("/", isAdmin, (req,res) => {...})
 ```
