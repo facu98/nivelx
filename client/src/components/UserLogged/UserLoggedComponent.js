@@ -34,7 +34,7 @@ export default function UserLogged() {
     return (
       <div>
         <Button color='secondary' aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-          { user.id ? user.name : 'Registrarse' }
+          { user.name }
         </Button>
         <Menu
           id="simple-menu"
