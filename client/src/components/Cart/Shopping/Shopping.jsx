@@ -51,7 +51,7 @@ export const Shopping = ({
 										price= {cart.price}
 										quantity= {cart.quantity}
 										id= {cart.product_id}
-										name= {cart.product_name}
+										name= {cart.product_name }
 										function= {getProductById(cart.product_id).payload}
 									/>
 									<button
