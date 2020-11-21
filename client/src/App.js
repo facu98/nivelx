@@ -22,17 +22,20 @@ import EditUser from './components/AdminUsers/EditDeleteUser'
 import {Cart} from './components/Cart/index'
 import OrdersAdmin from './components/Order/AdminOrder'
 import Login from './components/LogIn/LogIn'
-
+import {useDispatch, useSelector} from "react-redux"
 
 
 
 function App() {
+  const user = useSelector(state => state.user)
+
 
   return (
     <div className="App">
           <SearchBar />
           <Route exact path='/' render={() => <Carrousel />} />
           <Container>
+          
               <Route exact path='/' component={Catalogo} />
 
               <Route exact path='/user/create' component={CreateUser} />
@@ -45,7 +48,7 @@ function App() {
 
               <Route exact path='/:name' component={Catalogo} />
 
-              <Route exact path='/admin/panel' component={PanelAdmin} />
+              {user.isAdmin && <Route exact path='/admin/panel' component={PanelAdmin} />}
 
               <Route path='/products/category/:id' component={Catalogo} />
 

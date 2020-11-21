@@ -10,6 +10,8 @@ const session = require('express-session')
 var passport = require('passport');
 const { User } = require('./db.js');
 var Strategy = require('passport-local').Strategy;
+const cors = require('cors')
+
 
 var db = require('./db.js')
 
@@ -29,6 +31,8 @@ server.use(session({
   saveUninitializated: true
 }));
 
+
+
 server.use(morgan('dev'));
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
@@ -37,6 +41,11 @@ server.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', "POST, GET, OPTIONS, DELETE, PUT")
   next();
 });
+
+server.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}));
 
 server.use(passport.initialize());
 server.use(passport.session());
@@ -94,6 +103,8 @@ where: {id}
       return done(err);
     })
 });
+
+
 
 
 server.use('/', routes);

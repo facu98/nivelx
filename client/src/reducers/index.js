@@ -93,7 +93,6 @@ function rootReducer(state = initialState, action) {
     }
 
     case 'LOGIN_USER':
-    console.log(localStorage.getItem("user"))
     return {
       ...state,
       user: JSON.parse(localStorage.getItem("user"))
@@ -117,6 +116,15 @@ function rootReducer(state = initialState, action) {
       ...state,
       products: state.products.slice(action.payload * 12, action.payload * 12 + 12)
     }
+
+    case 'IS_LOGGED':
+    if(!action.logged){
+      return{
+        ...state,
+         user : []
+      }
+    }
+
 
   default:
 

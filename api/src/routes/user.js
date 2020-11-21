@@ -3,6 +3,7 @@ const { User, Order, Product, Orderline } = require('../db.js');
 const { Op } = require('sequelize')
 var passport = require('passport');
 const trash = [];
+const {isLogged} = require('./passport')
 
 
 
@@ -14,7 +15,11 @@ const trash = [];
 server.post("/login", passport.authenticate("local"),
   (req, res) => {
     console.log('LOGIN OK')
-    res.status(200).send({user: req.user.dataValues});
+    var user = {...req.user.dataValues,
+                password: "",
+                salt: ""    }
+
+    res.status(200).send({user});
   }
 );
 
@@ -23,6 +28,10 @@ server.get('/logout',
     req.logout();
     res.sendStatus(200)
   });
+
+  server.get('/islogged', isLogged, (req,res) => {
+    res.sendStatus(200)
+  })
 
 
 server.get("/", (req, res) => {
