@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import {useDispatch, useSelector} from "react-redux"
 import {getProductsCart, logOut} from "../../actions"
+import UserLoggedComponent from "../UserLogged/UserLoggedComponent"
 
 
 export const Navbar = () => {
@@ -22,7 +23,6 @@ export const Navbar = () => {
     if(window.confirm(`Seguro que deseas cerrar sesión?`)){
       dispatch(logOut())
     }
-
   }
 
 
@@ -76,6 +76,11 @@ export const Navbar = () => {
                                       </IconButton>
                           </NavLink>
                     </li>
+
+                    {user.id ? <li>
+
+                        <UserLoggedComponent /> 
+                    </li> : null }  
 
 
                 </ul>
