@@ -2,7 +2,12 @@ import React from 'react';
 import s from './Product.module.css';
 import Stock from '../Stock/Stock.js'
 
+
 import {  Link } from 'react-router-dom';
+import { Review } from '../Review/Review';
+import { ReviewButton } from '../Review/ReviewButton';
+
+
 //IMPORTE EL COMPONENTE BUTTON DE MATERIAL UI
 // import Button from '@material-ui/core/Button';
 
@@ -40,6 +45,7 @@ console.log(product)
                         <span className={s.productData}>Descripción:</span>
                         {product.description}
                     </p>
+                <Review />
                 </div>
 
                 <Stock
@@ -47,6 +53,7 @@ console.log(product)
                 price = {product.price}
                 />
             </div>
+            <ReviewButton />
         </section>
     );
 }

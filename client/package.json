@@ -23,6 +23,7 @@
     "react-bootstrap": "^1.4.0",
     "react-dom": "^16.13.1",
     "react-google-login": "^5.1.21",
+    "react-icons": "^3.11.0",
     "react-images-upload": "^1.2.8",
     "react-query": "^2.26.2",
     "react-redux": "^7.2.2",
