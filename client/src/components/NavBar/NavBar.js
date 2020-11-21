@@ -47,24 +47,27 @@ export const Navbar = () => {
                             Juegos
                         </NavLink>
                     </li>
+
+                    {user.id ? null : <li className="nav-item offset-1 active">
+                        <NavLink to="/user/create" className='nav-link' >
+                            Registrarse
+                        </NavLink>
+                    </li>}
+
+                    {user.isAdmin ? <li className="nav-item offset-1 active">
+                      <NavLink to="/admin/panel" className='nav-link' >
+                            Administrador
+                        </NavLink>
+                    </li> : null}
+
                     {<li className="nav-item offset-1 active">
                         {user.id ? <NavLink onClick = {handlelogOut} to = '#' className='nav-link' >
-                            Salir
+                            Cerrar sesión
                         </NavLink> :
                         <NavLink to="/user/login"  className='nav-link' >
                             Ingresar
                         </NavLink> }
                     </li>}
-                    <li className="nav-item offset-1 active">
-                        <NavLink to="/user/create" className='nav-link' >
-                            Registrarse
-                        </NavLink>
-                    </li>
-                    <li className="nav-item offset-1 active">
-                        <NavLink to="/admin/panel" className='nav-link' >
-                            Administrador
-                        </NavLink>
-                    </li>
 
                     <li>
                           <NavLink to='/user/cart'>
