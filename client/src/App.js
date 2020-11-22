@@ -24,7 +24,9 @@ import OrdersAdmin from './components/Order/AdminOrder'
 import Login from './components/LogIn/LogIn'
 import {useDispatch, useSelector} from "react-redux"
 
-
+// --- con esto se si esta authenticado ---
+const isAuthenticated = localStorage.getItem('token');
+// ----------------------------------------
 
 function App() {
   const user = useSelector(state => state.user)
@@ -41,35 +43,51 @@ function App() {
               <Route exact path='/user/create' component={CreateUser} />
 
               <Route exact path='/user/login' component={Login} />
-
+              {isAuthenticated &&
               <Route path='/admin/orders' component = {OrdersAdmin} />
-
+              }
               <Route exact path='/user/cart' component={Cart} />
 
               <Route exact path='/:name' component={Catalogo} />
 
-              {user.isAdmin && <Route exact path='/admin/panel' component={PanelAdmin} />}
+              {user.isAdmin && isAuthenticated &&
+               <Route exact path='/admin/panel' component={PanelAdmin} />
+              }
 
               <Route path='/products/category/:id' component={Catalogo} />
 
               <Route path = '/products/:id' component = {ProductDetail} />
-
+              {isAuthenticated &&
               <Route exact path='/admin/createCategory'
                 render={({ match }) => <FormCategory match={match} />}
               />
+              }
+              {isAuthenticated &&
               <Route exact path='/admin/editCategory' component={Categorias} />
+              }
+              {isAuthenticated &&
               <Route exact path='/admin/users' component={AdminUsers} />
+              }
+              {isAuthenticated &&
               <Route exact path='/admin/users/:id' component={EditUser} />
+              }
+              {isAuthenticated &&
               <Route exact path='/admin/products/edit' component={Catalogo} />
+              }
+              {isAuthenticated &&
               <Route exact path='/admin/createProduct' component ={FormProduct} />
+              }
+              {isAuthenticated &&
               <Route exact path='/admin/products/edit/:id'
                 render={({ match }) => (<EditProduct match={match} />)}/>
-
+              }
+              {isAuthenticated &&
               <Route exact path='/admin/editCategory/:name'
                 render={({ match }) => (
                   <EditCategory match={match} />
                   )}
               />
+              }
           </Container>
      </div>
 

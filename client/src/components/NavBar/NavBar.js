@@ -14,6 +14,9 @@ export const Navbar = () => {
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
   const history = useHistory()
+  // --- agregue para proteger rutas ---
+  const isAuthenticated = localStorage.getItem('token');
+  // -----------------------------------
   useEffect(() => {
     user && dispatch(getProductsCart(user.id))
 
@@ -68,7 +71,18 @@ export const Navbar = () => {
                             Ingresar
                         </NavLink> }
                     </li>}
-
+                    <li className="nav-item offset-1 active">
+                        <NavLink to="/user/create" className='nav-link' >
+                            Registrarse
+                        </NavLink>
+                    </li>
+                    {isAuthenticated && user.isAdmin &&
+                    <li className="nav-item offset-1 active">
+                        <NavLink to="/admin/panel" className='nav-link' >
+                            Administrador
+                        </NavLink>
+                    </li>
+                    }
                     <li>
                           <NavLink to='/user/cart'>
                                       <IconButton aria-label="cart">
