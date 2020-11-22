@@ -53,7 +53,6 @@ export default function ImageGridList(props) {
 
 
 
-
  const handleNext = () =>{
   if(!page){
     history.push('/search?page=2')

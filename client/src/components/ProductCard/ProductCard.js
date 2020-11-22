@@ -92,7 +92,7 @@ export default function ProductCard(props) {
             {props.productos.name}
           </Typography>
         </Link>
-        <Typography variant='h7' color='textSecondary'>
+        <Typography variant='p' color='textSecondary'>
           {props.productos.brand}
         </Typography>
         <Typography gutterBottom variant='body1' color='primary' component='p'>

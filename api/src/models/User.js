@@ -39,12 +39,8 @@ module.exports = (sequelize) => {
     },
     isAdmin: {
 			type: DataTypes.BOOLEAN,
-			defaultValue: false,
+			defaultValue: true,
 		},
-    logged:{
-      type: DataTypes.BOOLEAN,
-      defaultValue:false
-    },
     salt: {
         type: DataTypes.STRING,
         get() {

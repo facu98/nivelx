@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import {useDispatch, useSelector} from "react-redux"
 import {getProductsCart, logOut} from "../../actions"
+import UserLoggedComponent from "../UserLogged/UserLoggedComponent"
 
 
 export const Navbar = () => {
@@ -25,7 +26,6 @@ export const Navbar = () => {
     if(window.confirm(`Seguro que deseas cerrar sesión?`)){
       dispatch(logOut())
     }
-
   }
 
 
@@ -50,9 +50,22 @@ export const Navbar = () => {
                             Juegos
                         </NavLink>
                     </li>
+
+                    {user.id ? null : <li className="nav-item offset-1 active">
+                        <NavLink to="/user/create" className='nav-link' >
+                            Registrarse
+                        </NavLink>
+                    </li>}
+
+                    {user.isAdmin ? <li className="nav-item offset-1 active">
+                      <NavLink to="/admin/panel" className='nav-link' >
+                            Administrador
+                        </NavLink>
+                    </li> : null}
+
                     {<li className="nav-item offset-1 active">
                         {user.id ? <NavLink onClick = {handlelogOut} to = '#' className='nav-link' >
-                            Salir
+                            Cerrar sesión
                         </NavLink> :
                         <NavLink to="/user/login"  className='nav-link' >
                             Ingresar
@@ -63,7 +76,7 @@ export const Navbar = () => {
                             Registrarse
                         </NavLink>
                     </li>
-                    {isAuthenticated &&
+                    {isAuthenticated && user.isAdmin &&
                     <li className="nav-item offset-1 active">
                         <NavLink to="/admin/panel" className='nav-link' >
                             Administrador
@@ -80,6 +93,11 @@ export const Navbar = () => {
                                       </IconButton>
                           </NavLink>
                     </li>
+
+                    {user.id ? <li>
+
+                        <UserLoggedComponent /> 
+                    </li> : null }  
 
 
                 </ul>
