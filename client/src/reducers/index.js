@@ -122,11 +122,23 @@ function rootReducer(state = initialState, action) {
       products: state.products.slice(action.payload * 12, action.payload * 12 + 12)
     }
 
+
     case 'ADD_PRODUCT_CART_GUEST':
     return {
       ...state,
       guestCart:[...state.guestCart, action.payload]
     }
+
+
+    case 'IS_LOGGED':
+    if(!action.logged){
+      return{
+        ...state,
+         user : []
+      }
+    }
+
+
 
   default:
 

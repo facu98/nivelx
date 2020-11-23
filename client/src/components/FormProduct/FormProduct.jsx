@@ -75,6 +75,7 @@ export default function ProductCRUD({ match }){
         }
 
         fetch('http://localhost:3001/products', {
+            credentials: 'include',
             method: 'POST',
             body: JSON.stringify(newProduct),
             headers: {

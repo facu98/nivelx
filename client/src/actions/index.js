@@ -82,6 +82,9 @@ export function getCategories(){
 								payload: data
 						})
 					 		})
+				.then(() => {
+					return dispatch(isLogged())
+				})
 	}
 }
 
@@ -125,11 +128,12 @@ export function loginUser(data){
 							type: 'LOGIN_USER',
 							payload: res.user
 						})
+						return res.user
 					})
 
 				.then((res)=>{
 
-						swal("Bienvenido!", "","success");
+						swal("Bienvenido!",`${res.name} ${res.lastname}`,"success");
 
 						})
 						.catch((err) => {
@@ -153,6 +157,22 @@ export function logOut(){
 
 	}
 
+}
+
+export function isLogged(){
+	return function(dispatch){
+		return fetch('http://localhost:3001/users/islogged', {credentials: 'include'})
+		.then((res) => {
+			if(!res || res.status !== 200) {return false}
+			else return true
+		})
+		.then((res) => {
+			dispatch({
+				type: 'IS_LOGGED',
+				logged:res
+			})
+		})
+	}
 }
 
 export function getUserById(id){

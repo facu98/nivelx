@@ -14,6 +14,9 @@ export const Navbar = () => {
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
   const history = useHistory()
+  // --- agregue para proteger rutas ---
+  const isAuthenticated = localStorage.getItem('token');
+  // -----------------------------------
   useEffect(() => {
     user && dispatch(getProductsCart(user.id))
 
@@ -47,9 +50,22 @@ export const Navbar = () => {
                             Juegos
                         </NavLink>
                     </li>
+
+                    {user.id ? null : <li className="nav-item offset-1 active">
+                        <NavLink to="/user/create" className='nav-link' >
+                            Registrarse
+                        </NavLink>
+                    </li>}
+
+                    {user.isAdmin ? <li className="nav-item offset-1 active">
+                      <NavLink to="/admin/panel" className='nav-link' >
+                            Administrador
+                        </NavLink>
+                    </li> : null}
+
                     {<li className="nav-item offset-1 active">
                         {user.id ? <NavLink onClick = {handlelogOut} to = '#' className='nav-link' >
-                            Salir
+                            Cerrar sesión
                         </NavLink> :
                         <NavLink to="/user/login"  className='nav-link' >
                             Ingresar
@@ -60,12 +76,13 @@ export const Navbar = () => {
                             Registrarse
                         </NavLink>
                     </li>
+                    {isAuthenticated && user.isAdmin &&
                     <li className="nav-item offset-1 active">
                         <NavLink to="/admin/panel" className='nav-link' >
                             Administrador
                         </NavLink>
                     </li>
-
+                    }
                     <li>
                           <NavLink to='/user/cart'>
                                       <IconButton aria-label="cart">
