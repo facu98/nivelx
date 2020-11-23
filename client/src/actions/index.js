@@ -299,6 +299,15 @@ export const addProductCart = (idUser, idProduct) => async dispatch => {
 			})
 }
 
+export function addProductGuest(product){
+	return function (dispatch){
+		dispatch({
+			type:'ADD_PRODUCT_CART_GUEST',
+			payload: product
+		})
+	}
+}
+
 
 export const deleteProductInCart = (userId, idProduct) => async dispatch => {
       		await fetch(`http://localhost:3001/users/${userId}/cart`, {
@@ -365,9 +374,9 @@ export function getProductsCart(id) {
   }
 }
 
-export function cleanOrder() {
+export function cleanOrder(id) {
   return function (dispatch) {
-    return fetch(`http://localhost:3002/user/cart`, {
+    return fetch(`http://localhost:3001/users/${id}/cart/all`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {
@@ -379,8 +388,11 @@ export function cleanOrder() {
         ? dispatch({
             type: 'CLEAN_ORDER',
           })
-        : swal('Error al cancelar la orden', '', 'error')
+        : swal('Error al vaciar carrito', '', 'error')
     )
+		.then(() => {
+			return dispatch(getProductsCart())
+		})
   }
 }
 

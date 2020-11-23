@@ -148,20 +148,21 @@ Product.findByPk(productId)
 
 server.delete('/:idUser/cart/all', (req, res) => {
     let id = req.params.idUser;
-	Order.findOne({
-		where: {
-			user_id: id
-		}
-	})
-	.then( cart => {
-		trash.push(cart);
-		cart.destroy()
-		res.send('Carrito vaciado');
-	})
-	.catch(err => {
-		res.status(500).send(err);
-	});
-});
+
+    Order.findOne({
+      where:{
+        userId: id,
+        state:'carrito'
+      }
+    })
+    .then((order) => {
+      order.destroy()
+      .then(() => res.send('deleted'))
+      })
+
+    .catch((err) => res.status(400).json([]))
+})
+//ELIMINAR USUARIO
 
 server.delete('/:id', (req, res) => {
 	User.findByPk(req.params.id)
@@ -290,7 +291,6 @@ server.post('/:userId/cart', (req, res) =>{
 	const {productId} = req.body
 	var producto = {}
 
-//const {name, price, stock, quantity} = req.body
 
 Product.findByPk(productId)
 .then((data) => {

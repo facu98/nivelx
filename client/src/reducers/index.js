@@ -1,6 +1,8 @@
 const localUser = localStorage.getItem("user")
 const user = localUser && JSON.parse(localUser)
 
+const guestCart = localStorage.setItem("guest", [])
+
 
 const initialState = {
 
@@ -10,7 +12,8 @@ const initialState = {
   user: user ? user : [],
   cart:[],
   orders:[],
-  quantity: 0
+  quantity: 0,
+  guestCart: []
 
 };
 
@@ -93,17 +96,18 @@ function rootReducer(state = initialState, action) {
     }
 
     case 'LOGIN_USER':
-    console.log(localStorage.getItem("user"))
     return {
       ...state,
-      user: JSON.parse(localStorage.getItem("user"))
+      user: JSON.parse(localStorage.getItem("user")),
+      guest: false
 
     }
 
     case 'LOGOUT_USER':
     return {
       ...state,
-      user: []
+      user: [],
+      guest:true
     }
 
     case 'GET_QUANTITY':
@@ -116,6 +120,12 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       products: state.products.slice(action.payload * 12, action.payload * 12 + 12)
+    }
+
+    case 'ADD_PRODUCT_CART_GUEST':
+    return {
+      ...state,
+      guestCart:[...state.guestCart, action.payload]
     }
 
   default:

@@ -14,7 +14,11 @@ export const Shopping = ({
 
 
 	useEffect(() => {
-		getProductsCart(user.id)
+		if(user && user.id){
+			getProductsCart(user.id)
+		}
+
+		console.log(cart)
 
 	}, [])
 
@@ -73,8 +77,8 @@ export const Shopping = ({
 
 const mapStateToProps = (store) => {
 	return {
-		cart: store.cart,
-		user: store.user
+		user: store.user,
+		cart: (store.user && store.user.id) ? store.cart : store.guestCart
 	}
 }
 
