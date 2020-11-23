@@ -46,7 +46,6 @@ function App() {
 
               <Route exact path='/user/login' component={Login} />
 
-              <Route path='/admin/orders' component = {OrdersAdmin} />
 
               <Route exact path='/user/cart' component={Cart} />
 
@@ -89,6 +88,8 @@ function App() {
                   <EditCategory match={match} />
                   )}
               />
+              <Route path='/admin/orders' component = {OrdersAdmin} />
+
 
           </Container>
      </div>
