@@ -19,7 +19,7 @@ function hashPassword(password) {
 			}
 		})
 	})
-
+}
 
 //LOGIN
 server.post("/login", passport.authenticate("local"),
