@@ -328,6 +328,25 @@ export function addProductGuest(product){
 	}
 }
 
+export function removeProductGuest(productId){
+	return function (dispatch){
+		let storageCart = JSON.parse(localStorage.getItem('guest'))
+		let filter = storageCart.filter((p) => p.product_id !== productId)
+		dispatch({
+			type:'REMOVE_PRODUCT_CART_GUEST',
+			payload: filter
+		})
+	}
+}
+
+export function clearGuestCart(){
+	return function(dispatch){
+		dispatch({
+			type: 'CLEAR_GUESTCART'
+		})
+	}
+}
+
 
 export const deleteProductInCart = (userId, idProduct) => async dispatch => {
       		await fetch(`http://localhost:3001/users/${userId}/cart`, {
