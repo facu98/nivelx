@@ -4,14 +4,24 @@ const { Op } = require('sequelize')
 var passport = require('passport');
 const trash = [];
 const {isLogged} = require('./passport')
+const bcrypt = require('bcrypt')
 
-
-
-
+// FUNCION DE HASHEO DE contraseña
+function hashPassword(password) {
+	return new Promise(function (resolve, reject) {
+		bcrypt.genSalt(10, function (err, salt) {
+			if (err) return reject(err)
+			else {
+				bcrypt.hash(password, salt, function (err, hash) {
+					if (err) return reject(err)
+					return resolve(hash)
+				})
+			}
+		})
+	})
 
 
 //LOGIN
-
 server.post("/login", passport.authenticate("local"),
   (req, res) => {
     console.log('LOGIN OK')
@@ -29,7 +39,7 @@ server.get('/logout',
     res.sendStatus(200)
   });
 
-  server.get('/islogged', isLogged, (req,res) => {
+server.get('/islogged', isLogged, (req,res) => {
     res.sendStatus(200)
   })
 
@@ -99,13 +109,42 @@ server.post("/", (req,res) => {
 			phone: parseInt(phone),
 		})
 		.then((user) => res.status(201).send(user))
-		.catch(err => res.send(err))
+		.catch((err) => res.send(err))
 	})
 	.catch((err) =>  res.send(err))
 });
 
 
-//
+// RESET password
+
+server.put('/password/:id', async (req, res) => {
+	try {
+		let user = await User.findByPk(req.params.id)
+		let newPassword = await hashPassword(req.body.password)
+
+		await user.update({ password: newPassword, resetPassword: false })
+
+		res.send(user)
+	} catch (error) {
+		res.status(500).send(error)
+	}
+})
+
+//// usuario logueado cambia su contraseña
+server.put('/password', isLogged, async (req, res) => {
+	try {
+		let user = await User.findByPk(req.user.id)
+		let newPassword = await hashPassword(req.body.password)
+
+		await user.update({ password: newPassword, resetPassword: false })
+
+		res.send(user)
+	} catch (error) {
+		res.status(500).send(error)
+	}
+})
+
+
 // ELIMINA EL usuario
 server.delete('/:id', (req, res) => {
 	User.findByPk(req.params.id)

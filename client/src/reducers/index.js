@@ -96,7 +96,6 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       user: JSON.parse(localStorage.getItem("user"))
-
     }
 
     case 'LOGOUT_USER':
@@ -126,10 +125,9 @@ function rootReducer(state = initialState, action) {
     }
 
 
-  default:
-
-    return state
-  }
+    default:{
+    return state}
+    }
 }
 
 export default rootReducer;
