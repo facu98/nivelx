@@ -18,6 +18,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import CategoryIcon from '@material-ui/icons/Category';
 import {useDispatch, useSelector} from "react-redux"
 import {addProductCart} from "../../actions"
+import { Review } from '../Review/Review';
+import { Star } from '../Review/Star';
 
 
 
@@ -98,6 +100,7 @@ export default function ProductCard(props) {
         <Typography gutterBottom variant='body1' color='primary' component='p'>
           {`USD ${props.productos.price}`}
         </Typography>
+        <Star />
 
       </CardContent>
       <CardActions disableSpacing>

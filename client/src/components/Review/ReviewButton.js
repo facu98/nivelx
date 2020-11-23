@@ -76,6 +76,7 @@ export const ReviewButton = () => {
               </div>
                     <textarea 
                     rows={5}
+                    className="form-control mb-3"
                     name="rating"
                     type='text'
                     placeholder="Ingresa tu reseña..."
@@ -84,7 +85,7 @@ export const ReviewButton = () => {
                     />
                 </section>
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary mb-2"
                   onClick={handleSubmit}
                 >
                   Enviar
