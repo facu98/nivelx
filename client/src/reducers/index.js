@@ -7,7 +7,7 @@ const initialState = {
   products: [],
   categories: [],
   users: [],
-  user: user ? user : [],
+  user: {},
   cart:[],
   orders:[],
   quantity: 0
@@ -96,7 +96,6 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       user: JSON.parse(localStorage.getItem("user"))
-
     }
 
     case 'LOGOUT_USER':
@@ -105,6 +104,17 @@ function rootReducer(state = initialState, action) {
       user: []
     }
 
+    case 'RESET_PASSWORD':
+			return {
+				...state,
+				users: action.payload,
+			}
+		case 'RESET':
+			return {
+				...state,
+				reset: action.payload,
+			}
+    
     case 'GET_QUANTITY':
       return {
         ...state,
@@ -126,10 +136,9 @@ function rootReducer(state = initialState, action) {
     }
 
 
-  default:
-
-    return state
-  }
+    default:{
+    return state}
+    }
 }
 
 export default rootReducer;
