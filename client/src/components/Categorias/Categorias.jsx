@@ -11,7 +11,7 @@ export default function (props) {
 	const url = useLocation();
 
 
-
+console.log(url.pathname)
 	return (
 		<div className='p-3'>
 			<h1>Categorias</h1>
@@ -19,6 +19,7 @@ export default function (props) {
 			<ul className='list-group'>
 				{props.categories &&
 					props.categories.map((c) => {
+
 						if (url.pathname === '/admin/editCategory') {
 							return (
 								<div className='botones'>
