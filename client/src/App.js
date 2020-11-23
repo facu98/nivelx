@@ -1,6 +1,6 @@
 
 //IMPORTAMOS LIBRERIAS DE REACT
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Route } from "react-router-dom";
 
 
@@ -22,14 +22,24 @@ import EditUser from './components/AdminUsers/EditDeleteUser'
 import {Cart} from './components/Cart/index'
 import OrdersAdmin from './components/Order/AdminOrder'
 import Login from './components/LogIn/LogIn'
+import {useDispatch, useSelector} from "react-redux"
+
+// --- con esto se si esta authenticado ---
+// const isAuthenticated = localStorage.getItem('token');
+//
+// console.log('asd', isAuthenticated)
+// ----------------------------------------
 
 function App() {
+  const user = useSelector(state => state.user)
+
 
   return (
     <div className="App">
           <SearchBar />
           <Route exact path='/' render={() => <Carrousel />} />
           <Container>
+
               <Route exact path='/' component={Catalogo} />
 
               <Route exact path='/user/create' component={CreateUser} />
@@ -42,7 +52,9 @@ function App() {
 
               <Route exact path='/:name' component={Catalogo} />
 
-              <Route exact path='/admin/panel' component={PanelAdmin} />
+              {user.isAdmin &&
+               <Route exact path='/admin/panel' component={PanelAdmin} />
+              }
 
               <Route path='/products/category/:id' component={Catalogo} />
 
@@ -51,19 +63,33 @@ function App() {
               <Route exact path='/admin/createCategory'
                 render={({ match }) => <FormCategory match={match} />}
               />
+
+
               <Route exact path='/admin/editCategory' component={Categorias} />
+
+
               <Route exact path='/admin/users' component={AdminUsers} />
+
+
               <Route exact path='/admin/users/:id' component={EditUser} />
+
+
               <Route exact path='/admin/products/edit' component={Catalogo} />
+
+
               <Route exact path='/admin/createProduct' component ={FormProduct} />
+
+
               <Route exact path='/admin/products/edit/:id'
                 render={({ match }) => (<EditProduct match={match} />)}/>
+
 
               <Route exact path='/admin/editCategory/:name'
                 render={({ match }) => (
                   <EditCategory match={match} />
                   )}
               />
+
           </Container>
      </div>
 

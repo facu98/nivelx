@@ -1,9 +1,12 @@
 import {useDispatch, useSelector} from "react-redux"
-import {getOrders, getOrderbyID} from "../../actions"
+import {getOrders, getOrderbyID, getProductsCart, changeStateOrder} from "../../actions"
 import React, { useEffect, useState} from 'react'
 import { useLocation } from "react-router-dom";
-import { useHistory } from 'react-router-dom'
-import { DataGrid } from '@material-ui/data-grid';
+import {Link, useHistory } from 'react-router-dom'
+import MaterialTable from 'material-table'
+import AdminCart from './AdminCart'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+
 
 
 
@@ -12,23 +15,20 @@ const state = useSelector(state => state.orders)
 const dispatch = useDispatch()
 const [search, setSearch] = useState("")
 const history = useHistory()
-
+//const cart = useSelector(state => state.cart)
 var location = useLocation().pathname.split("/")
 
 
 useEffect(() => {
-  if(location[3]){
-    dispatch(getOrderbyID(location[3]))
-  }
-   else dispatch(getOrders())
+dispatch(getOrders())
 },[])
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'estado', headerName: 'Estado', width: 130 },
-  {field:'userID', headerName: 'User ID', width:100},
-  {field: 'fecha', headerName:'Fecha', width:130},
-  {field: 'hora', headerName:'Hora', width:130}
+  { field: 'id', title: 'ID'},
+  { field: 'estado', title: 'Estado'},
+  {field:'userID', title: 'User ID'},
+  {field: 'fecha', title:'Fecha'},
+  {field: 'hora', title:'Hora'}
 
 ];
 
@@ -43,28 +43,69 @@ var rows = state && state.map((order) => {
   }
 })
 
-const handleChange = (e) => {
-  setSearch(
-    e.target.name = e.target.value
-  )
 
+var check
+
+const checkChange = (e) => {
+  const state = e.target.value
+  check = state
 }
 
-const handleSearch = () => {
-
-  history.push(`/admin/orders/${search}`);
-  history.go()
+const changeState = (userID, orderID) => {
+  const data = {state: check, orderId: orderID}
+dispatch(changeStateOrder(userID, data))
 }
+
+
 
   return (
     <div>
-    <div >
-    <h1 href ="#">GET ORDERS</h1>
-    </div>
-    <input value = {search} name = 'search' onChange = {handleChange} aria-label="Search" placeholder ="Filtrar por ID de orden"/>
-    <button onClick = {handleSearch} >Buscar</button>
-    {<div style={{ height: 400, width: '100%' }}>
-      <DataGrid rows={rows} columns={columns} pageSize={10}  />
+    {<div style={{ maxWidth: '100%' }}>
+      <MaterialTable columns={columns} data={rows} title="Orders"
+      detailPanel={[{
+        icon: 'favorite_border',
+        openIcon: 'favorite',
+        tooltip:'Cambiar estado',
+        render: rowData => {
+
+          return (
+        <div style={{
+                fontSize: 15,
+                textAlign: 'center',
+              }}>
+        <input type="radio" name='check' id='carrito' value='carrito' onChange={checkChange}/>
+        <label for='carrito'>carrito</label>
+        <input type="radio" name='check' id='creada' value='creada' onChange={checkChange}/>
+        <label for='creada'>creada</label>
+        <input type="radio" name='check' id='procesando' value='procesando' onChange={checkChange}/>
+        <label for='procesando'>procesando</label>
+        <input type="radio" name='check' id='cancelada' value='cancelada' onChange={checkChange}/>
+        <label for='cancelada'>cancelada</label>
+        <input type="radio" name='check' id='completa' value='completa' onChange={checkChange}/>
+        <label for='completa'>completa</label>
+        <button onClick={() => {changeState(rowData.userID, rowData.id)}}>Change</button>
+        </div>
+      )
+    },
+  },
+
+  {
+       icon: 'account_circle',
+       tooltip: 'Editar carrito',
+       render: rowData => {
+         return (
+           <div style={{
+                   fontSize: 15,
+                   textAlign: 'center',
+                 }}>
+             {rowData.estado === 'carrito' ? <AdminCart id={rowData.userID}/> : <p>Solo se pueden editar productos de ordenes en estado 'carrito'</p>}
+           </div>
+         )
+       },
+     },
+]}
+
+      />
     </div>}
     </div>
   );

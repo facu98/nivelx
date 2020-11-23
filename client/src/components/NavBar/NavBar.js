@@ -6,13 +6,18 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import {useDispatch, useSelector} from "react-redux"
 import {getProductsCart, logOut} from "../../actions"
+import UserLoggedComponent from "../UserLogged/UserLoggedComponent"
 
 
 export const Navbar = () => {
   const cart = useSelector(state => state.cart)
+  const guestCart = useSelector(state => state.guestCart)
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
   const history = useHistory()
+  // --- agregue para proteger rutas ---
+  const isAuthenticated = localStorage.getItem('token');
+  // -----------------------------------
   useEffect(() => {
     user && dispatch(getProductsCart(user.id))
 
@@ -22,7 +27,6 @@ export const Navbar = () => {
     if(window.confirm(`Seguro que deseas cerrar sesión?`)){
       dispatch(logOut())
     }
-
   }
 
 
@@ -47,35 +51,47 @@ export const Navbar = () => {
                             Juegos
                         </NavLink>
                     </li>
+
+                    {user.id ? null : <li className="nav-item offset-1 active">
+                        <NavLink to="/user/create" className='nav-link' >
+                            Registrarse
+                        </NavLink>
+                    </li>}
+
+                    {user.isAdmin ? <li className="nav-item offset-1 active">
+                      <NavLink to="/admin/panel" className='nav-link' >
+                            Administrador
+                        </NavLink>
+                    </li> : null}
+
                     {<li className="nav-item offset-1 active">
-                        {user.id ? <NavLink onClick = {handlelogOut} to = '#' className='nav-link' >
-                            Salir
-                        </NavLink> :
+                        {user.id ? null :
                         <NavLink to="/user/login"  className='nav-link' >
                             Ingresar
                         </NavLink> }
                     </li>}
-                    <li className="nav-item offset-1 active">
-                        <NavLink to="/user/create" className='nav-link' >
-                            Registrarse
-                        </NavLink>
-                    </li>
+                    {isAuthenticated && user.isAdmin &&
                     <li className="nav-item offset-1 active">
                         <NavLink to="/admin/panel" className='nav-link' >
                             Administrador
                         </NavLink>
                     </li>
-
+                    }
                     <li>
                           <NavLink to='/user/cart'>
                                       <IconButton aria-label="cart">
 
-                                                <Badge badgeContent={cart && cart.length} color="secondary">
+                                                <Badge badgeContent={user && user.id ? (cart && cart.length) : (guestCart && guestCart.length)} color="secondary">
                                                     <ShoppingCartIcon style={{ color: 'white' }} />
                                                 </Badge>
                                       </IconButton>
                           </NavLink>
                     </li>
+
+                    {user.id ? <li>
+
+                        <UserLoggedComponent />
+                    </li> : null }
 
 
                 </ul>

@@ -20,6 +20,8 @@ import {useDispatch, useSelector} from "react-redux"
 import {addProductCart} from "../../actions"
 import { Review } from '../Review/Review';
 import { Star } from '../Review/Star';
+=======
+import {addProductCart, addProductGuest} from "../../actions"
 
 
 
@@ -44,10 +46,24 @@ export default function ProductCard(props) {
   const dispatch = useDispatch()
   const classes = useStyles();
   const url = useLocation();
+  const guest = useSelector(state => state.guest)
 
   const handleCart = () => {
+    if(user && user.id){
+      dispatch(addProductCart(user.id, props.productos.id))
+    }
 
-    dispatch(addProductCart(user.id, props.productos.id))
+    else {
+      const data = {price: props.productos.price,
+        product_name: props.productos.name,
+        quantity: 1,
+        product_desc: props.productos.description,
+        product_img: props.productos.pictures,
+        product_id: props.productos.id
+        }
+
+      dispatch(addProductGuest(data))
+    }
 
   }
 
@@ -94,7 +110,7 @@ export default function ProductCard(props) {
             {props.productos.name}
           </Typography>
         </Link>
-        <Typography variant='h7' color='textSecondary'>
+        <Typography variant='p' color='textSecondary'>
           {props.productos.brand}
         </Typography>
         <Typography gutterBottom variant='body1' color='primary' component='p'>
