@@ -64,18 +64,11 @@ export const Navbar = () => {
                     </li> : null}
 
                     {<li className="nav-item offset-1 active">
-                        {user.id ? <NavLink onClick = {handlelogOut} to = '#' className='nav-link' >
-                            Cerrar sesión
-                        </NavLink> :
+                        {user.id ? null :
                         <NavLink to="/user/login"  className='nav-link' >
                             Ingresar
                         </NavLink> }
                     </li>}
-                    <li className="nav-item offset-1 active">
-                        <NavLink to="/user/create" className='nav-link' >
-                            Registrarse
-                        </NavLink>
-                    </li>
                     {isAuthenticated && user.isAdmin &&
                     <li className="nav-item offset-1 active">
                         <NavLink to="/admin/panel" className='nav-link' >
