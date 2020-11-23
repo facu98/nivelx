@@ -4,7 +4,7 @@ import Summary from './Summary/Summary'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button';
 import {useDispatch, useSelector} from "react-redux"
-import {cleanOrder} from "../../actions"
+import {cleanOrder, clearGuestCart} from "../../actions"
 
 
 export const Cart = () => {
@@ -47,7 +47,10 @@ export const Cart = () => {
 										fullWidth
 										variant="contained"
 										color="secondary"
-										onClick={() => {dispatch(cleanOrder(user.id))}}
+										onClick={() => {
+											if(user && user.id) dispatch(cleanOrder(user.id))
+											else(dispatch(clearGuestCart()))
+										}}
 								>
 										Vaciar carrito
 								</Button>

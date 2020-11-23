@@ -54,7 +54,7 @@ export default function ProductCard(props) {
         product_name: props.productos.name,
         quantity: 1,
         product_desc: props.productos.description,
-        product_img: props.productos.pictures[0],
+        product_img: props.productos.pictures,
         product_id: props.productos.id
         }
 

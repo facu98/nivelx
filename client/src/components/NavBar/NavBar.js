@@ -11,6 +11,7 @@ import UserLoggedComponent from "../UserLogged/UserLoggedComponent"
 
 export const Navbar = () => {
   const cart = useSelector(state => state.cart)
+  const guestCart = useSelector(state => state.guestCart)
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
   const history = useHistory()
@@ -87,7 +88,7 @@ export const Navbar = () => {
                           <NavLink to='/user/cart'>
                                       <IconButton aria-label="cart">
 
-                                                <Badge badgeContent={cart && cart.length} color="secondary">
+                                                <Badge badgeContent={user && user.id ? (cart && cart.length) : (guestCart && guestCart.length)} color="secondary">
                                                     <ShoppingCartIcon style={{ color: 'white' }} />
                                                 </Badge>
                                       </IconButton>
@@ -96,8 +97,8 @@ export const Navbar = () => {
 
                     {user.id ? <li>
 
-                        <UserLoggedComponent /> 
-                    </li> : null }  
+                        <UserLoggedComponent />
+                    </li> : null }
 
 
                 </ul>
