@@ -1,7 +1,48 @@
 const server = require('express').Router();
 const { User, Order, Product, Orderline } = require('../db.js');
 const { Op } = require('sequelize')
+var passport = require('passport');
 const trash = [];
+const {isLogged} = require('./passport')
+const bcrypt = require('bcrypt')
+
+// FUNCION DE HASHEO DE contraseña
+function hashPassword(password) {
+	return new Promise(function (resolve, reject) {
+		bcrypt.genSalt(10, function (err, salt) {
+			if (err) return reject(err)
+			else {
+				bcrypt.hash(password, salt, function (err, hash) {
+					if (err) return reject(err)
+					return resolve(hash)
+				})
+			}
+		})
+	})
+}
+
+//LOGIN
+server.post("/login", passport.authenticate("local"),
+  (req, res) => {
+    console.log('LOGIN OK')
+    var user = {...req.user.dataValues,
+                password: "",
+                salt: ""    }
+
+    res.status(200).send({user});
+  }
+);
+
+server.get('/logout',
+  function(req, res){
+    req.logout();
+    res.sendStatus(200)
+  });
+
+server.get('/islogged', isLogged, (req,res) => {
+    res.sendStatus(200)
+  })
+
 
 server.get("/", (req, res) => {
 	User.findAll({
@@ -68,13 +109,42 @@ server.post("/", (req,res) => {
 			phone: parseInt(phone),
 		})
 		.then((user) => res.status(201).send(user))
-		.catch(err => res.send(err))
+		.catch((err) => res.send(err))
 	})
 	.catch((err) =>  res.send(err))
 });
 
 
-//
+// RESET password
+
+server.put('/password/:id', async (req, res) => {
+	try {
+		let user = await User.findByPk(req.params.id)
+		let newPassword = await hashPassword(req.body.password)
+
+		await user.update({ password: newPassword, resetPassword: false })
+
+		res.send(user)
+	} catch (error) {
+		res.status(500).send(error)
+	}
+})
+
+//// usuario logueado cambia su contraseña
+server.put('/password', isLogged, async (req, res) => {
+	try {
+		let user = await User.findByPk(req.user.id)
+		let newPassword = await hashPassword(req.body.password)
+
+		await user.update({ password: newPassword, resetPassword: false })
+
+		res.send(user)
+	} catch (error) {
+		res.status(500).send(error)
+	}
+})
+
+
 // ELIMINA EL usuario
 server.delete('/:id', (req, res) => {
 	User.findByPk(req.params.id)
@@ -126,20 +196,21 @@ Product.findByPk(productId)
 
 server.delete('/:idUser/cart/all', (req, res) => {
     let id = req.params.idUser;
-	Order.findOne({
-		where: {
-			user_id: id
-		}
-	})
-	.then( cart => {
-		trash.push(cart);
-		cart.destroy()
-		res.send('Carrito vaciado');
-	})
-	.catch(err => {
-		res.status(500).send(err);
-	});
-});
+
+    Order.findOne({
+      where:{
+        userId: id,
+        state:'carrito'
+      }
+    })
+    .then((order) => {
+      order.destroy()
+      .then(() => res.send('deleted'))
+      })
+
+    .catch((err) => res.status(400).json([]))
+})
+//ELIMINAR USUARIO
 
 server.delete('/:id', (req, res) => {
 	User.findByPk(req.params.id)
@@ -235,36 +306,39 @@ server.get('/:id/orders', (req, res) => {
 
 // Modifica las órdenes del usuario
 
-server.put('/:id/orders', (req, res) => {
-	const { state, date } = req.body
+server.put('/:id/order', (req, res) => {
+	const { state, orderId } = req.body
 	let id = req.params.id;
-	Order.findAll({
+	Order.findOne({
 	where: {
-		user_id: id
+    id: parseInt(orderId),
+		userId: parseInt(id)
 		}
 	})
 	.then(order => {
 		if(!order){
-			res.status(400).send(`No se encuentran órdenes de este usuario`);
+			return res.status(400).send(`No se encuentran órdenes de este usuario`);
 		}
-		if( !state || !date ){
-			res.status(400).send(`Debe completar los campos obligatorios`);
+		if( !state ){
+			return res.status(400).send(`Debe completar los campos obligatorios`);
 		}
 
+    console.log(order)
+
 		order.state = state;
-		order.date = date;
 		order.save()
 		.then(order => res.send(order))
 		.catch(err => res.status(404).send(err))
 	});
 })
 
+//AÑADE ITEM AL CARRITO
+
 server.post('/:userId/cart', (req, res) =>{
 	const {userId} = req.params
 	const {productId} = req.body
 	var producto = {}
 
-//const {name, price, stock, quantity} = req.body
 
 Product.findByPk(productId)
 .then((data) => {
@@ -285,7 +359,8 @@ Product.findByPk(productId)
 				price: parseInt(producto.price),
 				quantity: 1,
 				product_name: producto.name,
-				product_desc: producto.description
+				product_desc: producto.description,
+				product_img: producto.pictures
 			}
 		})
 		.then((order) => {res.send(order)})
@@ -314,21 +389,5 @@ server.post('/order', (req,res) => {
 	.catch((err) => console.log(err))
 })
 
-//LOGIN
 
-server.post('/login', (req,res) => {
-	const {email,password} = req.body
-
-	User.findOne({
-		where:{
-			email
-		}
-	})
-	.then((user) => {
-		if(!user){return res.status(404).send('El user no existe')}
-		if(user.password !== password){return res.status(401).send('password invalido')}
-		res.status(201).send(user)
-	})
-
-})
 module.exports = server;

@@ -2,6 +2,9 @@ const server = require('express').Router();
 const { Product, Category , Review} = require('../db.js');
 const { Op } = require('sequelize')
 const trash = [];
+const {isAuthenticated, isAdmin} = require('./passport')
+
+
 
 server.get('/', (req, res, next) => {
 	Product.findAll()
@@ -30,7 +33,7 @@ server.get('/search', (req, res) => {
 	.catch((err) => res.status(404).send(err));
 })
 
-server.post("/", (req,res) => {
+server.post("/", isAdmin, (req,res) => {
 	const {name, description, price, stock, pictures, brand, model , asessment, quantity, color, category} = req.body
 	if(!name || !description || !price || !stock || !pictures || !quantity || !brand || !category){return res.status(400).send("Debe rellenar los campos requeridos")}
 	Product.findOne({

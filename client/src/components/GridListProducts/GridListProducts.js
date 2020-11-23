@@ -53,20 +53,15 @@ export default function ImageGridList(props) {
 
 
 
-
  const handleNext = () =>{
   if(!page){
     history.push('/search?page=2')
   }
   else history.push(`/search?page=${parseInt(page) + 1}`)
-
-
-
  }
 
  const handlePrevious = () => {
 history.push(`/search?page=${parseInt(page) - 1}`)
-
  }
 
   return (
@@ -79,7 +74,7 @@ history.push(`/search?page=${parseInt(page) - 1}`)
       <Grid container justify = "center">
 				<Button onClick={handlePrevious}
 				variant="outlined"
-				disabled={page === 0}
+				disabled={(page === null) || (page == 1)}
 				>
 					Anterior
 				</Button>
