@@ -37,7 +37,7 @@ function App() {
           <SearchBar />
           <Route exact path='/' render={() => <Carrousel />} />
           <Container>
-          
+
               <Route exact path='/' component={Catalogo} />
 
               <Route exact path='/user/create' component={CreateUser} />

@@ -17,7 +17,7 @@ import { useLocation, Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import CategoryIcon from '@material-ui/icons/Category';
 import {useDispatch, useSelector} from "react-redux"
-import {addProductCart} from "../../actions"
+import {addProductCart, addProductGuest} from "../../actions"
 
 
 
@@ -42,10 +42,24 @@ export default function ProductCard(props) {
   const dispatch = useDispatch()
   const classes = useStyles();
   const url = useLocation();
+  const guest = useSelector(state => state.guest)
 
   const handleCart = () => {
+    if(user && user.id){
+      dispatch(addProductCart(user.id, props.productos.id))
+    }
 
-    dispatch(addProductCart(user.id, props.productos.id))
+    else {
+      const data = {price: props.productos.price,
+        product_name: props.productos.name,
+        quantity: 1,
+        product_desc: props.productos.description,
+        product_img: props.productos.pictures[0],
+        product_id: props.productos.id
+        }
+
+      dispatch(addProductGuest(data))
+    }
 
   }
 
