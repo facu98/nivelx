@@ -7,7 +7,7 @@ const initialState = {
   products: [],
   categories: [],
   users: [],
-  user: user ? user : [],
+  user: {},
   cart:[],
   orders:[],
   quantity: 0
@@ -104,6 +104,17 @@ function rootReducer(state = initialState, action) {
       user: []
     }
 
+    case 'RESET_PASSWORD':
+			return {
+				...state,
+				users: action.payload,
+			}
+		case 'RESET':
+			return {
+				...state,
+				reset: action.payload,
+			}
+    
     case 'GET_QUANTITY':
       return {
         ...state,
