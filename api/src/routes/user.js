@@ -266,24 +266,26 @@ server.get('/:id/orders', (req, res) => {
 
 // Modifica las órdenes del usuario
 
-server.put('/:id/orders', (req, res) => {
-	const { state, date } = req.body
+server.put('/:id/order', (req, res) => {
+	const { state, orderId } = req.body
 	let id = req.params.id;
-	Order.findAll({
+	Order.findOne({
 	where: {
-		user_id: id
+    id: parseInt(orderId),
+		userId: parseInt(id)
 		}
 	})
 	.then(order => {
 		if(!order){
-			res.status(400).send(`No se encuentran órdenes de este usuario`);
+			return res.status(400).send(`No se encuentran órdenes de este usuario`);
 		}
-		if( !state || !date ){
-			res.status(400).send(`Debe completar los campos obligatorios`);
+		if( !state ){
+			return res.status(400).send(`Debe completar los campos obligatorios`);
 		}
 
+    console.log(order)
+
 		order.state = state;
-		order.date = date;
 		order.save()
 		.then(order => res.send(order))
 		.catch(err => res.status(404).send(err))

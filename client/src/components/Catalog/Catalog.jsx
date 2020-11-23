@@ -14,7 +14,6 @@ function useQuery() {
 	return new URLSearchParams(useLocation().search);
 }
 
-
 export default function ({ match, location }) {
 
 	const state = useSelector(state => state.products)

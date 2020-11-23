@@ -368,11 +368,9 @@ export const updateCountProductInCart = (userId, idProduct, count) => async disp
 
 export function getProductsCart(id) {
   return function (dispatch) {
-
     return fetch(`http://localhost:3001/users/${id}/cart`)
       .then((res) => res.json())
       .then((order) => {
-
         order.name === 'SequelizeDatabaseError' || order.length === 0
 
           ? dispatch({
@@ -404,6 +402,32 @@ export function cleanOrder() {
         : swal('Error al cancelar la orden', '', 'error')
     )
   }
+}
+
+export function changeStateOrder(userID, data) {
+	return function(dispatch){
+		return fetch(`http://localhost:3001/users/${userID}/order`,
+			{
+					method: "PUT",
+					credentials: 'include',
+					body: JSON.stringify(data),
+					headers: {
+							'Accept': 'application/json',
+							'Content-Type': 'application/json'
+					}
+			})
+			.then((res) => {
+				res.status === 200
+				? dispatch({
+						type: 'EDIT_ORDER',
+					})
+				: swal('Error al editar la orden', '', 'error')
+			})
+			.then(() => {
+				return dispatch(getOrders())
+			})
+
+	}
 }
 
 export function getClosedOrders() {
