@@ -13,8 +13,8 @@ export default function (props) {
 
 console.log(url.pathname)
 	return (
-		<div className='p-3'>
-			<h1>Categorias</h1>
+		<div className='mr-3'>
+			<h2 className="text-center mt-3">Categorias</h2>
 			<hr />
 			<ul className='list-group'>
 				{props.categories &&
