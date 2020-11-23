@@ -9,7 +9,7 @@ const initialState = {
   products: [],
   categories: [],
   users: [],
-  user: {},
+  user: user ? user : [],
   cart:[],
   orders:[],
   quantity: 0,
@@ -121,7 +121,7 @@ function rootReducer(state = initialState, action) {
 				...state,
 				reset: action.payload,
 			}
-    
+
     case 'GET_QUANTITY':
       return {
         ...state,
@@ -143,6 +143,7 @@ function rootReducer(state = initialState, action) {
 
 
     case 'IS_LOGGED':
+    console.log(action.logged)
     if(!action.logged){
       return{
         ...state,
