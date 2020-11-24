@@ -169,7 +169,7 @@ server.post("/:id/review", /*isAuthenticated*/ (req, res) => {
 
 		const {score, title, comments, userId} = req.body
 
-		if(!score || !tittle || !comments )
+		if(!score || !title || !comments )
 						{
 							res.status(400).send('Debe enviar los campos requeridos')
 							return
