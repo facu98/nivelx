@@ -71,6 +71,8 @@ history.push(`/search?page=${parseInt(page) - 1}`)
          : list.slice(0,12)
       }
       </GridList>
+      
+      <div className="mt-4" >
       <Grid container justify = "center">
 				<Button onClick={handlePrevious}
 				variant="outlined"
@@ -89,6 +91,7 @@ history.push(`/search?page=${parseInt(page) - 1}`)
 					Siguiente
 				</Button>
       </Grid>
+      </div>
     </div>
   );
 }

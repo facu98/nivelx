@@ -37,7 +37,7 @@ function App() {
   return (
     <div className="App">
           <SearchBar />
-          <Route exact path='/' render={() => <Carrousel />} />
+          <Route  path='/' render={() => <Carrousel />} />
           <Container>
 
               <Route exact path='/' component={Catalogo} />
