@@ -357,13 +357,16 @@ Product.findByPk(productId)
 				order_id: order[0].id,
 				product_id: producto.id,
 				price: parseInt(producto.price),
-				quantity: 1,
 				product_name: producto.name,
 				product_desc: producto.description,
 				product_img: producto.pictures
 			}
 		})
+		.then((order) => {
+			order.quantity = order.quantity + 1
+		})
 		.then((order) => {res.send(order)})
+
 		.catch((err) => {
 			console.log(err)
 			res.status(400).json(err.parent.detail)

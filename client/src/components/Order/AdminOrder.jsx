@@ -31,7 +31,7 @@ dispatch(getOrders())
 },[])
 
 const columns = [
-  { field: 'id', title: 'ID'},
+  { field: 'id', title: 'Order ID'},
   { field: 'estado', title: 'Estado'},
   {field:'userID', title: 'User ID'},
   {field: 'fecha', title:'Fecha'},
@@ -73,7 +73,6 @@ const changeState = (userID, orderID) => {
 
       detailPanel={[{
         icon: () => <EditIcon/>,
-        openIcon: 'favorite',
         tooltip:'Cambiar estado',
         render: rowData => {
 
