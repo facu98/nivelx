@@ -5,7 +5,14 @@ import { useLocation } from "react-router-dom";
 import {Link, useHistory } from 'react-router-dom'
 import MaterialTable from 'material-table'
 import AdminCart from './AdminCart'
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import Button from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 
 
 
@@ -44,16 +51,17 @@ var rows = state && state.map((order) => {
 })
 
 
-var check
 
-const checkChange = (e) => {
-  const state = e.target.value
-  check = state
+var value
+
+const handleChange = (e) => {
+  value = e.target.value
 }
 
 const changeState = (userID, orderID) => {
-  const data = {state: check, orderId: orderID}
-dispatch(changeStateOrder(userID, data))
+    console.log(userID, orderID)
+    const data = {state: value, orderId: orderID}
+  dispatch(changeStateOrder(userID, data))
 }
 
 
@@ -62,35 +70,67 @@ dispatch(changeStateOrder(userID, data))
     <div>
     {<div style={{ maxWidth: '100%' }}>
       <MaterialTable columns={columns} data={rows} title="Orders"
+
       detailPanel={[{
-        icon: 'favorite_border',
+        icon: () => <EditIcon/>,
         openIcon: 'favorite',
         tooltip:'Cambiar estado',
         render: rowData => {
 
           return (
         <div style={{
+                display: 'flex',
                 fontSize: 15,
                 textAlign: 'center',
+                justifyContent:'center',
+                alignItems:'center'
               }}>
-        <input type="radio" name='check' id='carrito' value='carrito' onChange={checkChange}/>
-        <label for='carrito'>carrito</label>
-        <input type="radio" name='check' id='creada' value='creada' onChange={checkChange}/>
-        <label for='creada'>creada</label>
-        <input type="radio" name='check' id='procesando' value='procesando' onChange={checkChange}/>
-        <label for='procesando'>procesando</label>
-        <input type="radio" name='check' id='cancelada' value='cancelada' onChange={checkChange}/>
-        <label for='cancelada'>cancelada</label>
-        <input type="radio" name='check' id='completa' value='completa' onChange={checkChange}/>
-        <label for='completa'>completa</label>
-        <button onClick={() => {changeState(rowData.userID, rowData.id)}}>Change</button>
+
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Cambiar estado de la orden</FormLabel>
+        <RadioGroup row aria-label="position" name="position" defaultValue="top" onChange={handleChange}>
+          <FormControlLabel
+            value="carrito"
+            control={<Radio color="primary" />}
+            label="carrito"
+            labelPlacement="top"
+          />
+          <FormControlLabel
+            value="creada"
+            control={<Radio color="primary" />}
+            label="creada"
+            labelPlacement="top"
+          />
+          <FormControlLabel
+            value="procesando"
+            control={<Radio color="primary" />}
+            label="procesando"
+            labelPlacement="top"
+          />
+          <FormControlLabel
+          value="cancelada"
+           control={<Radio color="primary" />}
+           label="cancelada"
+           labelPlacement="top"/>
+
+           <FormControlLabel
+           value="completa"
+            control={<Radio color="primary" />}
+            label="completa"
+            labelPlacement="top"/>
+
+        </RadioGroup>
+
+      </FormControl>
+
+      <Button onClick={() => {changeState(rowData.userID, rowData.id)}} variant="contained" >Change</Button>
         </div>
       )
     },
   },
 
   {
-       icon: 'account_circle',
+       icon:() => <ShoppingCartIcon/>,
        tooltip: 'Editar carrito',
        render: rowData => {
          return (

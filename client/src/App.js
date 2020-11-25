@@ -37,7 +37,7 @@ function App() {
   return (
     <div className="App">
           <SearchBar />
-          <Route exact path='/' render={() => <Carrousel />} />
+          <Route  path='/' render={() => <Carrousel />} />
           <Container>
 
               <Route exact path='/' component={Catalogo} />
@@ -46,7 +46,6 @@ function App() {
 
               <Route exact path='/user/login' component={Login} />
 
-              <Route path='/admin/orders' component = {OrdersAdmin} />
 
               <Route exact path='/user/cart' component={Cart} />
 
@@ -89,6 +88,8 @@ function App() {
                   <EditCategory match={match} />
                   )}
               />
+              <Route path='/admin/orders' component = {OrdersAdmin} />
+
 
           </Container>
      </div>

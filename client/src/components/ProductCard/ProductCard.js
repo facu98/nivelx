@@ -17,16 +17,32 @@ import { useLocation, Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import CategoryIcon from '@material-ui/icons/Category';
 import {useDispatch, useSelector} from "react-redux"
-import { addProductCart, addProductGuest } from "../../actions"
 import { Review } from '../Review/Review';
 import { Star } from '../Review/Star';
+import {addProductCart, addProductGuest} from "../../actions"
+import { FaAutoprefixer } from 'react-icons/fa';
+
 
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 250,
-    maxHeight: 450
+    maxHeight: 450,
+    margin: 'auto',
+  },
+  actionArea: {
+    transition: '0.2s',
+    '&:hover': {
+      transform: 'scale(1.1)',
+    },
+  },
+  content: {
+    padding: 10,
+  },
+  action: {
+    marginTop:0,
+    marginBottom: 10,
   },
   media: {
     height: 0,
@@ -95,14 +111,15 @@ export default function ProductCard(props) {
       </>)
 
   return (
-    <Card className={classes.root}>
+   
+    <Card className={classes.root, classes.actionArea }>
        <CardHeader/>
       <CardMedia
         className={classes.media}
         image={props.productos.pictures[0]}
         loading = "lazy"
       />
-      <CardContent>
+      <CardContent className={classes.content} >
         <Link to={`/products/${props.productos.id}`}>
           <Typography variant='h5' color="textSecondary" component="p">
             {props.productos.name}
@@ -115,11 +132,11 @@ export default function ProductCard(props) {
           {`USD ${props.productos.price}`}
         </Typography>
         <Star />
-
       </CardContent>
-      <CardActions disableSpacing>
+      <CardActions disableSpacing className={classes.action} >
         {boton}
       </CardActions>
     </Card>
+   
   );
 }
