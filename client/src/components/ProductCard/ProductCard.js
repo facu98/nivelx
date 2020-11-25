@@ -24,6 +24,7 @@ import { FaAutoprefixer } from 'react-icons/fa';
 
 
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth:245,
@@ -81,12 +82,12 @@ export default function ProductCard(props) {
 
   }
 
-  const boton = url.pathname === '/admin/products/edit'
+  const boton = user.isAdmin
     ? (<>
       <Link to={`/admin/products/edit/${props.productos.id}`}>
         <IconButton>
           <Tooltip title='Editar producto'>
-            <EditIcon color='primary' />
+            <EditIcon style={{ fontSize: 20 }} color='primary' />
           </Tooltip>
         </IconButton>
       </Link>

@@ -34,6 +34,9 @@ export default function ImageGridList(props) {
 
   const history = useHistory()
   const classes = useStyles();
+  
+  let url = window.location.href.split("/");
+ 
 
   let page = useQuery().get('page')
 
@@ -54,7 +57,12 @@ export default function ImageGridList(props) {
 
 
  const handleNext = () =>{
-  if(!page){
+  //  if(!page && url.includes("edit")) {
+  //    history.push('/search?page=2')
+  //    console.log(page)
+  //  }
+  //  else history.push(`/search?page=${parseInt(page) + 1}`);
+  if( !page ){
     history.push('/search?page=2')
   }
   else history.push(`/search?page=${parseInt(page) + 1}`)
