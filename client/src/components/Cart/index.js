@@ -4,17 +4,14 @@ import Shopping from './Shopping/Shopping'
 import Summary from './Summary/Summary'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button';
-import {useDispatch, useSelector} from "react-redux"
 import {cleanOrder, clearGuestCart, getProductsCart} from "../../actions"
 
-export const Cart = ({cart, user, getProductsCart}) => {
-
+export const Cart = () => {
 	useEffect(() => {
 		//getProductsCart(1)
 
 	}, [])
 
-export const Cart = () => {
 	const user = useSelector(state => state.user)
 	const dispatch = useDispatch()
   
@@ -89,17 +86,3 @@ export const Cart = () => {
 
 	)
 }
-
-// const mapStateToProps = (store) => {
-// 	return {
-// 		cart: store.cart,
-// 		user: store.user,
-// 	}
-// }
-
-// const mapDispatchToProps = (dispatch) => {
-// 	return {
-// 		getProductsCart: (userId) => dispatch(getProductsCart(userId))
-// 	}
-// }
-// export default connect(mapStateToProps, mapDispatchToProps)(Cart)
