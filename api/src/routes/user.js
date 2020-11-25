@@ -62,21 +62,20 @@ server.get("/:id", (req,res) => {
 })
 
 server.put("/:id", (req, res) => {
-	const { name, lastname, email, password, directionOne, directionTwo, phone , status } = req.body
+	const { name, lastname, email, directionOne, directionTwo, phone , status } = req.body
 	const id = req.params.id;
 	User.findByPk(id)
 	.then(user => {
 		if(!user){
 			res.status(400).send(`No existe el usuario con ID: ${id}`);
 		}
-		if(!email || !password || !name || !lastname || !directionOne || !phone){
+		if(!email || !name || !lastname || !directionOne || !phone){
 			res.status(400).send(`Debe completar los campos obligatorios`);
 		}
 
 		user.name = name;
 		user.lastname = lastname;
 		user.email = email;
-		user.password = password;
 		user.directionOne = directionOne;
 		user.directionTwo = directionTwo;
 		user.phone = phone;

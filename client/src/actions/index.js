@@ -226,6 +226,27 @@ export function deleteUser(id){
 
 } }
 
+export function promoteUser(id){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/admin/promote/${id}`, {
+			credentials:'include',
+			method: 'PUT',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			}
+		})
+		.then((res) => res.json())
+		.then((user) => {
+			const serialisedState = JSON.stringify(user);
+			localStorage.user = serialisedState
+			dispatch({
+				type: 'PROMOTE_USER'
+			})
+		})
+	}
+}
+
 export function createUser(data){
 	console.log(data)
 	return function(dispatch){

@@ -30,15 +30,16 @@ const handleSearch = (e) => {
 var search = input.search
 var finder = state.filter((user) => {
 var completeName = `${user.name} ${user.lastname}`
-return user.id === search || user.name.toLowerCase() === search.toLowerCase()
+return user.id == search || user.name.toLowerCase() === search.toLowerCase()
 || user.email.toLowerCase() === search.toLowerCase() ||
 user.lastname.toLowerCase() === search.toLowerCase() ||
 completeName.toLowerCase().trim() === search.toLowerCase()})
 
-console.log(finder)
 if(finder){
   setFind(finder)
 }
+
+setInput({...input, search:''})
 }
 
 const handleChange = (e) => {
