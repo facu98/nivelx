@@ -109,7 +109,9 @@ export default function ProductCard(props) {
 
   return (
 
+
     <Card className={classes.root, classes.actionArea } variant="outlined">
+
        <CardHeader/>
       <CardMedia
         className={classes.media}
