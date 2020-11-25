@@ -87,8 +87,7 @@ server.put("/:id", (req, res) => {
 });
 
 server.post("/", (req,res) => {
-	const { name, lastname, email, password, directionOne, directionTwo, phone } = req.body
-
+	const { name, lastname, email, password, directionOne, directionTwo, phone, cart } = req.body
 	if(!name || !lastname || !email || !password || !directionOne || !phone ) {
         return res.status(400).send( "Debe rellenar los campos requeridos" )
     }
@@ -108,7 +107,29 @@ server.post("/", (req,res) => {
 			directionTwo,
 			phone: parseInt(phone),
 		})
-		.then((user) => res.status(201).send(user))
+		.then((user) => {
+			if(!cart) {return res.status(201).send(user)}
+			else{
+				Order.create({
+					state:'carrito',
+					userId: user.id
+				})
+				.then((order) => {
+					cart.map((c) => {
+						Orderline.create({
+							order_id: order.id,
+							product_id: c.product_id,
+							price: parseInt(c.price),
+							quantity: c.quantity,
+							product_name: c.product_name,
+							product_desc: c.product_desc,
+							product_img: c.product_img
+						})
+					})
+				})
+				.then(() => res.sendStatus(201))
+			}
+		})
 		.catch((err) => res.send(err))
 	})
 	.catch((err) =>  res.send(err))
@@ -336,9 +357,8 @@ server.put('/:id/order', (req, res) => {
 
 server.post('/:userId/cart', (req, res) =>{
 	const {userId} = req.params
-	const {productId} = req.body
+	const {productId, quantity} = req.body
 	var producto = {}
-
 
 Product.findByPk(productId)
 .then((data) => {
@@ -352,25 +372,38 @@ Product.findByPk(productId)
 	})
 	.then((order) => {
 
-		Orderline.findOrCreate({
+		Orderline.findOne({
 		where:{
 				order_id: order[0].id,
 				product_id: producto.id,
+			}
+		})
+		.then((orderline) => {
+			if(!orderline){
+			Orderline.create({
+				order_id: order[0].id,
+				product_id: producto.id,
 				price: parseInt(producto.price),
+				quantity: quantity ? quantity : 1,
 				product_name: producto.name,
 				product_desc: producto.description,
 				product_img: producto.pictures
+			})
+			.then((order) => {res.send(order)})
+			.catch((err) => {
+				res.status(400).json(err.parent.detail)
+			})
+				}
+			else{
+				orderline.quantity = quantity ? quantity : orderline.quantity + 1
+				orderline.save()
+				.then((order) => {res.send(order)})
+				.catch((err) => {
+					res.status(400).json(err.parent.detail)
+				})
 			}
 		})
-		.then((order) => {
-			order.quantity = order.quantity + 1
-		})
-		.then((order) => {res.send(order)})
 
-		.catch((err) => {
-			console.log(err)
-			res.status(400).json(err.parent.detail)
-		})
 	})
 	.catch((err) => {
 		res.status(400).json(err.parent.detail)

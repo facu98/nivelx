@@ -227,6 +227,7 @@ export function deleteUser(id){
 } }
 
 export function createUser(data){
+	console.log(data)
 	return function(dispatch){
 	return fetch('http://localhost:3001/users',{
 		method: 'POST',
@@ -297,7 +298,7 @@ export function getOrderbyID(id){
 // updateCountProductInCart (actualiza el contador del carrito)
 
 
-export const addProductCart = (idUser, idProduct) => async dispatch => {
+export const addProductCart = (idUser, idProduct, quantity) => async dispatch => {
 		await fetch(`http://localhost:3001/users/${idUser}/cart`, {
 			method: 'POST',
 			credentials: 'include',
@@ -305,7 +306,7 @@ export const addProductCart = (idUser, idProduct) => async dispatch => {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ productId: idProduct }),
+			body: JSON.stringify({ productId: idProduct, quantity }),
 		})
 			.then((res) => res.json())
 			.then((data) => {
@@ -319,8 +320,19 @@ export const addProductCart = (idUser, idProduct) => async dispatch => {
 			})
 }
 
-export function addProductGuest(product){
+export function addProductGuest(product, quantity){
 	return function (dispatch){
+		let storageCart = JSON.parse(localStorage.getItem('guest'))
+		let finder = storageCart && storageCart.findIndex((p) => p.product_id === product.product_id)
+		if(storageCart && finder !== -1){
+		quantity ? (storageCart[finder].quantity) = quantity : (storageCart[finder].quantity ++)
+		localStorage.setItem('guest', JSON.stringify(storageCart))
+
+			dispatch({
+				type:'SUM_QUANTITY'
+			})
+		}
+		else
 		dispatch({
 			type:'ADD_PRODUCT_CART_GUEST',
 			payload: product
@@ -331,7 +343,7 @@ export function addProductGuest(product){
 export function removeProductGuest(productId){
 	return function (dispatch){
 		let storageCart = JSON.parse(localStorage.getItem('guest'))
-		let filter = storageCart.filter((p) => p.product_id !== productId)
+		let filter = storageCart && storageCart.filter((p) => p.product_id !== productId)
 		dispatch({
 			type:'REMOVE_PRODUCT_CART_GUEST',
 			payload: filter

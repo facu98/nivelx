@@ -25,7 +25,7 @@ export default function Product({ match }) {
     }
 
 
-    console.log(product)
+
     return (
         <section className={`${s.section} ${s.productSection}`}>
             <Link to='/' className={`${s.btn} ${s.btnPrimary}`}>
@@ -52,6 +52,7 @@ export default function Product({ match }) {
                 <div className="ml-4" >
                     <div>
                         <Stock
+
                             quantity={product.quantity}
                             price={product.price}
                         />
@@ -61,17 +62,12 @@ export default function Product({ match }) {
                     </div>
                 </div>
 
-
-                <Stock
-                quantity = {product.quantity}
-                price = {product.price}
-                id = {product.id}
-                />
                 <Buttons
+                product = {product}
                 id = {product.id}
                 quantity = {product.quantity}
                 />
-                
+
 
             </div>
 

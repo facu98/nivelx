@@ -131,9 +131,6 @@ export default function ProductCard(props) {
 
         <Star />
       </CardContent>
-      <CardActions disableSpacing className={classes.action} >
-  {boton}
-</CardActions>
 
     </Card>
 

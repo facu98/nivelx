@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 	export default function FormUser({ match }){
     const user = useSelector(state => state.user)
+    const guestCart = useSelector(state => state.guestCart)
     const dispatch = useDispatch()
     const classes = useStyles();
     const [validate, setValidate] = useState({
@@ -230,7 +231,9 @@ const useStyles = makeStyles((theme) => ({
 
         if(!err && input.passwordrepeat === input.password){
 
-          dispatch(createUser(input))
+          var cart = guestCart.length > 0 && guestCart
+          var data = {...input, cart}
+          dispatch(createUser(data))
           resetForm()
         }
 
