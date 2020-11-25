@@ -4,7 +4,8 @@ import Shopping from './Shopping/Shopping'
 import Summary from './Summary/Summary'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button';
-import { getProductsCart } from '../../actions'
+import {useDispatch, useSelector} from "react-redux"
+import {cleanOrder, clearGuestCart, getProductsCart} from "../../actions"
 
 export const Cart = ({cart, user, getProductsCart}) => {
 
@@ -13,6 +14,10 @@ export const Cart = ({cart, user, getProductsCart}) => {
 
 	}, [])
 
+export const Cart = () => {
+	const user = useSelector(state => state.user)
+	const dispatch = useDispatch()
+  
 	return (
 		<div className='container p-5'>
 			<h1>
@@ -50,8 +55,12 @@ export const Cart = ({cart, user, getProductsCart}) => {
 										fullWidth
 										variant="contained"
 										color="secondary"
+										onClick={() => {
+											if(user && user.id) dispatch(cleanOrder(user.id))
+											else(dispatch(clearGuestCart()))
+										}}
 								>
-										Eliminar carrito
+										Vaciar carrito
 								</Button>
 			    	</div>
 

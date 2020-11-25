@@ -2,7 +2,11 @@ const server = require('express').Router();
 const { Order } = require('../db.js');
 
 server.get("/", (req, res) => {
-	Order.findAll()
+	Order.findAll(
+		{
+			order:['id']
+		}
+	)
 	.then(orders => res.send(orders))
 	.catch(err => res.status(404).send(err))
 });

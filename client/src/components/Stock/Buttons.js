@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import { productQuantity } from '../../actions'
 import {useDispatch, useSelector} from "react-redux"
-import {addProductCart, productQuantity} from "../../actions"
+import {addProductCart, productQuantity, addProductGuest} from "../../actions"
 
 export default function Buttons(props){
 
@@ -12,12 +12,22 @@ export default function Buttons(props){
     const dispatch = useDispatch()
 
     const handleCart = () => {
-        dispatch(addProductCart(user.id, props.id))
-        //dispatch(productQuantity(q))
-        console.log(q)
+      if(user && user.id){
+        dispatch(addProductCart(user.id, props.id, q))
+      }
+    else{
+      const data = {price: props.product.price,
+        product_name: props.product.name,
+        quantity: q > 0 ? q : 1,
+        product_desc: props.product.description,
+        product_img: props.product.pictures,
+        product_id: props.product.id
+        }
+      dispatch(addProductGuest(data, parseInt(q)))
+    }
       }
       //subscribe
-    
+
     return(
         <div>
             <Button
@@ -36,7 +46,7 @@ export default function Buttons(props){
             onClick={handleCart}
             style={{ margin: '25px', padding: '5px 25px' }}>
             Agregar al Carrito
-            </Button> 
+            </Button>
         </div>
     )
 };

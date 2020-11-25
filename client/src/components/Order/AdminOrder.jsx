@@ -1,9 +1,19 @@
 import {useDispatch, useSelector} from "react-redux"
-import {getOrders, getOrderbyID} from "../../actions"
+import {getOrders, getOrderbyID, getProductsCart, changeStateOrder} from "../../actions"
 import React, { useEffect, useState} from 'react'
 import { useLocation } from "react-router-dom";
-import { useHistory } from 'react-router-dom'
-import { DataGrid } from '@material-ui/data-grid';
+import {Link, useHistory } from 'react-router-dom'
+import MaterialTable from 'material-table'
+import AdminCart from './AdminCart'
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import Button from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+
 
 
 
@@ -12,23 +22,20 @@ const state = useSelector(state => state.orders)
 const dispatch = useDispatch()
 const [search, setSearch] = useState("")
 const history = useHistory()
-
+//const cart = useSelector(state => state.cart)
 var location = useLocation().pathname.split("/")
 
 
 useEffect(() => {
-  if(location[3]){
-    dispatch(getOrderbyID(location[3]))
-  }
-   else dispatch(getOrders())
+dispatch(getOrders())
 },[])
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'estado', headerName: 'Estado', width: 130 },
-  {field:'userID', headerName: 'User ID', width:100},
-  {field: 'fecha', headerName:'Fecha', width:130},
-  {field: 'hora', headerName:'Hora', width:130}
+  { field: 'id', title: 'Order ID'},
+  { field: 'estado', title: 'Estado'},
+  {field:'userID', title: 'User ID'},
+  {field: 'fecha', title:'Fecha'},
+  {field: 'hora', title:'Hora'}
 
 ];
 
@@ -43,28 +50,101 @@ var rows = state && state.map((order) => {
   }
 })
 
+
+
+var value
+
 const handleChange = (e) => {
-  setSearch(
-    e.target.name = e.target.value
-  )
-
+  value = e.target.value
 }
 
-const handleSearch = () => {
-
-  history.push(`/admin/orders/${search}`);
-  history.go()
+const changeState = (userID, orderID) => {
+    console.log(userID, orderID)
+    const data = {state: value, orderId: orderID}
+  dispatch(changeStateOrder(userID, data))
 }
+
+
 
   return (
     <div>
-    <div >
-    <h1 href ="#">GET ORDERS</h1>
-    </div>
-    <input value = {search} name = 'search' onChange = {handleChange} aria-label="Search" placeholder ="Filtrar por ID de orden"/>
-    <button onClick = {handleSearch} >Buscar</button>
-    {<div style={{ height: 400, width: '100%' }}>
-      <DataGrid rows={rows} columns={columns} pageSize={10}  />
+    {<div style={{ maxWidth: '100%' }}>
+      <MaterialTable columns={columns} data={rows} title="Orders"
+
+      detailPanel={[{
+        icon: () => <EditIcon/>,
+        tooltip:'Cambiar estado',
+        render: rowData => {
+
+          return (
+        <div style={{
+                display: 'flex',
+                fontSize: 15,
+                textAlign: 'center',
+                justifyContent:'center',
+                alignItems:'center'
+              }}>
+
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Cambiar estado de la orden</FormLabel>
+        <RadioGroup row aria-label="position" name="position" defaultValue="top" onChange={handleChange}>
+          <FormControlLabel
+            value="carrito"
+            control={<Radio color="primary" />}
+            label="carrito"
+            labelPlacement="top"
+          />
+          <FormControlLabel
+            value="creada"
+            control={<Radio color="primary" />}
+            label="creada"
+            labelPlacement="top"
+          />
+          <FormControlLabel
+            value="procesando"
+            control={<Radio color="primary" />}
+            label="procesando"
+            labelPlacement="top"
+          />
+          <FormControlLabel
+          value="cancelada"
+           control={<Radio color="primary" />}
+           label="cancelada"
+           labelPlacement="top"/>
+
+           <FormControlLabel
+           value="completa"
+            control={<Radio color="primary" />}
+            label="completa"
+            labelPlacement="top"/>
+
+        </RadioGroup>
+
+      </FormControl>
+
+      <Button onClick={() => {changeState(rowData.userID, rowData.id)}} variant="contained" >Change</Button>
+        </div>
+      )
+    },
+  },
+
+  {
+       icon:() => <ShoppingCartIcon/>,
+       tooltip: 'Editar carrito',
+       render: rowData => {
+         return (
+           <div style={{
+                   fontSize: 15,
+                   textAlign: 'center',
+                 }}>
+             {rowData.estado === 'carrito' ? <AdminCart id={rowData.userID}/> : <p>Solo se pueden editar productos de ordenes en estado 'carrito'</p>}
+           </div>
+         )
+       },
+     },
+]}
+
+      />
     </div>}
     </div>
   );

@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { getProductsCart, deleteProductInCart, getProductById, productQuantity } from '../../../actions'
+import {Count} from '../Counter/Count'
+import Stock from '../../Stock/Stock.js'
+import { getProductsCart, deleteProductInCart, getProductById, removeProductGuest } from '../../../actions'
+
 //fix
 export const Shopping = ({
 	cart,
@@ -8,11 +11,17 @@ export const Shopping = ({
 	product,
 	getProductsCart,
 	getProductById,
-	deleteProductInCart
+	deleteProductInCart,
+	removeProductGuest
+
 }) => {
 
 	useEffect(() => {
-		getProductsCart(user.id)
+		if(user && user.id){
+			getProductsCart(user.id)
+		}
+
+
 
 	}, [])
 
@@ -24,13 +33,11 @@ export const Shopping = ({
 						<div className='card mb-3 p-3' key={c.product_id}>
 							<div className='row'>
 								<div className='col-md-4'>
-
-							{/*}	// <img
-								// 	src={`http://localhost:3001/images/${cart.product_id.p[0]}`}
-								// 	className='card-img'
-								// 	alt='...'
-								// />
-								*/}
+							<img
+								src={cart.product_img[0]}
+										className='card-img'
+										alt='...'
+							/>
 								</div>
 
 								<div className='col-md-5'>
@@ -45,6 +52,7 @@ export const Shopping = ({
 									</div>
 								</div>
 								<div className='col-md-3 d-flex align-items-center justify-content-center'>
+
 									<div>
                 						<label><b>Cantidad:</b></label>
 										<input
@@ -73,7 +81,8 @@ export const Shopping = ({
 									<button
 										className='btn align-self-start'
 										onClick={() => {
-											deleteProductInCart(user.id, c.product_id)
+											if(user && user.id){deleteProductInCart(user.id, cart.product_id)}
+											else removeProductGuest(cart.product_id)
 										}}
 									>
 										X
@@ -88,9 +97,10 @@ export const Shopping = ({
 
 const mapStateToProps = (store) => {
 	return {
-		cart: store.cart,
 		user: store.user,
-		product: store.products
+		product: store.products,
+		cart: (store.user && store.user.id) ? store.cart : store.guestCart
+
 	}
 }
 
@@ -98,7 +108,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		getProductsCart: (userId) => dispatch(getProductsCart(userId)),
 		deleteProductInCart: (userId, productId) => dispatch(deleteProductInCart(userId, productId)),
-		getProductById: (productId) => dispatch(getProductById(productId))
+		getProductById: (productId) => dispatch(getProductById(productId)),
+		removeProductGuest: (productId) => dispatch(removeProductGuest(productId))
+
 	}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Shopping)

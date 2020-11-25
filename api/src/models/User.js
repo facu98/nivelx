@@ -12,9 +12,11 @@ module.exports = (sequelize) => {
         }
     },
     password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+          type: DataTypes.STRING,
+          get() {
+              return () => this.getDataValue('password')
+          }
+      },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -37,11 +39,13 @@ module.exports = (sequelize) => {
     },
     isAdmin: {
 			type: DataTypes.BOOLEAN,
-			defaultValue: false,
+			defaultValue: true,
 		},
-    logged:{
-      type: DataTypes.BOOLEAN,
-      defaultValue:false
-    }
+    salt: {
+        type: DataTypes.STRING,
+        get() {
+            return() => this.getDataValue('salt')
+        }
+    },
   });
 };

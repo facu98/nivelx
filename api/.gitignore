@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+config.json
 package-lock.json
 /public
 # testing
@@ -24,4 +25,4 @@ yarn-debug.log*
 yarn-error.log*
 
 #json
-/src/config
+/src/config/config.json

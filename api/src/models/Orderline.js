@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
     total_price:{
       type: DataTypes.DECIMAL
     },
-    
+
     quantity:{
       type:DataTypes.INTEGER,
       defaultValue:0
@@ -22,6 +22,9 @@ module.exports = (sequelize) => {
 
     product_desc:{
       type: DataTypes.TEXT
+    },
+    product_img:{
+      type:DataTypes.ARRAY(DataTypes.STRING)
     }
 
   });

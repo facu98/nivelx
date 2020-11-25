@@ -6,13 +6,19 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import {useDispatch, useSelector} from "react-redux"
 import {getProductsCart, logOut} from "../../actions"
+import UserLoggedComponent from "../UserLogged/UserLoggedComponent"
+import './navbar.css';
 
 
 export const Navbar = () => {
   const cart = useSelector(state => state.cart)
+  const guestCart = useSelector(state => state.guestCart)
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
   const history = useHistory()
+  // --- agregue para proteger rutas ---
+  const isAuthenticated = localStorage.getItem('token');
+  // -----------------------------------
   useEffect(() => {
     user && dispatch(getProductsCart(user.id))
 
@@ -22,7 +28,6 @@ export const Navbar = () => {
     if(window.confirm(`Seguro que deseas cerrar sesión?`)){
       dispatch(logOut())
     }
-
   }
 
 
@@ -37,45 +42,57 @@ export const Navbar = () => {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <div className='container'>
                 <ul className="navbar-nav m-auto align-items-center">
-                    <li className="nav-item active">
-                        <NavLink to="/" className='nav-link' >
+                    <li className="nav-item ">
+                        <NavLink exact activeClassName="active" to="/" className='nav-link' >
                             Productos
                         </NavLink>
                     </li>
-                    <li className="nav-item offset-1 active">
-                        <NavLink to="/products/" className='nav-link' >
+                    <li className="nav-item offset-1 ">
+                        <NavLink exact activeClassName="active" to="/products/" className='nav-link' >
                             Juegos
                         </NavLink>
                     </li>
-                    {<li className="nav-item offset-1 active">
-                        {user.id ? <NavLink onClick = {handlelogOut} to = '#' className='nav-link' >
-                            Salir
-                        </NavLink> :
-                        <NavLink to="/user/login"  className='nav-link' >
+
+                    {user.id ? null : <li className="nav-item offset-1">
+                        <NavLink exact activeClassName="active" to="/user/create" className='nav-link' >
+                            Registrarse
+                        </NavLink>
+                    </li>}
+
+                    {user.isAdmin ? <li className="nav-item offset-1">
+                      <NavLink exact activeClassName="active" to="/admin/panel" className='nav-link' >
+                            Administrador
+                        </NavLink>
+                    </li> : null}
+
+                    {<li className="nav-item offset-1">
+                        {user.id ? null :
+                        <NavLink exact activeClassName="active" to="/user/login"  className='nav-link' >
                             Ingresar
                         </NavLink> }
                     </li>}
-                    <li className="nav-item offset-1 active">
-                        <NavLink to="/user/create" className='nav-link' >
-                            Registrarse
-                        </NavLink>
-                    </li>
-                    <li className="nav-item offset-1 active">
-                        <NavLink to="/admin/panel" className='nav-link' >
+                    {isAuthenticated && user.isAdmin &&
+                    <li className="nav-item offset-1">
+                        <NavLink exact activeClassName="active" to="/admin/panel" className='nav-link' >
                             Administrador
                         </NavLink>
                     </li>
-
+                    }
                     <li>
-                          <NavLink to='/user/cart'>
+                          <NavLink exact activeClassName="active" to='/user/cart'>
                                       <IconButton aria-label="cart">
 
-                                                <Badge badgeContent={cart && cart.length} color="secondary">
+                                                <Badge badgeContent={user && user.id ? (cart && cart.length) : (guestCart && guestCart.length)} color="secondary">
                                                     <ShoppingCartIcon style={{ color: 'white' }} />
                                                 </Badge>
                                       </IconButton>
                           </NavLink>
                     </li>
+
+                    {user.id ? <li>
+
+                        <UserLoggedComponent />
+                    </li> : null }
 
 
                 </ul>

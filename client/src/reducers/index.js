@@ -1,6 +1,8 @@
 const localUser = localStorage.getItem("user")
 const user = localUser && JSON.parse(localUser)
 
+var guest = localStorage.getItem("guest") && JSON.parse(localStorage.getItem("guest"))
+
 
 const initialState = {
 
@@ -10,7 +12,8 @@ const initialState = {
   user: user ? user : [],
   cart:[],
   orders:[],
-  quantity: []
+  quantity: [],
+  guestCart: guest ? guest : []
 
 };
 
@@ -21,7 +24,7 @@ function rootReducer(state = initialState, action) {
   			...state,
   			products: action.payload,
         }
-        
+
     case 'GET_PRODUCTS_ID':
   		return {
   			...state,
@@ -59,14 +62,16 @@ function rootReducer(state = initialState, action) {
     }
 
     case 'CREATE_USER':
+    localStorage.removeItem('guest');
     return {
       ...state,
-
+      guestCart:[]
     }
 
     case 'ADD_PRODUCT_IN_CART':
     return {
-      ...state
+      ...state,
+      quantity:0
     }
 
     case 'GET_PRODUCTS_IN_CART':
@@ -93,17 +98,31 @@ function rootReducer(state = initialState, action) {
     }
 
     case 'LOGIN_USER':
+    localStorage.removeItem('guest');
     return {
       ...state,
-      user: JSON.parse(localStorage.getItem("user"))
-
+      user: JSON.parse(localStorage.getItem("user")),
+      guest: false,
+      guestCart: []
     }
 
     case 'LOGOUT_USER':
     return {
       ...state,
-      user: localStorage.user
+      user: [],
+      guest:true
     }
+
+    case 'RESET_PASSWORD':
+			return {
+				...state,
+				users: action.payload,
+			}
+		case 'RESET':
+			return {
+				...state,
+				reset: action.payload,
+			}
 
     case 'GET_QUANTITY':
       return {
@@ -117,10 +136,61 @@ function rootReducer(state = initialState, action) {
       products: state.products.slice(action.payload * 12, action.payload * 12 + 12)
     }
 
+
+    case 'ADD_PRODUCT_CART_GUEST':
+    let products = []
+    if(localStorage.getItem('guest')){
+      products = JSON.parse(localStorage.getItem('guest'))
+    }
+    products.push(action.payload)
+    localStorage.setItem('guest', JSON.stringify(products))
+
+    return {
+      ...state,
+      guestCart: JSON.parse(localStorage.getItem('guest')),
+      quantity: 0
+    }
+
+    case 'SUM_QUANTITY':
+    return {
+      ...state,
+      guestCart: JSON.parse(localStorage.getItem('guest')),
+      quantity:0
+    }
+
+     case 'REMOVE_PRODUCT_CART_GUEST':
+     localStorage.guest = JSON.stringify(action.payload)
+
+     return {
+       ...state,
+       guestCart: JSON.parse(localStorage.getItem('guest'))
+     }
+
+     case 'CLEAR_GUESTCART':
+     localStorage.removeItem('guest');
+     return {
+       ...state,
+       guestCart: []
+     }
+
+
+
+    case 'IS_LOGGED':
+    if(!action.logged){
+      return{
+        ...state,
+         user : []
+      }
+    }
+
+
+
+
   default:
 
     return state
   }
+
 }
 
 export default rootReducer;

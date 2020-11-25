@@ -1,7 +1,49 @@
 const server = require('express').Router();
 const { User, Order, Product, Orderline } = require('../db.js');
 const { Op } = require('sequelize')
+var passport = require('passport');
 const trash = [];
+const {isLogged} = require('./passport')
+const bcrypt = require('bcrypt')
+const {isAuthenticated, isAdmin} = require('./passport')
+
+// FUNCION DE HASHEO DE contraseña
+function hashPassword(password) {
+	return new Promise(function (resolve, reject) {
+		bcrypt.genSalt(10, function (err, salt) {
+			if (err) return reject(err)
+			else {
+				bcrypt.hash(password, salt, function (err, hash) {
+					if (err) return reject(err)
+					return resolve(hash)
+				})
+			}
+		})
+	})
+}
+
+//LOGIN
+server.post("/login", passport.authenticate("local"),
+  (req, res) => {
+    console.log('LOGIN OK')
+    var user = {...req.user.dataValues,
+                password: "",
+                salt: ""    }
+
+    res.status(200).send({user});
+  }
+);
+
+server.get('/logout',
+  function(req, res){
+    req.logout();
+    res.sendStatus(200)
+  });
+
+server.get('/islogged', isLogged, (req,res) => {
+    res.sendStatus(200)
+  })
+
 
 server.get("/", (req, res) => {
 	User.findAll({
@@ -21,21 +63,20 @@ server.get("/:id", (req,res) => {
 })
 
 server.put("/:id", (req, res) => {
-	const { name, lastname, email, password, directionOne, directionTwo, phone , status } = req.body
+	const { name, lastname, email, directionOne, directionTwo, phone , status } = req.body
 	const id = req.params.id;
 	User.findByPk(id)
 	.then(user => {
 		if(!user){
 			res.status(400).send(`No existe el usuario con ID: ${id}`);
 		}
-		if(!email || !password || !name || !lastname || !directionOne || !phone){
+		if(!email || !name || !lastname || !directionOne || !phone){
 			res.status(400).send(`Debe completar los campos obligatorios`);
 		}
 
 		user.name = name;
 		user.lastname = lastname;
 		user.email = email;
-		user.password = password;
 		user.directionOne = directionOne;
 		user.directionTwo = directionTwo;
 		user.phone = phone;
@@ -46,8 +87,7 @@ server.put("/:id", (req, res) => {
 });
 
 server.post("/", (req,res) => {
-	const { name, lastname, email, password, directionOne, directionTwo, phone } = req.body
-
+	const { name, lastname, email, password, directionOne, directionTwo, phone, cart } = req.body
 	if(!name || !lastname || !email || !password || !directionOne || !phone ) {
         return res.status(400).send( "Debe rellenar los campos requeridos" )
     }
@@ -67,16 +107,67 @@ server.post("/", (req,res) => {
 			directionTwo,
 			phone: parseInt(phone),
 		})
-		.then((user) => res.status(201).send(user))
-		.catch(err => res.send(err))
+		.then((user) => {
+			if(!cart) {return res.status(201).send(user)}
+			else{
+				Order.create({
+					state:'carrito',
+					userId: user.id
+				})
+				.then((order) => {
+					cart.map((c) => {
+						Orderline.create({
+							order_id: order.id,
+							product_id: c.product_id,
+							price: parseInt(c.price),
+							quantity: c.quantity,
+							product_name: c.product_name,
+							product_desc: c.product_desc,
+							product_img: c.product_img
+						})
+					})
+				})
+				.then(() => res.sendStatus(201))
+			}
+		})
+		.catch((err) => res.send(err))
 	})
 	.catch((err) =>  res.send(err))
 });
 
 
-//
+// RESET password
+
+server.put('/password/:id', async (req, res) => {
+	try {
+		let user = await User.findByPk(req.params.id)
+		let newPassword = await hashPassword(req.body.password)
+
+		await user.update({ password: newPassword, resetPassword: false })
+
+		res.send(user)
+	} catch (error) {
+		res.status(500).send(error)
+	}
+})
+
+//// usuario logueado cambia su contraseña
+server.put('/password', isLogged, async (req, res) => {
+	try {
+		let user = await User.findByPk(req.user.id)
+		let newPassword = await hashPassword(req.body.password)
+
+		await user.update({ password: newPassword, resetPassword: false })
+
+		res.send(user)
+	} catch (error) {
+		res.status(500).send(error)
+	}
+})
+
+
 // ELIMINA EL usuario
-server.delete('/:id', (req, res) => {
+server.delete('/:id', isAdmin, (req, res) => {
 	User.findByPk(req.params.id)
 		.then((user) => {
 			user.destroy().then((user) => {
@@ -126,22 +217,23 @@ Product.findByPk(productId)
 
 server.delete('/:idUser/cart/all', (req, res) => {
     let id = req.params.idUser;
-	Order.findOne({
-		where: {
-			user_id: id
-		}
-	})
-	.then( cart => {
-		trash.push(cart);
-		cart.destroy()
-		res.send('Carrito vaciado');
-	})
-	.catch(err => {
-		res.status(500).send(err);
-	});
-});
 
-server.delete('/:id', (req, res) => {
+    Order.findOne({
+      where:{
+        userId: id,
+        state:'carrito'
+      }
+    })
+    .then((order) => {
+      order.destroy()
+      .then(() => res.send('deleted'))
+      })
+
+    .catch((err) => res.status(400).json([]))
+})
+//ELIMINAR USUARIO
+
+server.delete('/:id', isAdmin, (req, res) => {
 	User.findByPk(req.params.id)
 		.then((user) => {
 			user.destroy().then((user) => {
@@ -203,21 +295,6 @@ server.get(('/:idUser/cart'), (req, res, next) => {
 		.catch((err) => res.status(400).json([]))
 
 
-    // User.findByPk(id, {
-    //     where: {
-    //         idOrder: id
-    //     },
-    //     include: {
-    //         model: Order
-    //     }
-    // })
-    //     .then(contentOrder => {
-    //         if (!contentOrder) {
-    //             return res.status(400).send('Order does not exist');
-    //         }
-    //         res.send(contentOrder);
-    //     })
-    //     .catch(next);
 });
 
 // Retorna las órdenes del usuario
@@ -235,36 +312,38 @@ server.get('/:id/orders', (req, res) => {
 
 // Modifica las órdenes del usuario
 
-server.put('/:id/orders', (req, res) => {
-	const { state, date } = req.body
+server.put('/:id/order', (req, res) => {
+	const { state, orderId } = req.body
 	let id = req.params.id;
-	Order.findAll({
+	Order.findOne({
 	where: {
-		user_id: id
+    id: parseInt(orderId),
+		userId: parseInt(id)
 		}
 	})
 	.then(order => {
 		if(!order){
-			res.status(400).send(`No se encuentran órdenes de este usuario`);
+			return res.status(400).send(`No se encuentran órdenes de este usuario`);
 		}
-		if( !state || !date ){
-			res.status(400).send(`Debe completar los campos obligatorios`);
+		if( !state ){
+			return res.status(400).send(`Debe completar los campos obligatorios`);
 		}
 
+    console.log(order)
+
 		order.state = state;
-		order.date = date;
 		order.save()
 		.then(order => res.send(order))
 		.catch(err => res.status(404).send(err))
 	});
 })
 
+//AÑADE ITEM AL CARRITO
+
 server.post('/:userId/cart', (req, res) =>{
 	const {userId} = req.params
-	const {productId} = req.body
+	const {productId, quantity} = req.body
 	var producto = {}
-
-//const {name, price, stock, quantity} = req.body
 
 Product.findByPk(productId)
 .then((data) => {
@@ -278,21 +357,38 @@ Product.findByPk(productId)
 	})
 	.then((order) => {
 
-		Orderline.findOrCreate({
+		Orderline.findOne({
 		where:{
 				order_id: order[0].id,
 				product_id: producto.id,
-				price: parseInt(producto.price),
-				quantity: 1,
-				product_name: producto.name,
-				product_desc: producto.description
 			}
 		})
-		.then((order) => {res.send(order)})
-		.catch((err) => {
-			console.log(err)
-			res.status(400).json(err.parent.detail)
+		.then((orderline) => {
+			if(!orderline){
+			Orderline.create({
+				order_id: order[0].id,
+				product_id: producto.id,
+				price: parseInt(producto.price),
+				quantity: quantity ? quantity : 1,
+				product_name: producto.name,
+				product_desc: producto.description,
+				product_img: producto.pictures
+			})
+			.then((order) => {res.send(order)})
+			.catch((err) => {
+				res.status(400).json(err.parent.detail)
+			})
+				}
+			else{
+				orderline.quantity = quantity ? quantity : orderline.quantity + 1
+				orderline.save()
+				.then((order) => {res.send(order)})
+				.catch((err) => {
+					res.status(400).json(err.parent.detail)
+				})
+			}
 		})
+
 	})
 	.catch((err) => {
 		res.status(400).json(err.parent.detail)
@@ -314,21 +410,5 @@ server.post('/order', (req,res) => {
 	.catch((err) => console.log(err))
 })
 
-//LOGIN
 
-server.post('/login', (req,res) => {
-	const {email,password} = req.body
-
-	User.findOne({
-		where:{
-			email
-		}
-	})
-	.then((user) => {
-		if(!user){return res.status(404).send('El user no existe')}
-		if(user.password !== password){return res.status(401).send('password invalido')}
-		res.status(201).send(user)
-	})
-
-})
 module.exports = server;

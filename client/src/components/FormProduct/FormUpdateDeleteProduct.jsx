@@ -84,6 +84,7 @@ export default function EditProduct({ match }){
     const updateProduct = async function(){
 
         await fetch(`http://localhost:3001/products/${id}`, {
+            credentials:'include',
             method: "PUT",
             body: JSON.stringify(input),
             headers: {
@@ -101,6 +102,7 @@ export default function EditProduct({ match }){
     const deletedProd = async function(){
         swal("Success","Producto eliminado","success");
         await fetch(`http://localhost:3001/products/${id}`, {
+            credentials:'include',
             method: "DELETE",
             headers: {
                 'Accept': 'application/json',

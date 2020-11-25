@@ -4,7 +4,7 @@ import {Redirect, Route, Switch, useLocation } from "react-router-dom";
 //ACTIONS PRODUCTOS
 export function getProducts(){
 	return function(dispatch){
-		return fetch('http://localhost:3001/products')
+		return fetch('http://localhost:3001/products', {credentials: 'include'})
 				.then((res) => res.json())
 				.then((data) => {
 					dispatch(
@@ -12,7 +12,7 @@ export function getProducts(){
 								type: 'GET_PRODUCTS',
 								payload: data
 						})
-					console.log(data) })
+				 })
 	}
 }
 
@@ -82,6 +82,9 @@ export function getCategories(){
 								payload: data
 						})
 					 		})
+				.then(() => {
+					return dispatch(isLogged())
+				})
 	}
 }
 
@@ -102,51 +105,74 @@ export function getUsers(){
 
 export function loginUser(data){
 	return function(dispatch){
-		return fetch(`http://localhost:3001/users/login/`,
+		return fetch(`http://localhost:3001/users/login`,
 			{
+				credentials: 'include',
 				method: 'POST',
 				body: JSON.stringify(data),
+				mode: 'cors',
 				headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json'
 					}})
-			.then((res) => {
-				console.log(res)
-				if(!res){alert("error")}
-				if(res.status === 404){throw new Error('El usuario no existe')}
-				else if(res.status === 401){throw new Error('Password invalido')}
-				else return res.json()
-			})
-				.then((res) => {
-					const serialisedState = JSON.stringify(res);
-					 localStorage.setItem("user", serialisedState)
+					.then((res) => {
+						if(res.status === 401){throw new Error('Usuario o password incorrecto.')}
+						else if(res.status === 500){throw new Error('Algo salio mal..')}
+						else return res.json()})
 
-					dispatch({
-						type: 'LOGIN_USER',
-						payload: res
+					.then((res) => {
+
+						const serialisedState = JSON.stringify(res.user);
+					 	localStorage.setItem("user", serialisedState)
+						dispatch({
+							type: 'LOGIN_USER',
+							payload: res.user
+						})
+						return res.user
 					})
-				})
 
 				.then((res)=>{
-					console.log("Respuesta",res);
-						swal("Bienvenido!", "","success");
+
+						swal("Bienvenido!",`${res.name} ${res.lastname}`,"success");
 
 						})
-				.catch((err) => {
-														var title = `${err}`
-														swal("Ups", title, 'error')
-											  })
-											}}
+						.catch((err) => {
+																	var title = `${err}`
+																	swal("Ups", title, 'error')
+														  })
+							 							}}
+
+
 
 export function logOut(){
 	return function(dispatch){
-		localStorage.user = []
+		return fetch('http://localhost:3001/users/logout',{credentials:'include'})
+		.then(() => {
+			localStorage.user = []
 
-		dispatch({
-			type:'LOGOUT_USER'
+			dispatch({
+				type:'LOGOUT_USER'
+			})
 		})
+
 	}
 
+}
+
+export function isLogged(){
+	return function(dispatch){
+		return fetch('http://localhost:3001/users/islogged', {credentials: 'include'})
+		.then((res) => {
+			if(!res || res.status !== 200) {return false}
+			else return true
+		})
+		.then((res) => {
+			dispatch({
+				type: 'IS_LOGGED',
+				logged:res
+			})
+		})
+	}
 }
 
 export function getUserById(id){
@@ -189,6 +215,7 @@ export function deleteUser(id){
 	return function(dispatch){
 		return fetch(`http://localhost:3001/users/${id}`,
 		{
+			credentials:'include',
 				method: "DELETE"
 		})
 		.then((data) => {
@@ -200,7 +227,28 @@ export function deleteUser(id){
 
 } }
 
+export function promoteUser(id){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/admin/promote/${id}`, {
+			credentials:'include',
+			method: 'PUT',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			}
+		})
+		.then((res) => res.json())
+		.then((user) => {
+			dispatch({
+				type: 'PROMOTE_USER'
+			})
+		})
+		.then(() => {return dispatch(getUsers())})
+	}
+}
+
 export function createUser(data){
+	console.log(data)
 	return function(dispatch){
 	return fetch('http://localhost:3001/users',{
 		method: 'POST',
@@ -271,7 +319,7 @@ export function getOrderbyID(id){
 // updateCountProductInCart (actualiza el contador del carrito)
 
 
-export const addProductCart = (idUser, idProduct) => async dispatch => {
+export const addProductCart = (idUser, idProduct, quantity) => async dispatch => {
 		await fetch(`http://localhost:3001/users/${idUser}/cart`, {
 			method: 'POST',
 			credentials: 'include',
@@ -279,7 +327,7 @@ export const addProductCart = (idUser, idProduct) => async dispatch => {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ productId: idProduct }),
+			body: JSON.stringify({ productId: idProduct, quantity }),
 		})
 			.then((res) => res.json())
 			.then((data) => {
@@ -291,6 +339,45 @@ export const addProductCart = (idUser, idProduct) => async dispatch => {
 			.then(() => {
 				return dispatch(getProductsCart(idUser))
 			})
+}
+
+export function addProductGuest(product, quantity){
+	return function (dispatch){
+		let storageCart = JSON.parse(localStorage.getItem('guest'))
+		let finder = storageCart && storageCart.findIndex((p) => p.product_id === product.product_id)
+		if(storageCart && finder !== -1){
+		quantity ? (storageCart[finder].quantity) = quantity : (storageCart[finder].quantity ++)
+		localStorage.setItem('guest', JSON.stringify(storageCart))
+
+			dispatch({
+				type:'SUM_QUANTITY'
+			})
+		}
+		else
+		dispatch({
+			type:'ADD_PRODUCT_CART_GUEST',
+			payload: product
+		})
+	}
+}
+
+export function removeProductGuest(productId){
+	return function (dispatch){
+		let storageCart = JSON.parse(localStorage.getItem('guest'))
+		let filter = storageCart && storageCart.filter((p) => p.product_id !== productId)
+		dispatch({
+			type:'REMOVE_PRODUCT_CART_GUEST',
+			payload: filter
+		})
+	}
+}
+
+export function clearGuestCart(){
+	return function(dispatch){
+		dispatch({
+			type: 'CLEAR_GUESTCART'
+		})
+	}
 }
 
 
@@ -346,7 +433,6 @@ export function getProductsCart(id) {
     return fetch(`http://localhost:3001/users/${id}/cart`)
       .then((res) => res.json())
       .then((order) => {
-
         order.name === 'SequelizeDatabaseError' || order.length === 0
 
           ? dispatch({
@@ -361,9 +447,9 @@ export function getProductsCart(id) {
   }
 }
 
-export function cleanOrder() {
+export function cleanOrder(id) {
   return function (dispatch) {
-    return fetch(`http://localhost:3002/user/cart`, {
+    return fetch(`http://localhost:3001/users/${id}/cart/all`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {
@@ -375,9 +461,38 @@ export function cleanOrder() {
         ? dispatch({
             type: 'CLEAN_ORDER',
           })
-        : swal('Error al cancelar la orden', '', 'error')
+        : swal('Error al vaciar carrito', '', 'error')
     )
+		.then(() => {
+			return dispatch(getProductsCart())
+		})
   }
+}
+
+export function changeStateOrder(userID, data) {
+	return function(dispatch){
+		return fetch(`http://localhost:3001/users/${userID}/order`,
+			{
+					method: "PUT",
+					credentials: 'include',
+					body: JSON.stringify(data),
+					headers: {
+							'Accept': 'application/json',
+							'Content-Type': 'application/json'
+					}
+			})
+			.then((res) => {
+				res.status === 200
+				? dispatch({
+						type: 'EDIT_ORDER',
+					})
+				: swal('Error al editar la orden', '', 'error')
+			})
+			.then(() => {
+				return dispatch(getOrders())
+			})
+
+	}
 }
 
 export function getClosedOrders() {
@@ -416,6 +531,7 @@ export const createProduct = (producto) => async dispatch => {
 		const data = await fetch('http://localhost:3001/products', {
 			method: 'POST',
 			body: JSON.stringify(producto),
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -431,5 +547,3 @@ export const createProduct = (producto) => async dispatch => {
 		swal('Algo salio mal', ':(', 'error')
 	}
 }
-
-

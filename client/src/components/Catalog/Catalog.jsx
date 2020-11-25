@@ -14,11 +14,10 @@ function useQuery() {
 	return new URLSearchParams(useLocation().search);
 }
 
-
 export default function ({ match, location }) {
 
 	const state = useSelector(state => state.products)
-	const categories = useSelector(state => state.categories)
+
 	const dispatch = useDispatch()
 
 	// const [productos, setProductos] = useState([])
@@ -33,7 +32,7 @@ export default function ({ match, location }) {
 	useEffect(() => {
 		window.scrollTo(0, 0)
 
-		dispatch(getCategories())
+
 
 		if (query) {
 			dispatch(searchbyQuery(query))}
@@ -56,7 +55,7 @@ export default function ({ match, location }) {
 		<Grid container direction='row'>
 			{/* <div className='row h-100'> */}
 			<Grid item xs={12} sm={2} md={2}>
-				<Categorias categories={categories}/>
+				<Categorias/>
 			</Grid>
 			{state.length > 0 ?
 			<Grid item xs={12} sm={10} md={10}>
