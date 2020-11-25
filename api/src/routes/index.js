@@ -13,6 +13,7 @@ const userRouter        = require   ('./user.js');
 const orderRoutes       = require   ('./order.js')
 const imageRouter       = require   ('./image.js')
 const uploadRouter      = require   ('./upload.js')
+const adminRouter       = require   ('./admin.js')
 
 
 
@@ -25,6 +26,7 @@ router.use('/users', userRouter);
 router.use('/orders', orderRoutes);
 router.use('/image', imageRouter)
 router.use("/upload",uploadRouter)
+router.use('/admin', adminRouter)
 // load each router on a route
 // i.e: router.use('/auth', authRouter);
 // router.use('/auth', authRouter);

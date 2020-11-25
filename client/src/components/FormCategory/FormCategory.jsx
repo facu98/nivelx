@@ -89,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
         const newCategory = { name: input.name, description: input.description}
         console.log(newCategory)
         fetch('http://localhost:3001/category', {
+            credentials:'include',
             method: 'POST',
             body: JSON.stringify(newCategory),
             headers: {

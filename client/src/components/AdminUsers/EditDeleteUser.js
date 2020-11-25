@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux"
-import {editUser, deleteUser} from "../../actions"
+import {editUser, deleteUser, promoteUser} from "../../actions"
 import "./FormStyle.css"
 // import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -70,8 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
     const classes = useStyles();
     const [validate, setValidate] = useState({
-      mail:"",
-      password:""
+      mail:""
     })
 
     const [error, setError] = useState({
@@ -79,9 +78,7 @@ const useStyles = makeStyles((theme) => ({
       lastname: false,
       email:false,
       phone:false,
-      directionOne:false,
-      password:false,
-      passwordrepeat:false,
+      directionOne:false
     })
 
     const [input, setInput] = useState({
@@ -90,10 +87,7 @@ const useStyles = makeStyles((theme) => ({
       email:'',
       phone:'',
       directionOne:'',
-      directionTwo:'',
-      password:'',
-      passwordrepeat:'',
-      state:'user'
+      directionTwo:''
     });
 
 
@@ -169,36 +163,6 @@ const useStyles = makeStyles((theme) => ({
 
     }
 
-    const validatePassword = (e) => {
-      setInput({
-        ...input,
-        [e.target.name] : e.target.value
-      })
-      if(e.target.value !== input.password){
-        setValidate({
-          ...validate,
-          password:"Las contraseñas no coinciden"
-        })
-
-        setError({
-          ...error,
-          password:true,
-          passwordrepeat:true
-        })
-      }
-      else
-      {
-          setValidate({
-          ...validate,
-          password:"" })
-
-          setError({
-            ...error,
-            password:false,
-            passwordrepeat:false
-          })
-      }
-    }
 
 
 
@@ -209,35 +173,23 @@ const useStyles = makeStyles((theme) => ({
           email:'',
           phone:'',
           directionOne:'',
-          directionTwo:'',
-          password:'',
-          passwordrepeat:'',
-          state:'user'
+          directionTwo:''
         })
     };
     const handleSubmit = (e)=>{
         e.preventDefault();
-        var err = false
 
-        if(!input.passwordrepeat || input.passwordrepeat !== input.password){
-          error.passwordrepeat = true
-          err = true
-        }
-
-        setError({...error})
-
-        if(!err){
           props.user && dispatch(editUser(props.user.id, input))
 
           resetForm()
-        }
 
       }
+
+
 
       useEffect(() => {
         if(props.user){
         !props.user.directionTwo && (props.user.directionTwo = "")
-        !props.user.passwordrepeat && (props.user.passwordrepeat = "")
         setInput(props && props.user)
       }
 
@@ -247,6 +199,10 @@ const useStyles = makeStyles((theme) => ({
         if(window.confirm(`Seguro que deseas eliminar el user ${props.user.id}?`))
         props.user && dispatch(deleteUser(props.user.id))
 
+      }
+
+      const handlePromote = () => {
+        props.user && dispatch(promoteUser(props.user.id))
       }
 
 
@@ -357,37 +313,6 @@ const useStyles = makeStyles((theme) => ({
             />
         </Grid>
 
-
-        <Grid item xs={5}>
-            <TextField
-            fullWidth
-            id="outlined-textarea"
-            label="Contraseña"
-            name="password"
-            error={error.password}
-            variant="outlined"
-            required
-            value={input.password}
-            onChange={handleInputChange}
-            //   value={input.description}
-            />
-        </Grid>
-
-
-        <Grid item xs={5}>
-            <TextField
-            fullWidth
-            id="outlined-textarea"
-            label="Vuelve a introducir la contraseña"
-            name="passwordrepeat"
-            variant="outlined"
-            required
-            error={error.passwordrepeat}
-            helperText={validate.password}
-            onChange={validatePassword}
-            value={input.passwordrepeat}
-            />
-        </Grid>
         </Grid>
         <Button
                 onClick={handleSubmit}
@@ -400,14 +325,25 @@ const useStyles = makeStyles((theme) => ({
             </Button>
 
             <Button
-                    onClick={handleDelete}
+                    onClick={handlePromote}
                     fullWidth
                     variant="contained"
                     color="primary"
                     className={classes.submit}
                 >
-                    ELIMINAR
+                    PROMOTE / DEGRADE
                 </Button>
+
+
+                    <Button
+                            onClick={handleDelete}
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            ELIMINAR
+                        </Button>
     </form>
     </div>
     <Box mt={5}>
