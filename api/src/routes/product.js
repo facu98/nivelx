@@ -64,7 +64,7 @@ server.post("/", isAdmin, (req,res) => {
 });
 
 
-server.put("/:id", (req,res) => {
+server.put("/:id", isAdmin, (req,res) => {
 	const {id} = req.params
 	const {name, description, price, stock, pictures, brand, model , asessment, quantity, color, category} = req.body
 	if(Object.entries(req.body).length < 1 ){return res.status(400).send("Debe rellenar algun campo")}
@@ -114,7 +114,7 @@ server.get('/:id', (req, res, next) => {
 
 });
 
-server.delete("/:productId", (req, res) => {
+server.delete("/:productId", isAdmin, (req, res) => {
 	let id = req.params.productId;
 	  Product.findByPk(id)
 		.then(products => {
@@ -128,7 +128,7 @@ server.delete("/:productId", (req, res) => {
 });
 // Agregar categoría al producto
 
-server.post('/products/:productId/category/:categoryId', (req, res) => {
+server.post('/products/:productId/category/:categoryId', isAdmin, (req, res) => {
 	let productId = req.params.productId;
 	let categoryId = req.params.categoryId;
 
@@ -145,7 +145,7 @@ server.post('/products/:productId/category/:categoryId', (req, res) => {
 
 // Eliminar categoría al producto
 
-server.delete('/products/:productId/category/:categoryId', (req, res) => {
+server.delete('/products/:productId/category/:categoryId', isAdmin, (req, res) => {
 	let productId = req.params.productId;
 	let categoryId = req.params.categoryId;
 
@@ -165,7 +165,7 @@ S53 al s57
 ------------------------------------------------------------------------------
 */
 //Crear reviews --S54
-server.post("/:id/review", /*isAuthenticated*/ (req, res) => {
+server.post("/:id/review", isAuthenticated, (req, res) => {
 
 		const {score, title, comments, userId} = req.body
 
@@ -189,7 +189,7 @@ server.post("/:id/review", /*isAuthenticated*/ (req, res) => {
 
 
 //Modificar y actualizar reviews s55
-server.put("/:idProduct/review/:idReview", /* isAuthenticated*/ (req, res) =>{
+server.put("/:idProduct/review/:idReview", isAuthenticated, (req, res) =>{
 		const {score,title, comments, userId} = req.body
 
 		if(!score || !title || !comments )
@@ -225,7 +225,7 @@ server.put("/:idProduct/review/:idReview", /* isAuthenticated*/ (req, res) =>{
 
 
 //Eliminar reviews s56
-server.delete("/:idProduct/review/:idReview", /* isAuthenticated, */ (req, res) => {
+server.delete("/:idProduct/review/:idReview", isAuthenticated,  (req, res) => {
 	//BUSCA LA REVIEW
 	Review.findOne({
 								where: {
@@ -246,7 +246,7 @@ server.delete("/:idProduct/review/:idReview", /* isAuthenticated, */ (req, res) 
 
 
 // Trae reviews de un producto en particular, detalle producto s57
-server.get('/:productId/productreview', /*isAuthenticated*/ async (req, res) => {
+server.get('/:productId/productreview', isAuthenticated, async (req, res) => {
 	try {
 		const data = await Review.findAll({
 			where: {
@@ -274,7 +274,7 @@ server.get('/:productId/productreview', /*isAuthenticated*/ async (req, res) => 
 // Trae todas las reviews de un usuario
 
 //CREE ESTA RUTA POR LAS DUDAS
-server.get('/:userId/:productId/review', /* isAuthenticated,*/ async (req, res) => {
+server.get('/:userId/:productId/review',  isAuthenticated, async (req, res) => {
 	try {
 			const data = await Review.findAll({
 						where: {

@@ -215,6 +215,7 @@ export function deleteUser(id){
 	return function(dispatch){
 		return fetch(`http://localhost:3001/users/${id}`,
 		{
+			credentials:'include',
 				method: "DELETE"
 		})
 		.then((data) => {
@@ -238,12 +239,11 @@ export function promoteUser(id){
 		})
 		.then((res) => res.json())
 		.then((user) => {
-			const serialisedState = JSON.stringify(user);
-			localStorage.user = serialisedState
 			dispatch({
 				type: 'PROMOTE_USER'
 			})
 		})
+		.then(() => {return dispatch(getUsers())})
 	}
 }
 

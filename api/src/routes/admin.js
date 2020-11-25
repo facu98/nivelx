@@ -1,7 +1,8 @@
 const server = require('express').Router()
 const { User } = require('../db.js')
+const {isAuthenticated, isAdmin} = require('./passport')
 
-server.put('/promote/:id', (req, res) => {
+server.put('/promote/:id', isAdmin, (req, res) => {
 	User.findByPk(req.params.id)
 		.then((user) => {
 			if (!user) return res.status(404).send('Id no válido')

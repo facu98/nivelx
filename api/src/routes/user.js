@@ -5,6 +5,7 @@ var passport = require('passport');
 const trash = [];
 const {isLogged} = require('./passport')
 const bcrypt = require('bcrypt')
+const {isAuthenticated, isAdmin} = require('./passport')
 
 // FUNCION DE HASHEO DE contraseña
 function hashPassword(password) {
@@ -166,7 +167,7 @@ server.put('/password', isLogged, async (req, res) => {
 
 
 // ELIMINA EL usuario
-server.delete('/:id', (req, res) => {
+server.delete('/:id', isAdmin, (req, res) => {
 	User.findByPk(req.params.id)
 		.then((user) => {
 			user.destroy().then((user) => {
@@ -232,7 +233,7 @@ server.delete('/:idUser/cart/all', (req, res) => {
 })
 //ELIMINAR USUARIO
 
-server.delete('/:id', (req, res) => {
+server.delete('/:id', isAdmin, (req, res) => {
 	User.findByPk(req.params.id)
 		.then((user) => {
 			user.destroy().then((user) => {
@@ -294,21 +295,6 @@ server.get(('/:idUser/cart'), (req, res, next) => {
 		.catch((err) => res.status(400).json([]))
 
 
-    // User.findByPk(id, {
-    //     where: {
-    //         idOrder: id
-    //     },
-    //     include: {
-    //         model: Order
-    //     }
-    // })
-    //     .then(contentOrder => {
-    //         if (!contentOrder) {
-    //             return res.status(400).send('Order does not exist');
-    //         }
-    //         res.send(contentOrder);
-    //     })
-    //     .catch(next);
 });
 
 // Retorna las órdenes del usuario

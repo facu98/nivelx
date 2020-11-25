@@ -183,12 +183,6 @@ function rootReducer(state = initialState, action) {
       }
     }
 
-    case 'PROMOTE_USER':
-    console.log(action.payload)
-    return{
-      ...state,
-      user: JSON.parse(localStorage.getItem('user'))
-    }
 
 
 

@@ -9,6 +9,7 @@ function isAuthenticated(req, res, next) {
 }
 
 function isAdmin(req, res, next){
+  console.log(req.user)
   if(req.isAuthenticated() && req.user.isAdmin){
       next()
   }

@@ -43,6 +43,7 @@ export default function EditCategory({ match }){
 
     const updateCategory = async function(){
         await fetch(`http://localhost:3001/category/${input.id}`, {
+            credentials:'include',
             method: "PUT",
             body: JSON.stringify(input),
             headers: {
@@ -60,6 +61,7 @@ export default function EditCategory({ match }){
     const deletedCat = async function(){
         swal("Success","categoria eliminada","success");
         await fetch(`http://localhost:3001/category/${input.id}`, {
+            credentials:'include',
             method: "DELETE",
             headers: {
                 'Accept': 'application/json',

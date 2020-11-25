@@ -55,40 +55,65 @@ function App() {
                <Route exact path='/admin/panel' component={PanelAdmin} />
               }
 
+
+              {user.isAdmin &&
               <Route path='/products/category/:id' component={Catalogo} />
+              }
 
+              {user.isAdmin &&
               <Route path = '/products/:id' component = {ProductDetail} />
+              }
 
+              {user.isAdmin &&
               <Route exact path='/admin/createCategory'
                 render={({ match }) => <FormCategory match={match} />}
               />
+              }
 
 
+              {user.isAdmin &&
               <Route exact path='/admin/editCategory' component={Categorias} />
+              }
 
 
+              {user.isAdmin &&
               <Route exact path='/admin/users' component={AdminUsers} />
+              }
 
 
+              {user.isAdmin &&
               <Route exact path='/admin/users/:id' component={EditUser} />
+              }
 
+              {user.isAdmin &&
 
-              <Route exact path='/admin/products/edit' component={Catalogo} />
+                <Route exact path='/admin/products/edit' component={Catalogo} />
+              }
 
+              {user.isAdmin &&
 
-              <Route exact path='/admin/createProduct' component ={FormProduct} />
+                <Route exact path='/admin/createProduct' component ={FormProduct} />
+              }
 
+              {user.isAdmin &&
 
-              <Route exact path='/admin/products/edit/:id'
+                <Route exact path='/admin/products/edit/:id'
                 render={({ match }) => (<EditProduct match={match} />)}/>
+              }
 
-
-              <Route exact path='/admin/editCategory/:name'
+              {user.isAdmin &&
+                <Route exact path='/admin/editCategory/:name'
                 render={({ match }) => (
                   <EditCategory match={match} />
-                  )}
-              />
-              <Route path='/admin/orders' component = {OrdersAdmin} />
+                )}/>
+
+              }
+
+
+              {user.isAdmin &&
+
+                <Route path='/admin/orders' component = {OrdersAdmin} />
+              }
 
 
           </Container>

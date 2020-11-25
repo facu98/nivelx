@@ -1,6 +1,7 @@
 const server = require('express').Router()
 const { Op } = require('sequelize');
 const { Category, Product } = require('../db.js')
+const {isAuthenticated, isAdmin} = require('./passport')
 
 // Busca la categoria por su Nombre y la devuelve con Todos sus Productos asociados
 server.get('/:id', (req, res) => {
@@ -48,7 +49,7 @@ server.get('/', (req, res) => {
 })
 
 // Crea una nueva categoria con su Nombre Capitalizado
-server.post('/', async (req, res) => {
+server.post('/', isAdmin, async (req, res) => {
 	const { name, description } = req.body
 	const capName = name.charAt(0).toUpperCase() + name.slice(1)
 
@@ -82,7 +83,7 @@ server.post('/', async (req, res) => {
 })
 
 // Actualiza la categoria segun su ID
-server.put('/:id', (req, res) => {
+server.put('/:id', isAdmin, (req, res) => {
 	const { name, description } = req.body
 	const capName = name.charAt(0).toUpperCase() + name.slice(1)
 	Category.findByPk(req.params.id)
@@ -98,7 +99,7 @@ server.put('/:id', (req, res) => {
 })
 
 // Borra la categoria en base a su ID
-server.delete('/:id', (req, res) => {
+server.delete('/:id', isAdmin, (req, res) => {
 	Category.findByPk(req.params.id)
 		.then((cat) => {
 			cat.destroy()
