@@ -9,7 +9,7 @@ import Carrousel from './components/Carrousel/Carrousel'
 import Catalogo from './components/Catalog/Catalog';
 import Categorias from './components/Categorias/Categorias';
 import FormCategory from './components/FormCategory/FormCategory';
-import FormProduct from './components/FormProduct/FormProduct';
+import FormProduct from './components/FormProduct/FormProduct2';
 import SearchBar from './components/SearchBar/SearchBar';
 import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
 import EditProduct from './components/FormProduct/FormUpdateDeleteProduct';
@@ -23,7 +23,7 @@ import {Cart} from './components/Cart/index'
 import OrdersAdmin from './components/Order/AdminOrder'
 import Login from './components/LogIn/LogIn'
 import {useDispatch, useSelector} from "react-redux"
-
+import PaymentBanner from './components/PaymentBanner/PaymentBanner'
 // --- con esto se si esta authenticado ---
 // const isAuthenticated = localStorage.getItem('token');
 //
@@ -37,7 +37,9 @@ function App() {
   return (
     <div className="App">
           <SearchBar />
-          <Route  path='/' render={() => <Carrousel />} />
+          <Route exact path='/' render={() => <Carrousel />} />
+          <Route exact path='/' component={PaymentBanner} />
+
           <Container>
 
               <Route exact path='/' component={Catalogo} />

@@ -1,36 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
 import { useDispatch } from "react-redux";
+import ImageUploader from 'react-images-upload';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 
-//IMPORTS DE MATERIAL UI PARA CSS
-import Avatar from '@material-ui/core/Avatar';
+import '../UploadImageButton/styleUploadButton.css'
+
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CardMedia from '@material-ui/core/CardMedia';
+import Card from '@material-ui/core/Card';
+import { CardHeader, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect'
-import { Input } from '@material-ui/core';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import IconButton from '@material-ui/core/IconButton'
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 
+import swal from 'sweetalert';
 import { createProduct } from "../../actions";
 
 
-//IMPORT DE SWEETALERT CREA DIAGLOGOS
-import swal from 'sweetalert';
-//ME TRAIGO LOS IMPORTS DEL BOTON SUBIR
-import '../UploadImageButton/styleUploadButton.css'
-import UploadImgButton from '../UploadImageButton/UploadImageButton'
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,19 +48,36 @@ const useStyles = makeStyles((theme) => ({
   },
   checkbox: {
     display: 'flex',
-  }
+  },
+  imageName: {
+    width: '60%',
+    margin: '5px auto',
+    padding: '5px',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '10px',
+    background: '#d9e7ff'
+  },
+  msg: {
+    width: '60%',
+    margin: '5px auto',
+    padding: 'auto',
+    alignItems: 'center',
+    textAlign: 'center',
+    color: 'white',
+    justifyContent: 'center',
+    borderRadius: '10px',
+  },
+  root: {
+    width: 200,
+    margin: '3%'
+  },
+  media: {
+    height: 140,
+    objectFit: 'contain',
+  },
+
 }));
-
-class KeyGen {
-  constructor(i, key) {
-    this.i = 1;
-    this.key = function () {
-      this.i = this.i + 1;
-      return (this.i);
-    }
-  }
-}
-
 
 export default function SignUp(props) {
   const classes = useStyles();
@@ -136,9 +149,7 @@ export default function SignUp(props) {
     }
   }, [url])
 
-
-
-const onBlurName = () => {
+  const onBlurName = () => {
     if (!inputs.name || inputs.name.length === 0) setErrors({ ...errors, errName: 'este campo es requerido' })
   }
   const onBlurDescription = () => {
@@ -182,7 +193,6 @@ const onBlurName = () => {
       }
       const product = {
         name: inputs.name,
-        brand: "",
         description: inputs.description,
         price: inputs.price,
         stock: inputs.stock,
@@ -195,6 +205,7 @@ const onBlurName = () => {
       }
       else {
         dispatch(createProduct(product))
+        // createProduct(product)
         resetForm()
       }
     } catch (err) {
@@ -203,13 +214,7 @@ const onBlurName = () => {
     resetForm()
   }
 
-
-
-
-
-
-
-const editProduct = (product) => {
+  const editProduct = (product) => {
     try {
       const updatedProduct = fetch(`http://localhost:3001/products/${id}`, {
         method: 'PUT',
@@ -257,7 +262,8 @@ const editProduct = (product) => {
       image: prevImages,
       category: inputs.category
     })
-
+    // newFiles.splice(i, 1)
+    // setFiles(newFiles)
   }
 
 
@@ -400,7 +406,7 @@ const editProduct = (product) => {
           </Button>
           :
           <Button onClick={handleSubmit}
-            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check || !files}
+          
             type="submit"
             fullWidth
             variant="contained"
@@ -413,6 +419,7 @@ const editProduct = (product) => {
         </form>
       </div>
       <Box mt={5}>
+
       </Box>
     </Container>
   );
