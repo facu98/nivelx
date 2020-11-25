@@ -26,6 +26,7 @@ import { FaAutoprefixer } from 'react-icons/fa';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    minWidth:245,
     maxWidth: 250,
     maxHeight: 450,
     margin: 'auto',
@@ -99,9 +100,6 @@ export default function ProductCard(props) {
         </Tooltip>
       </IconButton>)
       : (<>
-        <Button variant="contained" color="primary" size="small">
-          Comprar
-        </Button>
         <Tooltip title='Añadir al carrito'>
           <IconButton onClick = {handleCart} aria-label="addToCart">
             <ShoppingCartIcon color='primary' />
@@ -111,7 +109,9 @@ export default function ProductCard(props) {
 
   return (
 
-    <Card className={classes.root, classes.actionArea }>
+
+    <Card className={classes.root, classes.actionArea } variant="outlined">
+
        <CardHeader/>
       <CardMedia
         className={classes.media}
@@ -128,13 +128,12 @@ export default function ProductCard(props) {
           {props.productos.brand}
         </Typography>
         <Typography gutterBottom variant='body1' color='primary' component='p'>
-          {`USD ${props.productos.price}`}
+          {`USD ${props.productos.price} `} {boton}
         </Typography>
+
         <Star />
       </CardContent>
-      <CardActions disableSpacing className={classes.action} >
-        {boton}
-      </CardActions>
+
     </Card>
 
   );

@@ -1,7 +1,7 @@
 const localUser = localStorage.getItem("user")
 const user = localUser && JSON.parse(localUser)
 
-const guest = localStorage.getItem("guest") && JSON.parse(localStorage.getItem("guest"))
+var guest = localStorage.getItem("guest") && JSON.parse(localStorage.getItem("guest"))
 
 
 const initialState = {
@@ -62,14 +62,16 @@ function rootReducer(state = initialState, action) {
     }
 
     case 'CREATE_USER':
+    localStorage.removeItem('guest');
     return {
       ...state,
-
+      guestCart:[]
     }
 
     case 'ADD_PRODUCT_IN_CART':
     return {
-      ...state
+      ...state,
+      quantity:0
     }
 
     case 'GET_PRODUCTS_IN_CART':
@@ -96,12 +98,12 @@ function rootReducer(state = initialState, action) {
     }
 
     case 'LOGIN_USER':
+    localStorage.removeItem('guest');
     return {
       ...state,
       user: JSON.parse(localStorage.getItem("user")),
-      guest: false
-
-
+      guest: false,
+      guestCart: []
     }
 
     case 'LOGOUT_USER':
@@ -145,7 +147,15 @@ function rootReducer(state = initialState, action) {
 
     return {
       ...state,
-      guestCart: JSON.parse(localStorage.getItem('guest'))
+      guestCart: JSON.parse(localStorage.getItem('guest')),
+      quantity: 0
+    }
+
+    case 'SUM_QUANTITY':
+    return {
+      ...state,
+      guestCart: JSON.parse(localStorage.getItem('guest')),
+      quantity:0
     }
 
      case 'REMOVE_PRODUCT_CART_GUEST':
@@ -166,7 +176,6 @@ function rootReducer(state = initialState, action) {
 
 
     case 'IS_LOGGED':
-    console.log(action.logged)
     if(!action.logged){
       return{
         ...state,
