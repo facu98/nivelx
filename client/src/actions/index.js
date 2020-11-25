@@ -497,6 +497,7 @@ export const createProduct = (producto) => async dispatch => {
 		const data = await fetch('http://localhost:3001/products', {
 			method: 'POST',
 			body: JSON.stringify(producto),
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json'
 			}

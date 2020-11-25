@@ -110,7 +110,7 @@ export default function ProductCard(props) {
       </>)
 
   return (
-   
+
     <Card className={classes.root, classes.actionArea }>
        <CardHeader/>
       <CardMedia
@@ -136,6 +136,6 @@ export default function ProductCard(props) {
         {boton}
       </CardActions>
     </Card>
-   
+
   );
 }
