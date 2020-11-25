@@ -34,10 +34,7 @@ export default function ImageGridList(props) {
 
   const history = useHistory()
   const classes = useStyles();
-<<<<<<< HEAD
   //console.log(props.productos)
-=======
->>>>>>> 86928fc6c2edbae6bc13f958cda45b729596d578
 
   let page = useQuery().get('page')
 

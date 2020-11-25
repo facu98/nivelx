@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { getProductsCart, deleteProductInCart, getProductById } from '../../../actions'
-
+import { getProductsCart, deleteProductInCart, getProductById, productQuantity } from '../../../actions'
 //fix
 export const Shopping = ({
 	cart,
+	user,
+	product,
 	getProductsCart,
-	deleteProductInCart,
-	user
+	getProductById,
+	deleteProductInCart
 }) => {
 
 	useEffect(() => {
@@ -24,12 +25,12 @@ export const Shopping = ({
 							<div className='row'>
 								<div className='col-md-4'>
 
-							<img
-								src={`http://localhost:3001/images/${cart.product_id.p[0]}`}
-										className='card-img'
-										alt='...'
-							/>
-
+							{/*}	// <img
+								// 	src={`http://localhost:3001/images/${cart.product_id.p[0]}`}
+								// 	className='card-img'
+								// 	alt='...'
+								// />
+								*/}
 								</div>
 
 								<div className='col-md-5'>
@@ -76,7 +77,6 @@ export const Shopping = ({
 										}}
 									>
 										X
-
 									</button>
 								</div>
 							</div>
@@ -89,15 +89,16 @@ export const Shopping = ({
 const mapStateToProps = (store) => {
 	return {
 		cart: store.cart,
-		user: store.user
+		user: store.user,
+		product: store.products
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		getProductsCart: (userId) => dispatch(getProductsCart(userId)),
-		deleteProductInCart: (userId, productId) =>
-			dispatch(deleteProductInCart(userId, productId)),
+		deleteProductInCart: (userId, productId) => dispatch(deleteProductInCart(userId, productId)),
+		getProductById: (productId) => dispatch(getProductById(productId))
 	}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Shopping)
