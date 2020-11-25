@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import Shopping from './Shopping/Shopping'
 import Summary from './Summary/Summary'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button';
+import { getProductsCart } from '../../actions'
 
+export const Cart = ({cart, user, getProductsCart}) => {
 
-export const Cart = () => {
+	useEffect(() => {
+		//getProductsCart(1)
+
+	}, [])
+
 	return (
 		<div className='container p-5'>
 			<h1>
@@ -29,7 +36,7 @@ export const Cart = () => {
 								</div>
 
 								<div class="col-2">
-								<h4> Total : </h4>
+	<h4> Total:</h4>
 								</div>
 					</div>
 
@@ -73,3 +80,17 @@ export const Cart = () => {
 
 	)
 }
+
+// const mapStateToProps = (store) => {
+// 	return {
+// 		cart: store.cart,
+// 		user: store.user,
+// 	}
+// }
+
+// const mapDispatchToProps = (dispatch) => {
+// 	return {
+// 		getProductsCart: (userId) => dispatch(getProductsCart(userId))
+// 	}
+// }
+// export default connect(mapStateToProps, mapDispatchToProps)(Cart)

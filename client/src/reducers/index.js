@@ -9,7 +9,7 @@ const initialState = {
   user: user ? user : [],
   cart:[],
   orders:[],
-  quantity: 0
+  quantity: []
 
 };
 

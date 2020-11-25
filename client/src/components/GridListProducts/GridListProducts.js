@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ImageGridList(props) {
   const classes = useStyles();
-  console.log(props.productos)
+  //console.log(props.productos)
 
   const [page, setPage] = React.useState(0);
 
