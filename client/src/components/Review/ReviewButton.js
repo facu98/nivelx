@@ -25,6 +25,7 @@ export const ReviewButton = () => {
       fetch('http://localhost:3001/review', {
         method: 'POST',
         body: JSON.stringify(newReview),
+        credentials: "include",
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
