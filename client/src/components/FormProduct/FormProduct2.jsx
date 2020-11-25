@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
+import { useDispatch } from "react-redux";
 
 //IMPORTS DE MATERIAL UI PARA CSS
 import Avatar from '@material-ui/core/Avatar';
@@ -22,13 +23,14 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 
+import { createProduct } from "../../actions";
+
 
 //IMPORT DE SWEETALERT CREA DIAGLOGOS
 import swal from 'sweetalert';
 //ME TRAIGO LOS IMPORTS DEL BOTON SUBIR
 import '../UploadImageButton/styleUploadButton.css'
 import UploadImgButton from '../UploadImageButton/UploadImageButton'
-
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -63,33 +65,47 @@ class KeyGen {
   }
 }
 
+
 export default function SignUp(props) {
   const classes = useStyles();
   const { id } = useParams()
   const url = useLocation();
   const [categories, setCategories] = useState([]);
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState([]);
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [stock, setStock] = useState('');
-  const [files, setFiles] = useState();
-  const [producto, setProducto] = useState()
-  const keySelect = new KeyGen();
+  const [files, setFiles] = useState(null);
+  const [check, setCheck] = useState(null);
+  const history = useHistory()
+  const [errors, setErrors] = useState({
+    errName: '',
+    errDesc: '',
+    errPrice: '',
+    errStock: ''
+  })
+  const [inputs, setInputs] = useState({
+    name: '',
+    description: '',
+    stock: '',
+    price: '',
+    image: [],
+    category: null
+  })
 
-  const initialState = []
-
-  const [check, setCheck] = useState([]);
-
-  const fileReader = (event) => {
-    var reader = new FileReader();
-    var file = event.target.files
-    reader.onload = function(event) {
-      // The file's text will be printed here
-      console.log(event.target.result)
-    };
-    reader.readAsText(file);
+  const handleInputs = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value })
+    setErrors({
+      errName: '',
+      errDesc: '',
+      errPrice: '',
+      errStock: ''
+    })
   }
+
+  const resetForm = (e) => {
+    setInputs({ ...inputs, name: '', description: '', stock: 0, price: 0, image: [], category: null });
+    setFiles(null);
+  }
+
+  const dispatch = useDispatch()
+
   useEffect(() => {
     fetch('http://localhost:3001/category', {
       method: 'GET'
@@ -100,85 +116,100 @@ export default function SignUp(props) {
       .then(function (arr) {
         setCategories(arr);
       })
-  }, []);
+  }, [check, files]);
 
   useEffect(() => {
     if (url.pathname.includes('/admin/editproduct')) {
       fetch(`http://localhost:3001/products/${id}`)
         .then(res => res.json())
         .then(data => {
-          setProducto(data)
-          console.log(data)
+          setInputs({
+            ...inputs,
+            name: data.name,
+            description: data.description,
+            price: data.price,
+            stock: data.stock,
+            image: data.image,
+            category: data.category
+          })
         })
     }
-  }, [])
-
-  const uploadImage = () => {
-    let formData = new FormData();
-    for (var i = 0; i < files.length; i++) {
-      formData.append('images', files[i]);
-    }
-    fetch('http://localhost:3001/image', {
-      method: 'POST',
-      body: formData
-    })
-      .then(res => res.json())
-      .then(data => {
-        const product = {
-          name,
-          description,
-          price,
-          stock,
-          image: data,
-          category: Object.keys(check)
-        };
-        if (url.pathname === `/admin/editproduct/${id}`) {
-          editProduct(product)
-          console.log('editaste el producto')
-        }
-        else {
-          createProduct(product)
-          console.log('creaste el producto')
-        }
-      })
-      .catch(err => console.log(err))
+  }, [url])
 
 
+
+const onBlurName = () => {
+    if (!inputs.name || inputs.name.length === 0) setErrors({ ...errors, errName: 'este campo es requerido' })
+  }
+  const onBlurDescription = () => {
+    if (!inputs.description || inputs.description.length === 0) setErrors({ ...errors, errDesc: 'este campo es requerido' })
+  }
+  const onBlurStock = () => {
+    if (!inputs.stock || inputs.stock.length === 0) setErrors({ ...errors, errStock: 'este campo es requerido' })
+  }
+  const onBlurPrice = () => {
+    if (!inputs.price || inputs.price.length === 0) setErrors({ ...errors, errPrice: 'este campo es requerido' })
   }
 
-  // const resetForm = () => {
-  //   setName('')
-  //   setDescription('')
-  //   setPrice('')
-  //   setStock('')
-  //   setFiles()
-  //
-  //
-  //
-  // }
+  const uploadImage = async () => {
+    let formData = new FormData();
+    if (files && files.length > 0) {
+      for (var i = 0; i < files.length; i++) {
+        formData.append('images', files[i]);
+      }
+    }
 
-  console.log('checks', check)
-  console.log(Object.keys(check))
+    let cat = []
 
-  const createProduct = (product) => {
+    for (let i in check) {
+      if (check[i] === true) {
+        cat.push(i)
+      }
+    }
     try {
-      const newProduct = fetch('http://localhost:3001/products', {
+      const uploadImg = await fetch('http://localhost:3001/image', {
         method: 'POST',
-        body: JSON.stringify(product),
-        headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-        }
+        body: formData
       })
-      console.log(newProduct)
-    } catch (error) {
-      console.log(error)
-      alert('something went wrong..!')
+
+      const img = await uploadImg.json()
+      setFiles(null)
+      let prevImg = []
+      if (inputs.image) {
+        for (let j of inputs.image) {
+          prevImg.push(j);
+        }
+      }
+      const product = {
+        name: inputs.name,
+        brand: "",
+        description: inputs.description,
+        price: inputs.price,
+        stock: inputs.stock,
+        image: [...img, ...prevImg],
+        category: cat
+      };
+      if (url.pathname === `/admin/editproduct/${id}`) {
+        editProduct(product)
+        resetForm()
+      }
+      else {
+        dispatch(createProduct(product))
+        resetForm()
+      }
+    } catch (err) {
+      console.log(err)
     }
     resetForm()
   }
 
-  const editProduct = (product) => {
+
+
+
+
+
+
+const editProduct = (product) => {
     try {
       const updatedProduct = fetch(`http://localhost:3001/products/${id}`, {
         method: 'PUT',
@@ -187,132 +218,202 @@ export default function SignUp(props) {
           'Content-Type': 'application/json'
         }
       })
-      console.log(updatedProduct)
     } catch (err) {
       console.log(err)
+      swal("Upa", "No se ha editado el producto", "error");
+
     }
-    resetForm()
   }
 
+  const handleSubmit = function (e) {
+    e.preventDefault()
+    uploadImage()
+    setFiles(null)
+    swal("Genial!", "Se ha creado el producto exitosamente!", "success");
+    return url.pathname.includes('/admin/createproduct') ?
+    history.push('/admin/panel')
+    :
+    history.push('/admin/panel')
+  }
 
-    // const handleSubmit = (e)=>{
-    //     e.preventDefault();
-    //     const newProduct = {
-    //         name: input.name,
-    //         brand: input.brand,
-    //         price: input.price,
-    //         pictures: ["input.pictures"],
-    //         category: input.category.replace(" ", "").split(","),
-    //         stock: true,
-    //         description: input.description,
-    //         quantity: input.stock,
-    //         color: input.color.split,
-    //     }
-    //     console.log(JSON.stringify(newProduct))
-    //     fetch('http://localhost:3001/products', {
-    //         method: 'POST',
-    //         body: JSON.stringify(newProduct),
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //           }
-    //     })
-    //     .then(()=>{
-    //         swal("Genial","PRODUCTO CREADO CON EXITO","success");
-    //         resetForm();
-    //     })
-    //     .catch((err)=>{
-    //          console.log(err)
-    //     })
-    // }
-
-
-
-
-
-  const filesHandler = function (event) {
-
-    setFiles(event.target.files)
+  const filesHandler = function (files) {
+    setFiles(files)
   };
-
-  const handleName = function (event) {
-    setName(event.target.value)
-  }
-
-  const handleCategory = function (event) {
-
-    setCategory(...category, event.target.value);
-  }
-
-  const handleDescription = function (event) {
-
-    setDescription(event.target.value);
-  }
-
-  const handlePrice = function (event) {
-
-    setPrice(event.target.value);
-  }
-
-  const handleStock = function (event) {
-
-    setStock(event.target.value);
-  }
 
   const handleChange = (event) => {
     setCheck({ ...check, [event.target.name]: event.target.checked });
-  };
-
-  console.log(files)
-
-
-
-  const handleInputChange = (e)=>{
-      setInput({
-          ...input,
-          [e.target.name]: e.target.value
-      })
-  };
-  const resetForm = ()=> {
-      setInput({
-          name: "",
-          brand: "",
-          price: "",
-          pictures: "",
-          category: [],
-          stock: "",
-          description: "",
-          color: [],
-      })
-  };
-
-  const handleSubmit = (e)=>{
-      e.preventDefault();
-      const newProduct = {
-          name: input.name,
-          brand: input.brand,
-          price: input.price,
-          pictures: ["input.pictures"],
-          category: input.category.replace(" ", "").split(","),
-          stock: true,
-          description: input.description,
-          quantity: input.stock,
-          color: input.color.split,
-      }
-      console.log(JSON.stringify(newProduct))
-      fetch('http://localhost:3001/products', {
-          method: 'POST',
-          body: JSON.stringify(newProduct),
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-      })
-      .then(()=>{
-          alert(`Se ha creado un nuevo producto exitosamente`)
-          resetForm();
-      })
-      .catch((err)=>{
-           console.log(err)
-      })
   }
+
+  const removeFile = (i) => {
+    // const newFiles = Array.from(files)
+    let prevImages = inputs.image
+    prevImages.splice(i, 1)
+    setInputs({
+      ...inputs,
+      name: inputs.name,
+      description: inputs.description,
+      price: inputs.price,
+      stock: inputs.stock,
+      image: prevImages,
+      category: inputs.category
+    })
+
+  }
+
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          {url.pathname.includes('/admin/editproduct') ? 'EDITAR PRODUCTO' : 'NUEVO PRODUCTO'}
+        </Typography>
+        <form className={classes.form} noValidate onSubmit={handleSubmit} >
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                onBlur={onBlurName}
+                variant="outlined"
+                value={inputs.name}
+                required
+                fullWidth
+                onChange={handleInputs}
+                label="Nombre del producto"
+                autoFocus
+                name='name'
+              />
+            </Grid>
+            {
+              errors.errName &&
+              <div className={classes.msg} style={{ background: '#ff4f4f' }}>
+                <span>{errors.errName}</span>
+              </div>
+            }
+            <Grid item xs={12} className={classes.checkbox}>
+              {categories && categories.map((cat, i) => (
+                <FormGroup row key={i}>
+                  <FormControlLabel
+                    control={<Checkbox
+                      onChange={handleChange}
+                      name={cat.id}
+                      value={check}
+                    />}
+                    label={cat.name}
+                  />
+                </FormGroup>
+              ))}
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onBlur={onBlurDescription}
+                fullWidth
+                id="outlined-textarea"
+                label="Descripción"
+                value={inputs.description}
+                multiline
+                variant="outlined"
+                onChange={handleInputs}
+                required
+                name='description'
+              />
+            </Grid>
+            {
+              errors.errDesc &&
+              <div className={classes.msg} style={{ background: '#ff4f4f' }}>
+                <span>{errors.errDesc}</span>
+              </div>
+            }
+            <Grid item xs={12}>
+              <TextField
+                onBlur={onBlurPrice}
+                onChange={handleInputs}
+                value={inputs.price}
+                variant="outlined"
+                required
+                fullWidth
+                label="Precio"
+                type='number'
+                name='price'
+              />
+            </Grid>
+            {
+              errors.errPrice &&
+              <div className={classes.msg} style={{ background: '#ff4f4f' }}>
+                <span>{errors.errPrice}</span>
+              </div>
+            }
+            <Grid item xs={12}>
+              <TextField
+                onBlur={onBlurStock}
+                value={inputs.stock}
+                onChange={handleInputs}
+                variant="outlined"
+                required
+                fullWidth
+                name="stock"
+                label="Stock"
+                type="number"
+              />
+            </Grid>
+            {
+              errors.errStock &&
+              <div className={classes.msg} style={{ background: '#ff4f4f' }}>
+                <span>{errors.errStock}</span>
+              </div>
+            }
+          </Grid>
+          <div style={{ display: 'flex' }}>
+            {inputs.image && inputs.image.length > 0 && inputs.image.map((img, i) =>
+              <>
+                <Card className={classes.root} key={img}>
+                  <CardHeader action={
+                    <Tooltip title='Eliminar imagen'>
+                      <IconButton aria-label="deleteImage" onClick={() => removeFile(i)} >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Tooltip>} />
+                  <CardMedia className={classes.media} image={`http://localhost:3001/images/${img}`} />
+                </Card>
+
+              </>
+            )}
+          </div>
+          <ImageUploader
+            withIcon={false}
+            buttonText='Adjuntar imágenes'
+            onChange={filesHandler}
+            imgExtension={['.jpg', '.jpeg', '.png', '.PNG']}
+            maxFileSize={52428800}
+            withPreview={files ? true : false}
+          />
+          {
+            url.pathname.includes('/admin/editproduct') ?
+            <Button onClick={handleSubmit}
+            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check}
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            {url.pathname.includes('/admin/editproduct') ? 'Editar producto' : 'Crear'}
+          </Button>
+          :
+          <Button onClick={handleSubmit}
+            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check || !files}
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            {url.pathname.includes('/admin/editproduct') ? 'Editar producto' : 'Crear'}
+          </Button>
+          }
+        </form>
+      </div>
+      <Box mt={5}>
+      </Box>
+    </Container>
+  );
+}

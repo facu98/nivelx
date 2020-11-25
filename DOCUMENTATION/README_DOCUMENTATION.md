@@ -4,9 +4,6 @@
 
 ```
 
-
-
-
 / ecommerce ft06g10
 
 ├───>  /api                  (contiene todas las archivos del back)
@@ -22,7 +19,7 @@
 |            ├───> /routes      (Carpeta que contiene tests sobre las rutas del back)
 |
 |
-├──>  /client          (Carpeta que contiene todos los archivos del Front-end)
+├──>  /client           (Carpeta que contiene todos los archivos del Front-end)
 |    ├─> /node_modules  (Carpeta que contiene las librerias del front generadas por el package.json)
 |    |
 |    ├─> /public        (Carpeta que contiene los archivos publicos globales del index.html y los .ico)
@@ -60,4 +57,52 @@ localhost:3000/
 ```
 localhost:3001/     -> Nos re
 
+
 ```
+
+# SEEDERS
+
+```
+Instalar sequelize-cli en el back:
+npm install --save-dev sequelize-cli
+
+Editar la carpeta config.json con los datos de su postgres:
+
+En api/src/config/config.json:
+________________________________________________
+
+{
+  "development": {
+    "username": "tu user de postgres",
+    "password": "tu pw",
+    "database": "development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "tu user de postgres",
+    "password": "tu pw",
+    "database": "development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "tu user de postgres",
+    "password": "tu pw",
+    "database": "development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
+____________________________________________________
+
+Para correr todos los seeders ejecutar este comando parado en /api/src:
+npx sequelize-cli db:seed:all
+
+Para quitar los seeders:
+npx sequelize-cli db:seed:undo:all
+
+
+```
+
+[Documentacion](https://sequelize.org/master/manual/migrations.html#running-seeds)
