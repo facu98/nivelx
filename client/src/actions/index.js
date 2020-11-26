@@ -167,12 +167,36 @@ export function isLogged(){
 			else return res.json()
 		})
 		.then((res) => {
-			console.log(res)
 			dispatch({
 				type: 'IS_LOGGED',
 				logged:res
 			})
+			return res
 		})
+		.then((res) => {
+			var guestCart = res && localStorage.getItem('guest')
+			if(guestCart){
+				if(window.confirm('Se detectaron productos en tu carrito de invitado, deseas agregarlos a tu carrito de usuario?')){
+					return dispatch(syncCart(res.id, guestCart))
+				}
+					}
+			})
+	}
+}
+
+export function syncCart(id, cart){
+	return function(dispatch){
+		console.log(cart)
+		return fetch(`http://localhost:3001/users/${id}/cartsync`,
+	{credientials: 'include',
+		method: "PUT",
+		body: cart,
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+	}
+})
+	.then((res) => console.log('syncart', res))
 	}
 }
 

@@ -34,7 +34,7 @@ export const Shopping = ({
 							<div className='row'>
 								<div className='col-md-4'>
 							<img
-								src={cart.product_img[0]}
+								src={c.product_img[0]}
 										className='card-img'
 										alt='...'
 							/>
@@ -56,16 +56,16 @@ export const Shopping = ({
 									<div>
                 						<label><b>Cantidad:</b></label>
 										<input
-											type="number" 
-											id="quantity" 
-											name="quantity" 
-											min="1" 
+											type="number"
+											id="quantity"
+											name="quantity"
+											min="1"
 											value={c.quantity}
 											onChange={(e) => {
 												getProductById(c.product_id)
 												if(c.quantity <= product.quantity){
 													c.quantity = parseInt(e.target.value)
-													c.total_price = c.price * c.quantity	
+													c.total_price = c.price * c.quantity
 												}
 											}}
 										/>
