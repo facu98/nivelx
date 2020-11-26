@@ -120,7 +120,8 @@ function App() {
 
           </Container>
 
-          <Route exact path='/' component={Copyright} />
+        <Route component={Copyright} />
+
      </div>
 
 
