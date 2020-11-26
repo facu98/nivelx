@@ -13,6 +13,7 @@ var Strategy = require('passport-local').Strategy;
 const cors = require('cors')
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config()
+const {hasCart} = require('./routes/passport')
 
 
 var db = require('./db.js')
@@ -118,7 +119,7 @@ passport.use(new GoogleStrategy({
         name: profile.name.givenName,
         lastname: profile.name.familyName,
         email: profile.emails[0].value,
-        google: true
+        isGoogleUser: true
       }
     })
     .then((user) => {

@@ -45,7 +45,7 @@ module.exports = (sequelize) => {
             return() => this.getDataValue('salt')
         }
     },
-    google: {
+    isGoogleUser: {
       type: DataTypes.BOOLEAN,
       defaultValue:false
     }
