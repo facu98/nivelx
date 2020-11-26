@@ -4,8 +4,7 @@ import React, {useEffect} from 'react';
 import { Route } from "react-router-dom";
 
 
-// import ProductsCards from './components/ProductCard/ProductCard';
-import Carrousel from './components/Carrousel/Carrousel'
+
 import Copyright from './components/Copyright/Copyright'
 import Catalogo from './components/Catalog/Catalog';
 import Categorias from './components/Categorias/Categorias';
@@ -25,6 +24,7 @@ import OrdersAdmin from './components/Order/AdminOrder'
 import Login from './components/LogIn/LogIn'
 import {useDispatch, useSelector} from "react-redux"
 import PaymentBanner from './components/PaymentBanner/PaymentBanner';
+import Carrousel from './components/Carrousel/Carrousel';
 // --- con esto se si esta authenticado ---
 // const isAuthenticated = localStorage.getItem('token');
 //
