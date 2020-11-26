@@ -177,9 +177,14 @@ export function isLogged(){
 			var guestCart = res && localStorage.getItem('guest')
 			if(guestCart){
 				if(window.confirm('Se detectaron productos en tu carrito de invitado, deseas agregarlos a tu carrito de usuario?')){
-					return dispatch(syncCart(res.id, guestCart))
+					 dispatch(syncCart(res.id, guestCart))
+
 				}
 					}
+				return res.id
+			})
+			.then((id) => {
+				return dispatch(getProductsCart(id))
 			})
 	}
 }
@@ -196,7 +201,9 @@ export function syncCart(id, cart){
 			'Content-Type': 'application/json'
 	}
 })
-	.then((res) => console.log('syncart', res))
+	.then((res) => {
+			return dispatch(clearGuestCart())
+	})
 	}
 }
 

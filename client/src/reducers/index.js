@@ -98,11 +98,9 @@ function rootReducer(state = initialState, action) {
     }
 
     case 'LOGIN_USER':
-    localStorage.removeItem('guest');
     return {
       ...state,
       user: JSON.parse(localStorage.getItem("user")),
-      guestCart: []
     }
 
     case 'LOGOUT_USER':
