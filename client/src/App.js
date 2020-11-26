@@ -6,6 +6,7 @@ import { Route } from "react-router-dom";
 
 // import ProductsCards from './components/ProductCard/ProductCard';
 import Carrousel from './components/Carrousel/Carrousel'
+import Copyright from './components/Copyright/Copyright'
 import Catalogo from './components/Catalog/Catalog';
 import Categorias from './components/Categorias/Categorias';
 import FormCategory from './components/FormCategory/FormCategory';
@@ -23,7 +24,7 @@ import {Cart} from './components/Cart/index'
 import OrdersAdmin from './components/Order/AdminOrder'
 import Login from './components/LogIn/LogIn'
 import {useDispatch, useSelector} from "react-redux"
-import PaymentBanner from './components/PaymentBanner/PaymentBanner'
+import PaymentBanner from './components/PaymentBanner/PaymentBanner';
 // --- con esto se si esta authenticado ---
 // const isAuthenticated = localStorage.getItem('token');
 //
@@ -38,7 +39,6 @@ function App() {
     <div className="App">
           <SearchBar />
           <Route exact path='/' render={() => <Carrousel />} />
-          <Route exact path='/' component={PaymentBanner} />
 
           <Container>
 
@@ -119,6 +119,9 @@ function App() {
 
 
           </Container>
+
+        <Route component={Copyright} />
+
      </div>
 
 
