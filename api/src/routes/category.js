@@ -2,6 +2,12 @@ const server = require('express').Router()
 const { Op } = require('sequelize');
 const { Category, Product } = require('../db.js')
 
+// Trae TODAS las categorias
+server.get('/', (req, res) => {
+	Category.findAll().then((categories) => res.send(categories))
+})
+
+
 // Busca la categoria por su Nombre y la devuelve con Todos sus Productos asociados
 server.get('/:id', (req, res) => {
 
@@ -23,8 +29,6 @@ server.get('/:id', (req, res) => {
 
 
 
-
-
 server.get('/single/:name', (req, res) => {
 	const capName =
 		req.params.name
@@ -42,10 +46,6 @@ server.get('/single/:name', (req, res) => {
 		.catch((err) => res.status(404).send(err))
 })
 
-// Trae TODAS las categorias
-server.get('/', (req, res) => {
-	Category.findAll().then((categories) => res.send(categories))
-})
 
 // Crea una nueva categoria con su Nombre Capitalizado
 server.post('/', async (req, res) => {
