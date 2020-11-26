@@ -26,16 +26,14 @@ module.exports = (sequelize) => {
         allowNull: false,
     },
     directionOne: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING
     },
     directionTwo: {
         type: DataTypes.STRING,
 
     },
     phone: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: DataTypes.STRING
     },
     isAdmin: {
 			type: DataTypes.BOOLEAN,
@@ -47,5 +45,9 @@ module.exports = (sequelize) => {
             return() => this.getDataValue('salt')
         }
     },
+    google: {
+      type: DataTypes.BOOLEAN,
+      defaultValue:false
+    }
   });
 };

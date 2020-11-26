@@ -41,7 +41,7 @@ server.get('/logout',
   });
 
 server.get('/islogged', isLogged, (req,res) => {
-    res.sendStatus(200)
+    res.send(req.user.dataValues)
   })
 
 

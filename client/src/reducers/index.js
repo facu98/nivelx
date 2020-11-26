@@ -102,7 +102,6 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       user: JSON.parse(localStorage.getItem("user")),
-      guest: false,
       guestCart: []
     }
 
@@ -110,7 +109,6 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       user: [],
-      guest:true
     }
 
     case 'RESET_PASSWORD':
@@ -177,11 +175,20 @@ function rootReducer(state = initialState, action) {
 
     case 'IS_LOGGED':
     if(!action.logged){
+      localStorage.removeItem('user')
       return{
         ...state,
-         user : []
+         user : []}
+      }
+
+    else{
+      localStorage.user = JSON.stringify(action.logged)
+      return{
+        ...state,
+        user: JSON.parse(localStorage.getItem('user'))
       }
     }
+
 
 
 

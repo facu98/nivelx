@@ -11,6 +11,8 @@ var passport = require('passport');
 const { User } = require('./db.js');
 var Strategy = require('passport-local').Strategy;
 const cors = require('cors')
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+require('dotenv').config()
 
 
 var db = require('./db.js')
@@ -105,6 +107,36 @@ where: {id}
 });
 
 
+passport.use(new GoogleStrategy({
+    clientID: '331867386030-rqpjsqmc37oq8ht6n303l4h3dfc3fdrc.apps.googleusercontent.com',
+    clientSecret: '9qs8DEFg1wiYnj5-blnoDtzX',
+    callbackURL: 'http://localhost:3001/auth/google/callback'
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({
+      where:{
+        name: profile.name.givenName,
+        lastname: profile.name.familyName,
+        email: profile.emails[0].value,
+        google: true
+      }
+    })
+    .then((user) => {
+      return done(null, user[0].dataValues)
+    })
+    .catch((err) => {console.log(err)
+    return done(err)})
+
+  }
+));
+
+server.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+server.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'http://localhost:3000/users/login' }),
+  function(req, res) {
+    res.redirect('http://localhost:3000');
+  }
+);
 
 
 server.use('/', routes);

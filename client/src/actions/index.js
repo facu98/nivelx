@@ -83,7 +83,7 @@ export function getCategories(){
 						})
 					 		})
 				.then(() => {
-					return dispatch(isLogged())
+					 dispatch(isLogged())
 				})
 	}
 }
@@ -164,9 +164,10 @@ export function isLogged(){
 		return fetch('http://localhost:3001/users/islogged', {credentials: 'include'})
 		.then((res) => {
 			if(!res || res.status !== 200) {return false}
-			else return true
+			else return res.json()
 		})
 		.then((res) => {
+			console.log(res)
 			dispatch({
 				type: 'IS_LOGGED',
 				logged:res
