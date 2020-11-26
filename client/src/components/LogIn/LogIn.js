@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import '../UploadImageButton/styleUploadButton.css'
-import {useHistory } from 'react-router-dom'
+import {Link, useHistory } from 'react-router-dom'
 
 import swal from 'sweetalert';
 
@@ -211,6 +211,7 @@ const useStyles = makeStyles((theme) => ({
                 Ingresar
             </Button>
     </form>
+    <a href={'http://localhost:3001/auth/google'}>Iniciar sesion con google</a>
     </div>
     <Box mt={5}>
     </Box>
