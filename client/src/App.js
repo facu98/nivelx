@@ -1,30 +1,32 @@
 
 //IMPORTAMOS LIBRERIAS DE REACT
-import React, {useEffect} from 'react';
-import { Route } from "react-router-dom";
-
-
-
-import Copyright from './components/Copyright/Copyright'
-import Catalogo from './components/Catalog/Catalog';
-import Categorias from './components/Categorias/Categorias';
-import FormCategory from './components/FormCategory/FormCategory';
-import FormProduct from './components/FormProduct/FormProduct2';
-import SearchBar from './components/SearchBar/SearchBar';
-import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
-import EditProduct from './components/FormProduct/FormUpdateDeleteProduct';
-import ProductDetail from "./components/ProductDetail/Product"
-import PanelAdmin from "./components/AdminPanel/PanelAdmin"
-import Container from '@material-ui/core/Container'
-import CreateUser from "./components/CreateUser/CreateUser"
-import AdminUsers  from "./components/AdminUsers/AdminUsers"
-import EditUser from './components/AdminUsers/EditDeleteUser'
-import {Cart} from './components/Cart/index'
-import OrdersAdmin from './components/Order/AdminOrder'
-import Login from './components/LogIn/LogIn'
+import React, {useEffect}         from 'react';
 import {useDispatch, useSelector} from "react-redux"
-import PaymentBanner from './components/PaymentBanner/PaymentBanner';
-import Carrousel from './components/Carrousel/Carrousel';
+import { Route }                  from "react-router-dom";
+
+
+// IMPORTAMOS LOS COMPONENTES DE REACT
+import AdminUsers     from  './components/AdminUsers/AdminUsers';
+import Copyright      from  './components/Copyright/Copyright';
+import Catalogo       from  './components/Catalog/Catalog';
+import {Cart}         from  './components/Cart/index';
+import Carrousel      from  './components/Carrousel/Carrousel';
+import Categorias     from  './components/Categorias/Categorias';
+import FormCategory   from  './components/FormCategory/FormCategory';
+import FormProduct    from  './components/FormProduct/FormProduct2';
+import EditCategory   from  './components/FormCategory/FormUpdateDeleteCategory';
+import EditProduct    from  './components/FormProduct/FormUpdateDeleteProduct';
+import ProductDetail  from  './components/ProductDetail/Product';
+import PanelAdmin     from  './components/AdminPanel/PanelAdmin';
+import CreateUser     from  './components/CreateUser/CreateUser';
+import EditUser       from  './components/AdminUsers/EditDeleteUser';
+import OrdersAdmin    from  './components/Order/AdminOrder';
+import Login          from  './components/LogIn/LogIn';
+import PaymentBanner  from  './components/PaymentBanner/PaymentBanner';
+import SearchBar      from  './components/SearchBar/SearchBar';
+
+
+import Container      from  '@material-ui/core/Container'
 // --- con esto se si esta authenticado ---
 // const isAuthenticated = localStorage.getItem('token');
 //
@@ -53,17 +55,17 @@ function App() {
 
               <Route exact path='/:name' component={Catalogo} />
 
-              {user.isAdmin &&
-               <Route exact path='/admin/panel' component={PanelAdmin} />
-              }
 
 
-              {user.isAdmin &&
               <Route path='/products/category/:id' component={Catalogo} />
-              }
+
+
+
+              <Route path = '/products/:id' component = {ProductDetail} />
+
 
               {user.isAdmin &&
-              <Route path = '/products/:id' component = {ProductDetail} />
+                <Route exact path='/admin/panel' component={PanelAdmin} />
               }
 
               {user.isAdmin &&
@@ -120,7 +122,7 @@ function App() {
 
           </Container>
 
-        <Route component={Copyright} />
+      <Route component={Copyright} />
 
      </div>
 
