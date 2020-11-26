@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import Shopping from './Shopping/Shopping'
 import Summary from './Summary/Summary'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button';
-import {useDispatch, useSelector} from "react-redux"
-import {cleanOrder, clearGuestCart} from "../../actions"
-
+import {cleanOrder, clearGuestCart, getProductsCart} from "../../actions"
 
 export const Cart = () => {
+	useEffect(() => {
+		//getProductsCart(1)
+
+	}, [])
+
 	const user = useSelector(state => state.user)
 	const dispatch = useDispatch()
+  
 	return (
 		<div className='container p-5'>
 			<h1>
@@ -33,7 +38,7 @@ export const Cart = () => {
 								</div>
 
 								<div class="col-2">
-								<h4> Total : </h4>
+	<h4> Total:</h4>
 								</div>
 					</div>
 

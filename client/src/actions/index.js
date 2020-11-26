@@ -429,6 +429,7 @@ export const updateCountProductInCart = (userId, idProduct, count) => async disp
 
 export function getProductsCart(id) {
   return function (dispatch) {
+		//console.log("ID", id)
     return fetch(`http://localhost:3001/users/${id}/cart`)
       .then((res) => res.json())
       .then((order) => {
@@ -518,7 +519,7 @@ export function productQuantity(quantity) {
 		dispatch({
 			type: 'GET_QUANTITY',
 			payload: quantity
-	})
+		})
 	}
 
 }

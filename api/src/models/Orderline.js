@@ -4,7 +4,11 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('orderline', {
     price:{
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DECIMAL
+    },
+
+    total_price:{
+      type: DataTypes.DECIMAL
     },
 
     quantity:{

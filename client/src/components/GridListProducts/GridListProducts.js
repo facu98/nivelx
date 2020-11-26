@@ -34,10 +34,8 @@ export default function ImageGridList(props) {
 
   const history = useHistory()
   const classes = useStyles();
-  
+  //console.log(props.productos)
   let url = window.location.href.split("/");
- 
-
   let page = useQuery().get('page')
 
   const fetchProducts = (key, page = 0) => fetch('http://localhost:3000/products?page=' + page);
