@@ -412,3 +412,47 @@ server.post('/order', (req,res) => {
 
 
 module.exports = server;
+
+//Sincronizar carrito
+
+server.put('/:userId/cartsync', (req,res) => {
+	var guestCart = req.body
+	var {userId} = req.params
+	var orderID
+
+
+	Order.findOrCreate({
+		where:{
+						userId,
+						state: 'carrito'
+					}
+	})
+	.then((order) => {
+		orderID = order[0].id;
+		Orderline.findOne({
+		where:{
+				order_id: orderID
+			}
+		})
+		.then((orderline) => {
+			if(!orderline && guestCart){
+				guestCart.map((c) => {
+					console.log('AKA',c.product_id)
+					Orderline.create({
+						order_id: orderID,
+						product_id: c.product_id,
+						price: parseInt(c.price),
+						quantity: c.quantity,
+						product_name: c.product_name,
+						product_desc: c.product_desc,
+						product_img: c.product_img
+					})
+				})
+					}
+		})
+		.then(() => res.sendStatus(201))
+		.catch((err) => console.log(err))
+	})
+	.catch((err) => console.log(err))
+
+})
