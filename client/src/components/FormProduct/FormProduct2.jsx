@@ -131,6 +131,8 @@ export default function SignUp(props) {
       })
   }, [check, files]);
 
+
+
   useEffect(() => {
     if (url.pathname.includes('/admin/editproduct')) {
       fetch(`http://localhost:3001/products/${id}`)
@@ -406,7 +408,7 @@ export default function SignUp(props) {
           </Button>
           :
           <Button onClick={handleSubmit}
-          
+
             type="submit"
             fullWidth
             variant="contained"
