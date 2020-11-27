@@ -27,6 +27,8 @@ function isLogged(req, res, next) {
 }
 
 
+
+
 module.exports = {
     isAuthenticated,
     isAdmin,

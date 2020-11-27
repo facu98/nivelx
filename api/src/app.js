@@ -11,6 +11,11 @@ var passport = require('passport');
 const { User } = require('./db.js');
 var Strategy = require('passport-local').Strategy;
 const cors = require('cors')
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+require('dotenv').config()
+const {hasCart} = require('./routes/passport')
+
+const mail = require('./controler/mailer')
 
 
 var db = require('./db.js')
@@ -36,7 +41,6 @@ server.use(session({
 server.use(morgan('dev'));
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
-  res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   res.header('Access-Control-Allow-Methods', "POST, GET, OPTIONS, DELETE, PUT")
   next();
@@ -105,6 +109,36 @@ where: {id}
 });
 
 
+passport.use(new GoogleStrategy({
+    clientID: '331867386030-rqpjsqmc37oq8ht6n303l4h3dfc3fdrc.apps.googleusercontent.com',
+    clientSecret: '9qs8DEFg1wiYnj5-blnoDtzX',
+    callbackURL: 'http://localhost:3001/auth/google/callback'
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({
+      where:{
+        name: profile.name.givenName,
+        lastname: profile.name.familyName,
+        email: profile.emails[0].value,
+        isGoogleUser: true
+      }
+    })
+    .then((user) => {
+      return done(null, user[0].dataValues)
+    })
+    .catch((err) => {console.log(err)
+    return done(err)})
+
+  }
+));
+
+server.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+server.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'http://localhost:3000/users/login' }),
+  function(req, res) {
+    res.redirect('http://localhost:3000');
+  }
+);
 
 
 server.use('/', routes);
@@ -120,10 +154,11 @@ server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 
 //CARGA DE IMAGENES CON MULTER
 
+
 const storage = multer.diskStorage({
 	destination: path.join(__dirname, '../public/images'),
 	filename: (req, file, cb) => {
-		cb(null, uuidv4() + path.extname(file.originalname).toLowerCase())
+		  cb(null, uuidv4() + path.extname(file.originalname).toLowerCase())
 	},
 })
 const upload = multer({
@@ -143,8 +178,22 @@ const upload = multer({
 server.use(upload)
 
 
+// FIN DE IMAGENES
+
+
+
+server.use('/', routes)
+
+
 /// FIN DE CARGA DE IMAGENES MULTER
 
+
+
+/// RUTAS MAILS
+
+server.post('/complete_buy', mail.sendBuy)
+server.post('/dispatch_buy', mail.sendDespacho)
+server.post('/cancel_buy',   mail.sendCancel) 
 
 server.use(upload)
 module.exports = server;

@@ -1,0 +1,16 @@
+.botonesescritorio {
+    display: block;
+}
+
+.posicioncuatrobotones {
+    margin-bottom: 9px;
+    margin-top: -62px;
+}
+
+element {
+    background-color: white;
+    margin: 0;
+    font-family: Roboto;
+    border: 1px solid #D6D6D64D;
+    border-radius: 7px;
+}

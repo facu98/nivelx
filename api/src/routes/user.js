@@ -6,7 +6,7 @@ const trash = [];
 const {isLogged} = require('./passport')
 const bcrypt = require('bcrypt')
 const {isAuthenticated, isAdmin} = require('./passport')
-
+//
 // FUNCION DE HASHEO DE contraseña
 function hashPassword(password) {
 	return new Promise(function (resolve, reject) {
@@ -41,7 +41,7 @@ server.get('/logout',
   });
 
 server.get('/islogged', isLogged, (req,res) => {
-    res.sendStatus(200)
+    res.send(req.user.dataValues)
   })
 
 
@@ -413,3 +413,39 @@ server.post('/order', (req,res) => {
 
 
 module.exports = server;
+
+//Sincronizar carrito
+
+server.put('/:userId/cartsync', (req,res) => {
+	var guestCart = req.body
+	var {userId} = req.params
+	var orderID
+	console.log('iuserID',userId)
+
+
+	Order.findOrCreate({
+		where:{
+						userId,
+						state: 'carrito'
+					}
+	})
+	.then((order) => {
+		guestCart && guestCart.map((c) => {
+				console.log(c.product_id)
+							Orderline.findOrCreate({
+								where:{
+									order_id: order[0].id,
+									product_id: c.product_id,
+									price: parseInt(c.price),
+									quantity: c.quantity,
+									product_name: c.product_name,
+									product_desc: c.product_desc,
+									product_img: c.product_img
+								}
+
+							})
+						})
+		})
+		.then(() => res.sendStatus(201))
+		.catch((err) => console.log(err))
+	})

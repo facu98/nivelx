@@ -1,8 +1,11 @@
 const server = require('express').Router()
 
+
+
 server.post('/', (req, res) => {
-const names = req.files.map((img) => img.filename)
-res.status(201).send(names)
+  console.log('req',req)
+  const names = req.map((img) => img.filename)
+  res.status(201).send(names)
 
 })
 

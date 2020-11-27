@@ -75,7 +75,7 @@ export const Shopping = ({
 												getProductById(c.product_id)
 												if(c.quantity <= product.quantity || c.quantity === 1){
 													c.quantity = parseInt(e.target.value)
-													c.total_price = c.price * c.quantity	
+													c.total_price = c.price * c.quantity
 												}
 												if(isNaN(c.quantity)){
 													c.quantity = 1

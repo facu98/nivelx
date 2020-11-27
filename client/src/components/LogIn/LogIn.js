@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import '../UploadImageButton/styleUploadButton.css'
-import {useHistory } from 'react-router-dom'
+import {Link, useHistory } from 'react-router-dom'
 
 import swal from 'sweetalert';
 
@@ -155,14 +155,15 @@ const useStyles = makeStyles((theme) => ({
 
     <Container component="main" maxWidth="xs">
     <CssBaseline />
-    <div className={classes.paper}>
-    <Typography component="h1" variant="h2">
-        Ingresar
-    </Typography>
+
+      <div className={classes.paper}>
+          <Typography component="h1" variant="h2">
+              Ingresar
+          </Typography>
+
+
     <form className={classes.form} noValidate onSubmit={handleSubmit} >
         <Grid className={classes.container} container spacing={5}>
-
-
 
         <Grid item xs={5}>
             <TextField
@@ -209,11 +210,12 @@ const useStyles = makeStyles((theme) => ({
                 className={classes.submit}
             >
                 Ingresar
-            </Button>
+          </Button>
     </form>
+    <a href={'http://localhost:3001/auth/google'}>Iniciar sesion con google</a>
     </div>
-    <Box mt={5}>
-    </Box>
+
+    <Box mt={5}><a href={'http://localhost:3000/user/reset_password'}> Olvidaste tu Contraseña</Box>
     </Container>
     )
 }
