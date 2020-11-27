@@ -56,7 +56,7 @@ function App() {
 
               <Route exact path='/user/reset_password' component={ResetPassword} />
 
-              <Route path='/products/category/:id' component={Catalogo} />
+              <Route path = '/products/category/:id' component={Catalogo} />
 
               <Route path = '/products/:id' component = {ProductDetail} />
 

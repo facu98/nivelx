@@ -15,6 +15,8 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config()
 const {hasCart} = require('./routes/passport')
 
+const mail = require('./controler/mailer')
+
 
 var db = require('./db.js')
 
@@ -185,6 +187,13 @@ server.use('/', routes)
 
 /// FIN DE CARGA DE IMAGENES MULTER
 
+
+
+/// RUTAS MAILS
+
+server.post('/complete_buy', mail.sendBuy)
+server.post('/dispatch_buy', mail.sendDespacho)
+server.post('/cancel_buy',   mail.sendCancel) 
 
 server.use(upload)
 module.exports = server;
