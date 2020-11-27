@@ -579,3 +579,80 @@ export const createProduct = (producto) => async dispatch => {
 		swal('Algo salio mal', ':(', 'error')
 	}
 }
+
+
+
+
+
+/////////////////////////////////
+
+////// ENVIO DE MAILS  //////////
+
+/////////////////////////////////
+
+// reset password mail
+export const sendMail = async (mail) => {
+	try {
+		await fetch('http://localhost:3001/user/reset_password', {
+		method: 'POST',
+		body: JSON.stringify({email: mail}),
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	})
+	.then(res=>res.json())
+	.then(data=>swal("Success",`${data}`,"success"))
+	} catch (err) {
+		console.log(err)
+	}
+}
+
+
+// mail cuando haces la compra to, subject, products, user
+
+export const buyMail = async (to, subject, products, user) => {
+	try {
+		await fetch('http://localhost:3001/complete_buy', {
+			method: 'POST',
+			body: JSON.stringify({to, subject, products, user}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+	} catch (err) {
+	}
+}
+
+
+// mail cuando se despacha la compra
+export const dispatchMail = async (to, subject, user, id) => {
+	try {
+		await fetch('http://localhost:3001/dispatch_buy', {
+			method: 'POST',
+			body: JSON.stringify({to: to, subject: subject, user: user, id: id}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		console.log('tu compra ha sido despachada..!')
+	} catch (err) {
+		console.log('ERROR, no esta mandando el mail', err)
+	}
+}
+
+
+// mail cuando se cancela la compra
+export const cancelMail = async (to, subject, user, id) => {
+	try {
+		await fetch('http://localhost:3001/cancel_buy', {
+			method: 'POST',
+			body: JSON.stringify({to: to, subject: subject, user: user, id: id}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		console.log('tu compra ha sido cancelada..!')
+	} catch (err) {
+		console.log(err)
+	}
+}

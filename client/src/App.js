@@ -24,8 +24,7 @@ import OrdersAdmin    from  './components/Order/AdminOrder';
 import Login          from  './components/LogIn/LogIn';
 import PaymentBanner  from  './components/PaymentBanner/PaymentBanner';
 import SearchBar      from  './components/SearchBar/SearchBar';
-
-
+import ResetPassword  from  './components/ResetPassword/ResetPassword';
 import Container      from  '@material-ui/core/Container'
 // --- con esto se si esta authenticado ---
 // const isAuthenticated = localStorage.getItem('token');
@@ -55,14 +54,11 @@ function App() {
 
               <Route exact path='/:name' component={Catalogo} />
 
-
+              <Route exact path='/user/reset_password' component={ResetPassword} />
 
               <Route path='/products/category/:id' component={Catalogo} />
 
-
-
               <Route path = '/products/:id' component = {ProductDetail} />
-
 
               {user.isAdmin &&
                 <Route exact path='/admin/panel' component={PanelAdmin} />
