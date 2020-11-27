@@ -62,9 +62,7 @@ function App() {
               <Route path='/products/category/:id' component={Catalogo} />
               }
 
-              {user.isAdmin &&
               <Route path = '/products/:id' component = {ProductDetail} />
-              }
 
               {user.isAdmin &&
               <Route exact path='/admin/createCategory'
