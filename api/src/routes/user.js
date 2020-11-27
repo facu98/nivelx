@@ -6,7 +6,7 @@ const trash = [];
 const {isLogged} = require('./passport')
 const bcrypt = require('bcrypt')
 const {isAuthenticated, isAdmin} = require('./passport')
-
+//
 // FUNCION DE HASHEO DE contraseña
 function hashPassword(password) {
 	return new Promise(function (resolve, reject) {
