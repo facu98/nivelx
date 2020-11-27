@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { FaStar } from "react-icons/fa";
 import './review.css';
+import {useSelector} from 'react-redux'
+
 
 export const ReviewButton = () => {
-
+    const user = useSelector(state => state.user)
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
     const [review, setReview] = useState({
@@ -19,10 +21,11 @@ export const ReviewButton = () => {
       const newReview = {
         score: review.estrellas,
         title: review.title,
-        comments: review.rating,
+        comments: review.rating ? review.rating : "Sin comment",
+        userId: user.id
       }
       console.log(JSON.stringify(newReview));
-      fetch('http://localhost:3001/review', {
+      fetch(`http://localhost:3001/products/${user.id}/review`, {
         method: 'POST',
         body: JSON.stringify(newReview),
         credentials: "include",
@@ -75,7 +78,7 @@ export const ReviewButton = () => {
                   );
                 })}
               </div>
-                    <textarea 
+                    <textarea
                     rows={5}
                     className="form-control mb-3"
                     name="rating"

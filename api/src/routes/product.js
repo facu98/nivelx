@@ -167,23 +167,27 @@ S53 al s57
 //Crear reviews --S54
 server.post("/:id/review", isAuthenticated, (req, res) => {
 
-		const {score, title, comments, userId} = req.body
+		const {score, title, comments} = req.body
+		const {id} = req.params
 
 		if(!score || !title || !comments )
 						{
+							console.log('error en primer if')
 							res.status(400).send('Debe enviar los campos requeridos')
 							return
 						}
 
 		Review.create({
+									title,
 									score,
 									comments,
 									productId: req.params.id,
-									userId
+									userId : id
 								})
 
 			.then  (review => res.status(201).send(review))
-			.catch (err	=> res.status(400).send("ERROR EN REVIEW " + err))
+			.catch ((err)	=> {console.log(err)
+				res.status(400).send("ERROR EN REVIEW " + err)})
 
 						})
 
