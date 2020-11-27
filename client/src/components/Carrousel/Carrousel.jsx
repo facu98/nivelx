@@ -3,7 +3,6 @@ import React from 'react'
 import Carousel from 'react-bootstrap/Carousel';
 
 
-
 export default function () {
   return (
     <Carousel className="mb-5" >
@@ -29,6 +28,6 @@ export default function () {
         />
       </Carousel.Item>
     </Carousel>
-   
+
   )
 }

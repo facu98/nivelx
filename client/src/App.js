@@ -94,10 +94,10 @@ function App() {
                 <Route exact path='/admin/products/edit' component={Catalogo} />
               }
 
-              {user.isAdmin &&
 
-                <Route exact path='/admin/createProduct' component ={FormProduct} />
-              }
+
+             <Route exact path='/admin/createProduct' component ={FormProduct} />
+
 
               {user.isAdmin &&
 
