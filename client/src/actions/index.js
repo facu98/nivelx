@@ -553,8 +553,28 @@ export function productQuantity(quantity) {
 			payload: quantity
 		})
 	}
-
 }
+
+export function total(price) {
+	return function(dispatch){
+		dispatch({
+			type: 'TOTAL',
+			price
+		})
+		
+	}
+}
+
+export function addTotal(price, position) {
+	return function(dispatch){
+		dispatch({
+			type: 'ADD_TOTAL',
+			price, 
+			position
+		})
+	}
+}
+
 
 ///// ACTIONS DE CREAR PRODUCTO ////////////////
 
