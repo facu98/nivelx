@@ -1,14 +1,11 @@
 import React, { useEffect } from 'react'
 import { useLocation } from "react-router-dom";
-import Categorias from '../Categorias/Categorias'
-// import ProductsCards from '../ProductCard/ProductCard'
+import Categorias from '../Categorias/Categorias';
 import GridList from '../GridListProducts/GridListProducts'
 import Grid from '@material-ui/core/Grid'
 import {useDispatch, useSelector} from "react-redux"
-import {getProducts, searchbyCategory, searchbyQuery, getCategories, productsPage} from "../../actions"
-// import Button from '@material-ui/core/Button';
-// import { Box } from '@material-ui/core'
-// import { usePaginatedQuery} from 'react-query';
+import {getProducts, searchbyCategory, searchbyQuery, productsPage} from "../../actions"
+
 
 function useQuery() {
 	return new URLSearchParams(useLocation().search);
@@ -49,7 +46,7 @@ export default function ({ match, location }) {
 			dispatch(getProducts())
 
 		}
-	}, [nameCategory, query, page])
+	}, [nameCategory, query, page, dispatch]) // dispatch agregado
 
 	return (
 		<Grid container direction='row'>

@@ -5,7 +5,7 @@ import swal from 'sweetalert';
 import { useHistory } from "react-router-dom";
 
 export default function EditCategory({ match }){
-    let id = match.params.idCategory;
+    // let id = match.params.idCategory;
     let name = match.params.name
     const history = useHistory();
     const [input, setInput] = useState({

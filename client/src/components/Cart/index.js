@@ -1,14 +1,10 @@
 import React, { useEffect, useState} from 'react'
-import { connect, useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {Link , useHistory} from 'react-router-dom';
-import Shopping from './Shopping/Shopping'
-import Summary from './Summary/Summary'
+import Shopping from './Shopping/Shopping';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button';
-import {cleanOrder, clearGuestCart, getProductsCart, total} from "../../actions"
-//import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
-import axios from 'axios';//---- agrego axios ----
-//import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
+import {cleanOrder, clearGuestCart, total} from "../../actions";
 
 // export const Cart = ({ history }) => {
 // 	useEffect(() => {

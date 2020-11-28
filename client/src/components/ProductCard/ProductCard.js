@@ -5,22 +5,16 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
-// import iphoneImage from '../../testImages/iphone.jpeg'
-// import Rating from '../Rating/Rating'
-import Button from '@material-ui/core/Button';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Tooltip } from '@material-ui/core';
 import { useLocation, Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import CategoryIcon from '@material-ui/icons/Category';
 import {useDispatch, useSelector} from "react-redux"
-import { Review } from '../Review/Review';
 import { Star } from '../Review/Star';
 import {addProductCart, addProductGuest} from "../../actions"
-import { FaAutoprefixer } from 'react-icons/fa';
 
 
 
@@ -56,12 +50,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ProductCard(props) {
-  const cart = useSelector(state => state.cart)
+  // const cart = useSelector(state => state.cart)
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
   const classes = useStyles();
   const url = useLocation();
-  const guest = useSelector(state => state.guest)
+  // const guest = useSelector(state => state.guest)
 
   const handleCart = () => {
     if(user && user.id){

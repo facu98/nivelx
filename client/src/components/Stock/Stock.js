@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { productQuantity } from '../../actions'
-import {useDispatch, useSelector} from "react-redux"
-import { useLocation } from 'react-router-dom'
+import {useDispatch, useSelector} from "react-redux";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Stock.css';
 
@@ -10,7 +9,7 @@ export default function Stock(props) {
     let prices = document.getElementsByClassName('prices');
 
     const q = useSelector(state => state.quantity);
-    const url = useLocation();
+    // const url = useLocation();
     const dispatch = useDispatch();
 
     //Reiniciar contador

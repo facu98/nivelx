@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import { productQuantity } from '../../actions'
 import {useDispatch, useSelector} from "react-redux"
-import {addProductCart, productQuantity, addProductGuest} from "../../actions"
+import {addProductCart, addProductGuest} from "../../actions"
 
 export default function Buttons(props){
 
