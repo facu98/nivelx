@@ -6,6 +6,14 @@ import Summary from './Summary/Summary'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button';
 import {cleanOrder, clearGuestCart, getProductsCart, total} from "../../actions"
+//import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
+import axios from 'axios';//---- agrego axios ----
+//import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
+export const Cart = ({ history }) => {
+	useEffect(() => {
+		//getProductsCart(1)
+
+	}, [])
 
 export const Cart = () => {
 
@@ -14,10 +22,39 @@ export const Cart = () => {
 	const tot = useSelector(state => state.total)
 	const guestCart = useSelector(state => state.guestCart)
 	const dispatch = useDispatch()
-
 	const [amount, setAmount] = useState(0)
 	const [shipping, setShipping] = useState(5)
 
+  
+  // ----- Agrego funcionalidad al boton checkout -----
+	// traigo estado
+	//const orders = useSelector(state => state.cart)
+	//console.log("**************** SOY EL ESTADO ***************");
+	//console.log(orders);
+	const [orders, setOrders] = useState('');
+	console.log("**************** SOY EL ESTADO ***************");
+	console.log(orders);
+	const handleOrder = () => {
+		setOrders('creada');
+		//orders.setState({
+		//	status: 'creada',
+		//});
+
+		if(user && user.id){
+			setOrders('procesando');
+			//orders.setState("procesando");
+			//const { data } = await axios.post(`http://localhost:3001/auth/checkout/user`, order);
+			history.push('http://localhost:3001/auth/checkout/user', [orders]);
+		} else {
+
+			history.push('http://localhost:3000/user/create', [orders]);
+ 
+		}
+		
+		// history.push(path, [state]) - (function) Pushes a new entry onto the history stack
+	}
+	// ----------------------------------------
+  
 	useEffect(() => {
 		if(tot.length === 0){
 			if(user && user.id){
@@ -108,7 +145,9 @@ export const Cart = () => {
 										type="submit"
 										fullWidth
 										variant="contained"
-										color="primary">
+										color="primary"
+										onClick={() => handleOrder()}
+								>
 													IR A CHECKOUT
 									</Button>
 
