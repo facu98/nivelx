@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductsCart } from '../../reducers/index';
+import { getProductsCart } from '../../actions/index';
 import axios from 'axios';
+import emailjs from 'emailjs-com';
 
-export default function checkout({ history }) {
-    const dispatch = useDispatch;
-    const orders = useSelector((store) => store.cart.cart);
+
+export default function Checkout({ history }) {
+    const dispatch = useDispatch();
+    const orders = useSelector((store) => store.cart);
     console.log(orders.id);
-    const user = useSelector((store) => store.user.user);
+    const user = useSelector(state => state.user);
     console.log(user.id);
 
     // actualiza form
@@ -32,11 +34,11 @@ export default function checkout({ history }) {
         city,
         shipping_address,
         postal_code,
-        phone_number,
-    }
+        phone_number
+    } = form;
 
     let sum = 0;
-    
+
     const total = async() => {
         for (let i = 0; i < orders.length; i++) {
             sum += orders.products[i].price * orders.products[i].order.quantity
@@ -52,6 +54,17 @@ export default function checkout({ history }) {
         return total;
     }
 
+    function sendEmail(e) {
+        e.preventDefault();
+
+        emailjs.sendCheckout('gmail', 'template_8g8tire', e.target, 'user_9LZTscsphLtdXTZKgIUE1')
+          .then((result) => {
+              console.log(result.text);
+          }, (error) => {
+              console.log(error.text);
+          });
+      }
+
     console.log(orders);
 
     const onSubmit = e => {
@@ -63,15 +76,16 @@ export default function checkout({ history }) {
             postal_code,
             phone_number,
         });
+        sendEmail(e);
     }
 
     const postCheck = async (userId, orderId) => {
         const info = {
-            country = form.country,
-            city = form.city,
-            shipping_address = form.shipping_address,
-            postal_code = form.postal_code,
-            phone_number = form.phone_number,
+            country : form.country,
+            city : form.city,
+            shipping_address : form.shipping_address,
+            postal_code : form.postal_code,
+            phone_number : form.phone_number,
         }
 
         if (form.country && form.city && form.shipping_address && form.postal_code && form.phone_number) {
@@ -98,7 +112,7 @@ export default function checkout({ history }) {
                             name="country"
                             placeholder="country"
                             value={country}
-                            onChange={onChange} 
+                            onChange={onChange}
                         />
                     </div>
                     <div className="campo-form">
@@ -109,7 +123,7 @@ export default function checkout({ history }) {
                             name="shipping_address"
                             placeholder="shipping_address"
                             value={shipping_address}
-                            onChange={onChange} 
+                            onChange={onChange}
                         />
                     </div>
                     <div className="campo-form">
@@ -120,7 +134,7 @@ export default function checkout({ history }) {
                             name="postal_code"
                             placeholder="postal_code"
                             value={postal_code}
-                            onChange={onChange} 
+                            onChange={onChange}
                         />
                     </div>
                     <div className="campo-form">
@@ -131,11 +145,11 @@ export default function checkout({ history }) {
                             name="phone_number"
                             placeholder="phone_number"
                             value={phone_number}
-                            onChange={onChange} 
+                            onChange={onChange}
                         />
                     </div>
                     <div className="campo-form">
-                        <button className=" btn btn-primario btn-block" onClick={() => postChek(user.id, orders.id)} >
+                        <button className=" btn btn-primario btn-block" onClick={() => postCheck(user.id, orders.id)} >
                             Comprar
                         </button>
                     </div>

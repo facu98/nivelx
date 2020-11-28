@@ -6,10 +6,20 @@ import {cleanOrder, clearGuestCart, total} from '../../actions'
 import Shopping from './Shopping/Shopping'
 import Button from '@material-ui/core/Button';
 import './index.css'
+//import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
+import axios from 'axios';//---- agrego axios ----
+//import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
+
+// export const Cart = ({ history }) => {
+// 	useEffect(() => {
+// 		//getProductsCart(1)
+//
+// 	}, [])
 
 export const Cart = () => {
 
 	const user = useSelector(state => state.user)
+	const history = useHistory()
 	const cart = useSelector(state => state.cart)
 	const tot = useSelector(state => state.total)
 	const guestCart = useSelector(state => state.guestCart)
@@ -19,6 +29,35 @@ export const Cart = () => {
 	const [amount, setAmount] = useState('')
 	const [shipping, setShipping] = useState('')
 	const [discount, setDiscount] = useState('')
+
+  // ----- Agrego funcionalidad al boton checkout -----
+	// traigo estado
+	//const orders = useSelector(state => state.cart)
+	//console.log("**************** SOY EL ESTADO ***************");
+	//console.log(orders);
+	const [orders, setOrders] = useState('');
+	console.log("**************** SOY EL ESTADO ***************");
+	console.log(orders);
+	const handleOrder = () => {
+		setOrders('creada');
+		//orders.setState({
+		//	status: 'creada',
+		//});
+
+		if(user && user.id){
+			setOrders('procesando');
+			//orders.setState("procesando");
+			//const { data } = await axios.post(`http://localhost:3001/auth/checkout/user`, order);
+			history.push('http://localhost:3001/auth/checkout/user', [orders]);
+		} else {
+
+			history.push('http://localhost:3000/user/create', [orders]);
+
+		}
+
+		// history.push(path, [state]) - (function) Pushes a new entry onto the history stack
+	}
+	// ----------------------------------------
 
 	useEffect(() => {
 		if(tot.length === 0){
@@ -48,7 +87,7 @@ export const Cart = () => {
 		let data = tot.reduce((a, b) => a + b)
 		setAmount(data)
 	}
-	
+
 	if(cart.length || guestCart.length !==0){
 	return (
 		<div className='container p-5'>
@@ -92,37 +131,34 @@ export const Cart = () => {
 						</div>
 
 				    	<div class="col-3">
-							<Button
-								type="submit"
-								fullWidth
-								variant="contained"
-								color="secondary"
-								onClick={() => {
-									if(user && user.id){
-										dispatch(cleanOrder(user.id))
-									} else {
-										(dispatch(clearGuestCart()))
-									}
-								}}
-							>
-								Vaciar carrito
-							</Button>
-			    		</div>
+								<Button
+										type="submit"
+										fullWidth
+										variant="contained"
+										color="secondary"
+										onClick={() => {
+											if(user && user.id) dispatch(cleanOrder(user.id))
+											else(dispatch(clearGuestCart()))
+										}}
+								>
+										Vaciar carrito
+								</Button>
+			    	</div>
 
-					    <div class="col-2">
-							<Button
-								type="submit"
-								fullWidth
-								variant="contained"
-								color="primary"
-							>
-								IR A CHECKOUT
-							</Button>
-				    	</div>
-					</div>
+				    <div class="col-2">
+
+								<Button
+										type="submit"
+										fullWidth
+										variant="contained"
+										color="primary"
+										onClick={() => handleOrder()}
+								>
+													IR A CHECKOUT
+									</Button>
+				    </div>
 				</div>
 			</div>
-		</div>
 	)	
 	} else {
 		return(

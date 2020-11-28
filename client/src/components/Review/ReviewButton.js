@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { FaStar } from "react-icons/fa";
 import './review.css';
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
+import { sentReview } from '../../actions';
 
 
 export const ReviewButton = () => {
     const user = useSelector(state => state.user)
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
+    const dispatch = useDispatch()
     const [review, setReview] = useState({
       rating: "",
       title: "Muy Bueno",
@@ -24,22 +26,8 @@ export const ReviewButton = () => {
         comments: review.rating ? review.rating : "Sin comment",
         userId: user.id
       }
-      console.log(JSON.stringify(newReview));
-      fetch(`http://localhost:3001/products/${user.id}/review`, {
-        method: 'POST',
-        body: JSON.stringify(newReview),
-        credentials: "include",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-    })
-    .then(()=>{
-        alert(`Se ha creado un review exitosamente`)
-    })
-    .catch((err)=>{
-         console.log(err)
-    })
+      dispatch(sentReview(user.id, newReview));
+     
     }
 
     const onChange = (e) => {
@@ -50,8 +38,8 @@ export const ReviewButton = () => {
         });
       };
     return (
-        <>
-            <section>
+        <div>
+            <section >
                 <section>
                 <div>
                 {[...Array(5)].map((star, i) => {
@@ -95,6 +83,6 @@ export const ReviewButton = () => {
                   Enviar
                 </button>
             </section>
-        </>
+        </div>
     )
 }

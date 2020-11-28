@@ -5,8 +5,8 @@ import { Star } from './Star';
 export const Review = () => {
     
     return (
-        <div className='card'>
-            <div className="card-body" >
+        <div className='card mb-3'>
+            <div className="card-body p-3" >
             <div className="pt-2" >
                 <h2>Opiniones sobre el producto</h2>
             </div>
