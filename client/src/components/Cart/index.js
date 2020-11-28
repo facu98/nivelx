@@ -9,6 +9,7 @@ import {cleanOrder, clearGuestCart, getProductsCart, total} from "../../actions"
 //import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
 import axios from 'axios';//---- agrego axios ----
 //import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
+
 // export const Cart = ({ history }) => {
 // 	useEffect(() => {
 // 		//getProductsCart(1)
