@@ -369,6 +369,7 @@ Product.findByPk(productId)
 				order_id: order[0].id,
 				product_id: producto.id,
 				price: parseInt(producto.price),
+				total_price: parseInt(producto.price),
 				quantity: quantity ? quantity : 1,
 				product_name: producto.name,
 				product_desc: producto.description,

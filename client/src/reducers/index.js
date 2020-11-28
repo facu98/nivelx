@@ -1,3 +1,5 @@
+import { total } from "../actions";
+
 const localUser = localStorage.getItem("user")
 const user = localUser && JSON.parse(localUser)
 
@@ -14,7 +16,8 @@ const initialState = {
   orders:[],
   quantity: [],
   guestCart: guest ? guest : [],
-  purchased:[]
+  purchased:[],
+  total: []
 
 };
 
@@ -170,7 +173,19 @@ function rootReducer(state = initialState, action) {
        guestCart: []
      }
 
+    case 'TOTAL':
+      let tot = state.total.concat(action.price)
+      return {
+        ...state,
+        total: tot
+      }
 
+    case 'ADD_TOTAL':
+      state.total.splice(action.position, 1, action.price)
+        return {
+          ...state,
+          total: state.total
+        }
 
     case 'IS_LOGGED':
     if(!action.logged){
