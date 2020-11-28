@@ -25,7 +25,7 @@ import Login          from  './components/LogIn/LogIn';
 import PaymentBanner  from  './components/PaymentBanner/PaymentBanner';
 import SearchBar      from  './components/SearchBar/SearchBar';
 import ResetPassword  from  './components/ResetPassword/ResetPassword';
-//import checkout       from  './components/Checkout/checkout'; lo comento porq sino rompe
+import Checkout       from  './components/Checkout/checkout';
 //import order          from  './components/Order/Order';
 import Container      from  '@material-ui/core/Container'
 // --- con esto se si esta authenticado ---
@@ -60,7 +60,7 @@ function App() {
 
               <Route path = '/products/category/:id' component={Catalogo} />
 
-              {/*<Route path = '/auth/checkout/user' component = {checkout}/>*/}
+              <Route path = '/auth/checkout/user' component = {Checkout}/>
 
 
 

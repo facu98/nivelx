@@ -5,8 +5,8 @@ import axios from 'axios';
 import emailjs from 'emailjs-com';
 
 
-export default function checkout({ history }) {
-    //const dispatch = useDispatch();
+export default function Checkout({ history }) {
+    const dispatch = useDispatch();
     const orders = useSelector((store) => store.cart);
     console.log(orders.id);
     const user = useSelector(state => state.user);
@@ -38,7 +38,7 @@ export default function checkout({ history }) {
     } = form;
 
     let sum = 0;
-    
+
     const total = async() => {
         for (let i = 0; i < orders.length; i++) {
             sum += orders.products[i].price * orders.products[i].order.quantity
@@ -56,7 +56,7 @@ export default function checkout({ history }) {
 
     function sendEmail(e) {
         e.preventDefault();
-    
+
         emailjs.sendCheckout('gmail', 'template_8g8tire', e.target, 'user_9LZTscsphLtdXTZKgIUE1')
           .then((result) => {
               console.log(result.text);
@@ -112,7 +112,7 @@ export default function checkout({ history }) {
                             name="country"
                             placeholder="country"
                             value={country}
-                            onChange={onChange} 
+                            onChange={onChange}
                         />
                     </div>
                     <div className="campo-form">
@@ -123,7 +123,7 @@ export default function checkout({ history }) {
                             name="shipping_address"
                             placeholder="shipping_address"
                             value={shipping_address}
-                            onChange={onChange} 
+                            onChange={onChange}
                         />
                     </div>
                     <div className="campo-form">
@@ -134,7 +134,7 @@ export default function checkout({ history }) {
                             name="postal_code"
                             placeholder="postal_code"
                             value={postal_code}
-                            onChange={onChange} 
+                            onChange={onChange}
                         />
                     </div>
                     <div className="campo-form">
@@ -145,7 +145,7 @@ export default function checkout({ history }) {
                             name="phone_number"
                             placeholder="phone_number"
                             value={phone_number}
-                            onChange={onChange} 
+                            onChange={onChange}
                         />
                     </div>
                     <div className="campo-form">
