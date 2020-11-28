@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux'
-import {Link} from 'react-router-dom';
+import {Link , useHistory} from 'react-router-dom';
 import Shopping from './Shopping/Shopping'
 import Summary from './Summary/Summary'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,13 +9,17 @@ import {cleanOrder, clearGuestCart, getProductsCart, total} from "../../actions"
 //import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
 import axios from 'axios';//---- agrego axios ----
 //import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
-export const Cart = ({ history }) => {
-	useEffect(() => {
-		//getProductsCart(1)
 
-	}, [])
-	
+// export const Cart = ({ history }) => {
+// 	useEffect(() => {
+// 		//getProductsCart(1)
+//
+// 	}, [])
+
+export const Cart = () => {
+
 	const user = useSelector(state => state.user)
+	const history = useHistory()
 	const cart = useSelector(state => state.cart)
 	const tot = useSelector(state => state.total)
 	const guestCart = useSelector(state => state.guestCart)
@@ -23,7 +27,7 @@ export const Cart = ({ history }) => {
 	const [amount, setAmount] = useState(0)
 	const [shipping, setShipping] = useState(5)
 
-  
+
   // ----- Agrego funcionalidad al boton checkout -----
 	// traigo estado
 	//const orders = useSelector(state => state.cart)
@@ -46,13 +50,13 @@ export const Cart = ({ history }) => {
 		} else {
 
 			history.push('http://localhost:3000/user/create', [orders]);
- 
+
 		}
-		
+
 		// history.push(path, [state]) - (function) Pushes a new entry onto the history stack
 	}
 	// ----------------------------------------
-  
+
 	useEffect(() => {
 		if(tot.length === 0){
 			if(user && user.id){
@@ -79,7 +83,7 @@ export const Cart = ({ history }) => {
 		let data = tot.reduce((a, b) => a + b)
 		setAmount(data)
 	}
-	
+
 	if(cart.length || guestCart.length !==0){
 	return (
 		<div className='container p-5'>
@@ -96,7 +100,7 @@ export const Cart = ({ history }) => {
 					<Shopping
 						listener= {handleTotal}
 					/>
-					
+
 					<div>
 					<div class="row">
 								<div class="col-8">
@@ -162,7 +166,7 @@ export const Cart = ({ history }) => {
 					</div>
 			</div>
 
-	)	
+	)
 	} else {
 		return (
 			<div>
@@ -181,10 +185,10 @@ export const Cart = ({ history }) => {
 					<Link to="/" class="btn btn-primary">Cátalogo</Link>
   				</div>
 			</div>
-			
+
 			</div>
-			
+
 		)
 	}
-	
+
 }
