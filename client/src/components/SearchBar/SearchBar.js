@@ -29,7 +29,7 @@ const SearchBar = () => {
                 <div  className="row justify-content-center justify-content-md-start m-3">
                 <div className="col-md-4 text-center" >
                     <NavLink to="/" className='nav-link'>
-                     <img src={"http://localhost:3000/assets/img/Nivel_X_Logo.png"} height="30%" width="30%" alt="Logo_store" />
+                     <img src={"http://localhost:3000/assets/img/banner.png"} height="30%" width="30%" alt="Logo_store" />
                     </NavLink>
                 </div>
                 <div className="col-md-8 m-auto" >
