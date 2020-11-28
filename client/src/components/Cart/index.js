@@ -14,9 +14,7 @@ export const Cart = ({ history }) => {
 		//getProductsCart(1)
 
 	}, [])
-
-export const Cart = () => {
-
+	
 	const user = useSelector(state => state.user)
 	const cart = useSelector(state => state.cart)
 	const tot = useSelector(state => state.total)
