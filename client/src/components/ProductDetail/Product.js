@@ -47,7 +47,7 @@ export default function Product({ match }) {
                         <span className={s.productData}>Descripción:</span>
                         {product.description}
                     </p>
-                    {/* <Review /> */}
+                    
                 </div>
                 <div className="ml-4" >
                     <div>
@@ -56,17 +56,19 @@ export default function Product({ match }) {
                             quantity={product.quantity}
                             price={product.price}
                         />
+                        <Buttons
+                            product={product}
+                            id={product.id}
+                            quantity={product.quantity}
+                        />
                     </div>
                     <div>
-                        <ReviewButton />
+                        <Review />
+                        {/* <ReviewButton /> */}
                     </div>
                 </div>
 
-                <Buttons
-                product = {product}
-                id = {product.id}
-                quantity = {product.quantity}
-                />
+
 
 
             </div>

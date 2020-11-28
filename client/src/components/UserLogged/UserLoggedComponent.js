@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { NavLink, useHistory } from 'react-router-dom'
+import { NavLink, useHistory, Link } from 'react-router-dom'
 // IMPORTS DE MATERIAL UI
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -43,7 +43,9 @@ export default function UserLogged() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>Mis compras</MenuItem>
+          <Link to="/user/purchases" >
+            <MenuItem onClick={handleClose}>Mis compras</MenuItem>
+          </Link>
           {/* <MenuItem onClick={handleClose}></MenuItem> */}
           <MenuItem onClick={logOutAndClose}>Salir</MenuItem>
         </Menu>
