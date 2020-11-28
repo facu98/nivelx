@@ -16,7 +16,9 @@ const initialState = {
   orders:[],
   quantity: [],
   guestCart: guest ? guest : [],
+  purchased:[],
   total: []
+
 };
 
 function rootReducer(state = initialState, action) {
@@ -201,7 +203,11 @@ function rootReducer(state = initialState, action) {
       }
     }
 
-
+    case 'GET_PURCHASED_PRODUCTS':
+    return{
+      ...state,
+      purchased: action.payload
+    }
 
 
 

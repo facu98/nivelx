@@ -479,6 +479,19 @@ export function getProductsCart(id) {
   }
 }
 
+export function purchasedProducts(id){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/users/${id}/products`)
+			.then((res) => res.json())
+			.then((products) => {
+				dispatch({
+					type: 'GET_PURCHASED_PRODUCTS',
+					payload: products
+				})
+			})
+	}
+}
+
 export function cleanOrder(id) {
   return function (dispatch) {
     return fetch(`http://localhost:3001/users/${id}/cart/all`, {
