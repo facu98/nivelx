@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsCart } from '../../actions/index';
 import axios from 'axios';
+import emailjs from 'emailjs-com';
+
 
 export default function checkout({ history }) {
     //const dispatch = useDispatch();
@@ -52,6 +54,17 @@ export default function checkout({ history }) {
         return total;
     }
 
+    function sendEmail(e) {
+        e.preventDefault();
+    
+        emailjs.sendCheckout('gmail', 'template_8g8tire', e.target, 'user_9LZTscsphLtdXTZKgIUE1')
+          .then((result) => {
+              console.log(result.text);
+          }, (error) => {
+              console.log(error.text);
+          });
+      }
+
     console.log(orders);
 
     const onSubmit = e => {
@@ -63,6 +76,7 @@ export default function checkout({ history }) {
             postal_code,
             phone_number,
         });
+        sendEmail(e);
     }
 
     const postCheck = async (userId, orderId) => {

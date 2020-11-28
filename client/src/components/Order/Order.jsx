@@ -31,6 +31,7 @@ export default function Order(data) {
         total();
     }
 
+
     useEffect(() => {
         dispatch(getOrderbyID(data.match.params.id)) 
         // hago q siempre se actualize la pagina cuando la pagina encuentra que el cart esta en "procesando"

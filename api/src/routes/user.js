@@ -6,7 +6,7 @@ const trash = [];
 const {isLogged} = require('./passport')
 const bcrypt = require('bcrypt')
 const {isAuthenticated, isAdmin} = require('./passport')
-
+//
 // FUNCION DE HASHEO DE contraseña
 function hashPassword(password) {
 	return new Promise(function (resolve, reject) {
@@ -369,6 +369,7 @@ Product.findByPk(productId)
 				order_id: order[0].id,
 				product_id: producto.id,
 				price: parseInt(producto.price),
+				total_price: parseInt(producto.price),
 				quantity: quantity ? quantity : 1,
 				product_name: producto.name,
 				product_desc: producto.description,
@@ -376,6 +377,7 @@ Product.findByPk(productId)
 			})
 			.then((order) => {res.send(order)})
 			.catch((err) => {
+				console.log(err)
 				res.status(400).json(err.parent.detail)
 			})
 				}
@@ -448,3 +450,29 @@ server.put('/:userId/cartsync', (req,res) => {
 		.then(() => res.sendStatus(201))
 		.catch((err) => console.log(err))
 	})
+
+	//RETORNA TODOS LOS PRODUCTOS QUE COMPRÓ UN USER
+	server.get('/:id/products', (req, res) => {
+		let id = req.params.id;
+		Order.findAll({
+		where: {
+			userId: id,
+			state:'completa'
+			}
+		})
+		.then((orders) => {
+			var ordersId = orders.map((order) => {
+				return order.id})
+			Orderline.findAll({
+				where:{
+					order_id: ordersId
+				}
+			})
+			.then((products) => {
+				var purchasedProducts = products.map((product) => product.dataValues)
+				res.send(purchasedProducts)
+			})
+			.catch((err) => console.log(err))
+		})
+		.catch(err => res.status(404).send(err));
+	});

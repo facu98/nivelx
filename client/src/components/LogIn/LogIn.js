@@ -155,14 +155,15 @@ const useStyles = makeStyles((theme) => ({
 
     <Container component="main" maxWidth="xs">
     <CssBaseline />
-    <div className={classes.paper}>
-    <Typography component="h1" variant="h2">
-        Ingresar
-    </Typography>
+
+      <div className={classes.paper}>
+          <Typography component="h1" variant="h2">
+              Ingresar
+          </Typography>
+
+
     <form className={classes.form} noValidate onSubmit={handleSubmit} >
         <Grid className={classes.container} container spacing={5}>
-
-
 
         <Grid item xs={5}>
             <TextField
@@ -209,12 +210,13 @@ const useStyles = makeStyles((theme) => ({
                 className={classes.submit}
             >
                 Ingresar
-            </Button>
+          </Button>
     </form>
     <a href={'http://localhost:3001/auth/google'}>Iniciar sesion con google</a>
+    <a href={'http://localhost:3000/user/reset_password'}> Olvidaste tu Contraseña</a>
     </div>
-    <Box mt={5}>
-    </Box>
+
+
     </Container>
     )
 }
