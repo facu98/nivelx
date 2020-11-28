@@ -22,3 +22,7 @@ textarea {
     resize: none;
     margin-top: 0.5rem;
 }
+
+.card {
+    width: 550px !important;
+}
