@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux'
 import Shopping from './Shopping/Shopping'
 import Summary from './Summary/Summary'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button';
 import {cleanOrder, clearGuestCart, getProductsCart} from "../../actions"
-
-export const Cart = () => {
+//import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
+import axios from 'axios';//---- agrego axios ----
+//import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
+export const Cart = ({ history }) => {
 	useEffect(() => {
 		//getProductsCart(1)
 
@@ -14,7 +16,36 @@ export const Cart = () => {
 
 	const user = useSelector(state => state.user)
 	const dispatch = useDispatch()
-  
+
+	// ----- Agrego funcionalidad al boton checkout -----
+	// traigo estado
+	//const orders = useSelector(state => state.cart)
+	//console.log("**************** SOY EL ESTADO ***************");
+	//console.log(orders);
+	const [orders, setOrders] = useState('');
+	console.log("**************** SOY EL ESTADO ***************");
+	console.log(orders);
+	const handleOrder = () => {
+		setOrders('creada');
+		//orders.setState({
+		//	status: 'creada',
+		//});
+
+		if(user && user.id){
+			setOrders('procesando');
+			//orders.setState("procesando");
+			//const { data } = await axios.post(`http://localhost:3001/auth/checkout/user`, order);
+			history.push('http://localhost:3001/auth/checkout/user', [orders]);
+		} else {
+
+			history.push('http://localhost:3000/user/create', [orders]);
+ 
+		}
+		
+		// history.push(path, [state]) - (function) Pushes a new entry onto the history stack
+	}
+	// ----------------------------------------
+
 	return (
 		<div className='container p-5'>
 			<h1>
@@ -67,7 +98,9 @@ export const Cart = () => {
 										type="submit"
 										fullWidth
 										variant="contained"
-										color="primary">
+										color="primary"
+										onClick={() => handleOrder()}
+								>
 													IR A CHECKOUT
 									</Button>
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { getOrderbyID } from '../../reducers/index';
+import { getOrderbyID } from '../../actions/index';
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Order(data) {
     const classes = useStyles();
-    const order = useSelector(store => store.carrito.order); // con esto accedo al estado del carrito
+    const order = useSelector(store => store.cart.order); // con esto accedo al estado del carrito
     const dispatch = useDispatch();
     console.log(data);
     let total = 0;
