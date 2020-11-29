@@ -1,12 +1,14 @@
-import React, {useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaStar } from "react-icons/fa";
 import './review.css';
 import {useDispatch, useSelector} from 'react-redux'
-import { sentReview } from '../../actions';
+import { sentReview, getReview, editReview, deleteReview } from '../../actions';
 
 
-export const ReviewButton = () => {
+export default function ReviewButton(props) {
+
     const user = useSelector(state => state.user)
+    const userReview = useSelector(state => state.review)
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
     const dispatch = useDispatch()
@@ -16,6 +18,11 @@ export const ReviewButton = () => {
       estrellas: "",
     });
 
+    useEffect(() => {
+      dispatch(getReview(user.id, props.product.product_id))
+    },[])
+
+
 
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -24,14 +31,24 @@ export const ReviewButton = () => {
         score: review.estrellas,
         title: review.title,
         comments: review.rating ? review.rating : "Sin comment",
-        userId: user.id
+        userId: user.id,
+        orderId:props.product.order_id
       }
-      dispatch(sentReview(user.id, newReview));
-     
+      if(!props.product.review){
+        dispatch(sentReview(props.product.product_id, newReview));
+      }
+      else{
+        dispatch(editReview(props.product.product_id, userReview.id, newReview))  //EDIT REVIEW
+      }
+
+    }
+
+    const handleDelete = () => {
+      dispatch(deleteReview(props.product.product_id, userReview.id, user.id))
     }
 
     const onChange = (e) => {
-        console.log(e.target.value);
+      console.log(review)
         setReview({
             ...review,
             [e.target.name]: e.target.value,
@@ -65,6 +82,12 @@ export const ReviewButton = () => {
                     </label>
                   );
                 })}
+          { userReview && <button
+                  className="btn btn-primary mb-2"
+                  onClick={handleDelete}
+                >
+                  Eliminar reseña
+                </button>}
               </div>
                     <textarea
                     rows={5}

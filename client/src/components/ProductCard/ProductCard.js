@@ -1,4 +1,5 @@
 import React from 'react';
+import swal from  'sweetalert';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -63,7 +64,13 @@ export default function ProductCard(props) {
 
   const handleCart = () => {
     if(user && user.id){
-      dispatch(addProductCart(user.id, props.productos.id))
+      let items = cart && cart.filter(e => e.product_id === props.productos.id)
+      if(items.length === 0){ //
+        dispatch(addTotal(props.productos.price, cart.length))
+        dispatch(addProductCart(user.id, props.productos.id))
+      } else {
+        swal("El producto ya se encuentra en el carrito", "","warning")
+      }
     } else {
       const data = {
         price: props.productos.price,
@@ -72,10 +79,10 @@ export default function ProductCard(props) {
         product_desc: props.productos.description,
         product_img: props.productos.pictures,
         product_id: props.productos.id
-        }
-      dispatch(addProductGuest(data))
+      }
+      dispatch(addProductGuest(data, 1))
+      dispatch(addTotal(props.productos.price, guestCart.length))
     }
-    dispatch(addTotal(props.productos.price, guestCart.length || cart.length))
   }
 
   const boton = user.isAdmin

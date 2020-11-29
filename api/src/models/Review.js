@@ -30,5 +30,8 @@ module.exports = (sequelize) => {
                 notEmpty: false,
             },
         },
+        orderId:{
+          type: DataTypes.INTEGER
+        }
     });
 }

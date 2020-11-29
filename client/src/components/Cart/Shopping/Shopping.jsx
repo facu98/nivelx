@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
-import { getProductsCart, deleteProductInCart, getProductById, removeProductGuest, addTotal } from '../../../actions'
+import {Link} from 'react-router-dom';
+import { getProductsCart, deleteProductInCart, getProductById, removeProductGuest, addTotal, productQuantity } from '../../../actions'
 import "./Shopping.css"
 //fix
 export const Shopping = ({
@@ -30,7 +31,7 @@ export const Shopping = ({
 					<h4><center>No hay productos en el carrito</center></h4>
 				</div>
 				: cart.map((c, i) => (
-						<div className='card mb-3 p-3' key={c.product_id}>
+						<div className='card border-secondary ml-auto mr-auto mt-3 mb-3 p-3' key={c.product_id}>
 							<div className='row'>
 								<div className='col-md-4'>
 							<img
@@ -43,7 +44,10 @@ export const Shopping = ({
 								<div className='col-md-4'>
 									<div className='card-body'>
 										<h5 className='card-title'>
-											{c.product_name}
+											<Link to={`/products/${c.product_id}`}>
+												{c.product_name}
+											</Link>
+											
 										</h5>
 										<p className='card-text'>
 											{c.product_desc.slice(0, 50) +
@@ -68,20 +72,24 @@ export const Shopping = ({
 											value={c.quantity}
 											onload={()=>{
 												getProductById(c.product_id)
-												c.total_price = c.price * c.quantity	
+												c.total_price = c.price * c.quantity
 											}}
-											onClick={listener}
+											onClick={listener} //Llega desde props
 											onKeyDown={listener}
 											onChange={(e) => {
 												getProductById(c.product_id)
-												if(c.quantity <= product.quantity + 1|| c.quantity === 1){
+												if(c.quantity <= product.quantity + 1 || c.quantity === 1){
 													c.quantity = parseInt(e.target.value)
 													c.total_price = c.price * c.quantity
+													dispatch(addTotal(parseInt(c.total_price), i))
+												}
+												if(c.quantity > product.quantity){
+													dispatch(addTotal(0, i))
 												}
 												if(isNaN(c.quantity)){
 													c.quantity = 1
 												}
-												dispatch(addTotal(c.total_price, i))
+												dispatch(productQuantity(e.target.value))
 											}}
 										/>
 										{
@@ -101,16 +109,20 @@ export const Shopping = ({
 										}
             						</div>
 									<button
-										className='btn btn-outline-danger align-self-start'
+										className='btn btn-outline-danger align-self-start mr-5 mb-5 '
 										onClick={() => {
-											tot.splice(i, 1)
-											if(user && user.id){deleteProductInCart(user.id, c.product_id)}
-											else removeProductGuest(c.product_id)
+											if(user && user.id){
+												deleteProductInCart(user.id, c.product_id)
+												tot.splice(i, 1)
+											} else {
+												tot.splice(i, 1)
+												removeProductGuest(c.product_id)
+											}
 										}}
 									>
 										<svg 
-											width="30px" 
-											height="30px" 
+											width="25px" 
+											height="25px" 
 											viewBox="0 0 16 16" 
 											class="bi bi-x" 
 											fill="currentColor" 
