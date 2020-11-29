@@ -37,11 +37,20 @@ module.exports = (sequelize) => {
       defaultValue: ['Color unico']
     },
     asessment: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      defaultValue:0
     },
     category: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false
+    },
+    totalScore:{
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    totalReviews:{
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     }
   });
 };

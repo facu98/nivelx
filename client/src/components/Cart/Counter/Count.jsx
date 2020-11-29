@@ -1,7 +1,7 @@
 import React from 'react';
 import { productQuantity } from '../../../actions'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {useDispatch, useSelector, connect} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 
 export function Count(props) {
     const q = useSelector(state => state.quantity);

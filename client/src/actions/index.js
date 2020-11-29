@@ -1,5 +1,4 @@
 import swal from  'sweetalert';
-import {Redirect, Route, Switch, useLocation } from "react-router-dom";
 
 //ACTIONS PRODUCTOS
 export function getProducts(){
@@ -496,9 +495,10 @@ export function purchasedProducts(id){
 	}
 }
 
-export function sentReview(idUser, newReview){
+export function sentReview(productId, newReview){
+	var {userId} = newReview
 	return function(dispatch){
-		return  fetch(`http://localhost:3001/products/${idUser}/review`, {
+		return  fetch(`http://localhost:3001/products/${productId}/review`, {
 			method: 'POST',
 			body: JSON.stringify(newReview),
 			credentials: "include",
@@ -512,12 +512,63 @@ export function sentReview(idUser, newReview){
 				type: 'CREATE_REVIEW',
 			})
 		})
+		.then(() => {
+			dispatch(purchasedProducts(userId))
+		})
 		.then(()=>{
 			alert(`Se ha creado un review exitosamente`)
 		})
 		.catch((err)=>{
 			 console.log(err)
 		})
+	}
+}
+
+export function editReview(productId, reviewId, newReview){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/products/${productId}/review/${reviewId}`, {
+			method: 'PUT',
+			body: JSON.stringify(newReview),
+			credentials: "include",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+				}
+		})
+		.then(() => {
+			dispatch({
+				type:'EDIT_REVIEW'
+			})
+		})
+	}
+}
+
+export function deleteReview(productId, reviewId, userId){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/products/${productId}/review/${reviewId}`,
+		{method:'DELETE',
+			credentials:'include'})
+			.then(() => {
+				dispatch({
+					type:'DELETE_REVIEW'
+				})
+			})
+			.then(() => {
+				return dispatch(purchasedProducts(userId))
+			})
+	}
+}
+
+export function getReview(idUser, idProduct){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/products/${idUser}/${idProduct}/review`)
+			.then((res) => res.json())
+			.then((review) => {
+				dispatch(
+					{type: 'GET_REVIEW',
+					payload: review}
+				)
+			})
 	}
 }
 
@@ -603,7 +654,7 @@ export function total(price) {
 			type: 'TOTAL',
 			price
 		})
-		
+
 	}
 }
 
@@ -611,7 +662,7 @@ export function addTotal(price, position) {
 	return function(dispatch){
 		dispatch({
 			type: 'ADD_TOTAL',
-			price, 
+			price,
 			position
 		})
 	}

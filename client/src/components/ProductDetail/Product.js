@@ -6,7 +6,6 @@ import Buttons from '../Stock/Buttons.js'
 
 import { Link } from 'react-router-dom';
 import { Review } from '../Review/Review';
-import { ReviewButton } from '../Review/ReviewButton';
 
 
 //IMPORTE EL COMPONENTE BUTTON DE MATERIAL UI
@@ -47,7 +46,7 @@ export default function Product({ match }) {
                         <span className={s.productData}>Descripción:</span>
                         {product.description}
                     </p>
-                    
+
                 </div>
                 <div className="ml-4" >
                     <div>
@@ -63,8 +62,7 @@ export default function Product({ match }) {
                         />
                     </div>
                     <div>
-                        <Review />
-                        {/* <ReviewButton /> */}
+                        <Review product = {product}/>
                     </div>
                 </div>
 

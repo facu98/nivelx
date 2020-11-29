@@ -1,18 +1,18 @@
-import React, {useEffect} from 'react';
-import { NavLink, useHistory, Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom'
 // IMPORTS DE MATERIAL UI
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {useDispatch, useSelector} from "react-redux"
-import {getProductsCart, logOut} from "../../actions"
+import { logOut} from "../../actions"
 
 
 export default function UserLogged() {
 
     const user = useSelector(state => state.user);
     const dispatch = useDispatch();
-    const history = useHistory();
+    // const history = useHistory();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
   

@@ -1,14 +1,15 @@
 import React, { useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {Link} from 'react-router-dom';
+import {Link , useHistory} from 'react-router-dom';
+import Shopping from './Shopping/Shopping';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {cleanOrder, clearGuestCart, total} from '../../actions'
-import Shopping from './Shopping/Shopping'
 import Button from '@material-ui/core/Button';
 import './index.css'
 //import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
 import axios from 'axios';//---- agrego axios ----
 //import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
+
 
 // export const Cart = ({ history }) => {
 // 	useEffect(() => {
@@ -44,17 +45,14 @@ export const Cart = () => {
 		//	status: 'creada',
 		//});
 
-		if(user && user.id){
+		if(!user.id){
+			alert('Para comprar debes iniciar sesión');
+		} else {
 			setOrders('procesando');
 			//orders.setState("procesando");
 			//const { data } = await axios.post(`http://localhost:3001/auth/checkout/user`, order);
-			history.push('http://localhost:3001/auth/checkout/user', [orders]);
-		} else {
-
-			history.push('http://localhost:3000/user/create', [orders]);
-
+			//history.push('http://localhost:3001/auth/checkout/user', [orders]);
 		}
-
 		// history.push(path, [state]) - (function) Pushes a new entry onto the history stack
 	}
 	// ----------------------------------------
@@ -156,15 +154,17 @@ export const Cart = () => {
 			    		</div>
 
 					    <div class="col-2">
-							<Button
-								type="submit"
-								fullWidth
-								variant="contained"
-								color="primary"
-								onClick={handleOrder}
-							>
-								IR A CHECKOUT
-							</Button>
+							<Link to='/auth/checkout/user'>
+								<Button
+										type="submit"
+										fullWidth
+										variant="contained"
+										color="primary"
+										onClick={() => handleOrder()}
+								>
+													IR A CHECKOUT
+									</Button>
+							</Link>
 				    	</div>
 					</div>
 				</div>

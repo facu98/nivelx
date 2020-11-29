@@ -1,4 +1,4 @@
-import { total } from "../actions";
+
 
 const localUser = localStorage.getItem("user")
 const user = localUser && JSON.parse(localUser)
@@ -17,7 +17,8 @@ const initialState = {
   quantity: [],
   guestCart: guest ? guest : [],
   purchased:[],
-  total: []
+  total: [],
+  review:[]
 
 };
 
@@ -209,6 +210,12 @@ function rootReducer(state = initialState, action) {
     return{
       ...state,
       purchased: action.payload
+    }
+
+    case 'GET_REVIEW':
+    return{
+      ...state,
+      review: action.payload[0]
     }
 
 

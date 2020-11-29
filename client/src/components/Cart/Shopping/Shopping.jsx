@@ -31,7 +31,7 @@ export const Shopping = ({
 					<h4><center>No hay productos en el carrito</center></h4>
 				</div>
 				: cart.map((c, i) => (
-						<div className='card mb-3 p-3' key={c.product_id}>
+						<div className='card border-secondary ml-auto mr-auto mt-3 mb-3 p-3' key={c.product_id}>
 							<div className='row'>
 								<div className='col-md-4'>
 							<img
@@ -109,7 +109,7 @@ export const Shopping = ({
 										}
             						</div>
 									<button
-										className='btn btn-outline-danger align-self-start'
+										className='btn btn-outline-danger align-self-start mr-5 mb-5 '
 										onClick={() => {
 											if(user && user.id){
 												deleteProductInCart(user.id, c.product_id)
@@ -121,8 +121,8 @@ export const Shopping = ({
 										}}
 									>
 										<svg 
-											width="30px" 
-											height="30px" 
+											width="25px" 
+											height="25px" 
 											viewBox="0 0 16 16" 
 											class="bi bi-x" 
 											fill="currentColor" 
