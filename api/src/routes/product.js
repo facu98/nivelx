@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { Product, Category , Review} = require('../db.js');
+const { Product, Category , Review, Orderline, User} = require('../db.js');
 const { Op } = require('sequelize')
 const trash = [];
 const {isAuthenticated, isAdmin} = require('./passport')
@@ -167,7 +167,7 @@ S53 al s57
 //Crear reviews --S54
 server.post("/:id/review", isAuthenticated, (req, res) => {
 
-		const {score, title, comments, userId} = req.body
+		const {score, title, comments, userId, orderId} = req.body
 		const productId = req.params.id
 
 		if(!score || !title || !comments )
@@ -189,11 +189,39 @@ server.post("/:id/review", isAuthenticated, (req, res) => {
 										score,
 										comments,
 										productId,
-										userId
+										userId,
+										orderId
 									})
-									.then  (review => res.status(201).send(review))
-									.catch ((err)	=> {console.log(err)
-										res.status(400).send("ERROR EN REVIEW " + err)})
+		.then(() => {
+			Product.findByPk(productId)
+			.then((product) => {
+				// console.log(score)
+				// console.log(parseInt(product.totalScore) + parseInt(score))
+				// console.log(parseInt(product.totalReviews) + 1)
+
+				product.asessment = Math.floor((parseInt(product.totalScore) + parseInt(score)) / (parseInt(product.totalReviews) + 1))
+				product.totalScore = parseInt(product.totalScore )+ parseInt(score)
+				product.totalReviews = parseInt(product.totalReviews) + 1
+				product.save()
+			})
+			.catch((err) => console.log(err))
+		})
+		.then(() => {
+			Orderline.findOne({
+				where:{
+					order_id : orderId,
+					product_id: productId
+				}
+			})
+			.then((orderline) => {
+				orderline.review = true
+				orderline.save()
+			})
+			.catch((err) => console.log(err))
+		})
+		.then(() => res.sendStatus(201))
+		.catch ((err)	=> {console.log(err)
+		res.status(400).send("ERROR EN REVIEW " + err)})
 		})
 		.catch((err) => console.log(err))
 
@@ -201,9 +229,10 @@ server.post("/:id/review", isAuthenticated, (req, res) => {
 
 
 //Modificar y actualizar reviews s55
-server.put("/:idProduct/review/:idReview", isAuthenticated, (req, res) =>{
+server.put("/:idProduct/review/:idReview", (req, res) =>{
 		const {score,title, comments, userId} = req.body
-
+		const {idProduct} = req.params
+		var oldScore
 		if(!score || !title || !comments )
 			{
 				res.status(400).send('Debe enviar los campos requeridos')
@@ -223,13 +252,28 @@ server.put("/:idProduct/review/:idReview", isAuthenticated, (req, res) =>{
 								}})
 
 					.then(review => {
+									oldScore = review.score
 									review.userId 	= userId 	 || review.userId
 									review.score 		= score    || review.score
 									review.title 		= title    || review.title
 									review.comments = comments || review.comments
-									review.save().then(rev => {
-																						res.status(200).send(rev)
+									review.save()
+									.then(() => {
+										Product.findByPk(idProduct)
+										.then((product) => {
+
+											product.asessment = Math.floor((parseInt(product.totalScore) - parseInt(oldScore) + parseInt(score)) / parseInt(product.totalReviews))
+											product.totalScore = parseInt(product.totalScore ) - parseInt(oldScore) + parseInt(score)
+											product.save()
+											.then((prod) => console.log(prod))
+										})
+
+									})
+									.then(rev => {
+																						res.sendStatus(200)
 																						})
+
+								.catch((err) => console.log(err))
 
 								})
 					.catch((err) => res.status(404).send(err))
@@ -237,8 +281,10 @@ server.put("/:idProduct/review/:idReview", isAuthenticated, (req, res) =>{
 
 
 //Eliminar reviews s56
-server.delete("/:idProduct/review/:idReview", isAuthenticated,  (req, res) => {
+server.delete("/:idProduct/review/:idReview",  (req, res) => {
 	//BUSCA LA REVIEW
+	var oldScore
+	var orderId
 	Review.findOne({
 								where: {
 									[Op.and]: [	{productId: req.params.idProduct},
@@ -246,19 +292,50 @@ server.delete("/:idProduct/review/:idReview", isAuthenticated,  (req, res) => {
 									],
 								}})
   // PROMISE CON LA QUERY DE LA BUSQUEDA
-	.then(review => { //destroy() destruye la query que matechea review y despues nos renvia el review vacio
-											review.destroy().then(() => {
-																										res.send(review) })
-										})
-	//SI NO PUDO ENCONTRAR NADA FUE XQ ALGUNO DE LOS DOS ID FUE INVALIDO
-	.catch(() => res.status(404).send('Id no valido'))
+	.then(review => { oldScore = review.score
+										orderId = review.orderId
+		//destroy() destruye la query que matechea review y despues nos renvia el review vacio
+											review.destroy()
+											.then(() => {
+												Product.findByPk(req.params.idProduct)
+												.then((product) => {
+													console.log('OLD', oldScore)
+													product.totalReviews == 1 ? product.asessment = 0 : product.asessment =
+													Math.floor((parseInt(product.totalScore) - parseInt(oldScore)) / (parseInt(product.totalReviews) - 1))
+													product.totalScore = parseInt(product.totalScore ) - parseInt(oldScore)
+													product.totalReviews = parseInt(product.totalReviews - 1)
+													product.save()
+													.then((prod) => console.log(prod))
+												})
+												.then(() => {
+													Orderline.findOne({
+														where:{
+															order_id : orderId,
+															product_id: req.params.idProduct
+														}
+													})
+													.then((orderline) => {
+														orderline.review = false
+														orderline.save()
+													})
+											})
 
+											.then(() => {
+																										res.sendStatus(200)})
+										})
+
+										.catch((err) => console.log(err))
+
+
+})
+//SI NO PUDO ENCONTRAR NADA FUE XQ ALGUNO DE LOS DOS ID FUE INVALIDO
+.catch(() => res.status(404).send('Id no valido'))
 })
 
 
 
 // Trae reviews de un producto en particular, detalle producto s57
-server.get('/:productId/productreview', isAuthenticated, async (req, res) => {
+server.get('/:productId/productreview', async (req, res) => {
 	try {
 		const data = await Review.findAll({
 			where: {
@@ -286,11 +363,12 @@ server.get('/:productId/productreview', isAuthenticated, async (req, res) => {
 // Trae todas las reviews de un usuario
 
 //CREE ESTA RUTA POR LAS DUDAS
-server.get('/:userId/:productId/review',  isAuthenticated, async (req, res) => {
+server.get('/:userId/:productId/review', async (req, res) => {
 	try {
 			const data = await Review.findAll({
 						where: {
-											userId: req.params.userId
+											userId: req.params.userId,
+											productId: req.params.productId
 										}
 								})
 

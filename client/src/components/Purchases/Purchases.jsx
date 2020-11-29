@@ -9,13 +9,21 @@ export default function Admin(props) {
 const user = useSelector(state => state.user);
 const purchased = useSelector(state => state.purchased);
 const history = useHistory();
+const [show, setShow] = useState(false)
+
+
+
+const handleShow = (id) => {
+	if(show == id){
+		setShow(false)
+	}
+	else setShow(id)
+}
 
 const dispatch = useDispatch()
 
 	useEffect(() => {
 		dispatch(purchasedProducts(user.id))
-
-
 	}, [])
 
 	return (
@@ -41,18 +49,19 @@ const dispatch = useDispatch()
 								</div>
 							</div>
 							<div className='col-md-3 d-flex align-items-center justify-content-center'>
-								
-								<button
+
+					{purchased.review	?	<button className="btn btn-primary"
+					onClick={() => {handleShow(purchased.product_id)}}>Editar reseña</button> :
+							<button
 									className="btn btn-primary"
-									onClick={() => {
-										history.push('/user/review')
-									}}
+									onClick={() => {handleShow(purchased.product_id)}}
 								>
 									Calificar
 
-								</button>
+								</button>}
 							</div>
 						</div>
+						{(show && show == purchased.product_id) && <ReviewButton product = {purchased}/>}
 					</div>
 				))}
 		</div>

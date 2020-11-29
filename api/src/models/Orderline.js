@@ -25,6 +25,10 @@ module.exports = (sequelize) => {
     },
     product_img:{
       type:DataTypes.ARRAY(DataTypes.STRING)
+    },
+    review:{
+      type: DataTypes.BOOLEAN,
+      defaultValue:false
     }
 
   });

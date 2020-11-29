@@ -2,8 +2,8 @@ import React from 'react';
 import './review.css';
 import { Star } from './Star';
 
-export const Review = () => {
-    
+export const Review = (props) => {
+
     return (
         <div className='card mb-3'>
             <div className="card-body p-3" >
@@ -12,11 +12,11 @@ export const Review = () => {
             </div>
             <div className="row" >
                 <div className="col-2 text-center" >
-                    <h1>4.0</h1>
+                    <h1>{props.product.asessment}.0</h1>
                 </div>
                 <div className="col-10" >
                     <Star />
-                    <p>Promedio entre 1 opiniones</p>
+                    <p>Promedio entre {props.product.totalReviews} opiniones</p>
                 </div>
             </div>
             <div >
