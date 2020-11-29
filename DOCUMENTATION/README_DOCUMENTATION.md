@@ -182,3 +182,16 @@ BACK END:
 Se tiene que poner como segundo parametro de la ruta la funcion de autorizacion, las funciones van en passport.js
 Ejemplo: server.post("/", isAdmin, (req,res) => {...})
 ```
+
+#Node-Mailer:
+```
+VIDEO DE COMO GENERAR CLAVES API GMAIL
+https://www.youtube.com/watch?v=-rcRf7yswfM
+Agregar al .env (Si falla es porque se vencieron los accessToken duran 1 hs)
+
+user=scicolone.julian@gmail.com
+clientId=491285531831-vlhtvs11cnr74c5q5tj3a2csrp4ccb59.apps.googleusercontent.com
+clientSecret=zaxcFhu1j5Tk0xJKA1UXcdKO
+refreshToken=1//046C7qvRZ2jDyCgYIARAAGAQSNwF-L9Ir3tjjdJWYCymhMrSuf5f4L0Qcfmo-ZILFCyJeAmuxhPRKs-ODUJfqbJtyqFFsYpZ76_0
+accessToken=ya29.a0AfH6SMAU-qN_PiQjmkrjX2_oUNHzYgwhTket_KdZcRh8-LYWHxyP3Wx2r75J0fGTNKKWKE-HZt8M8bMFRRhxMj6Z5IkrHS-AfLqmIRNCXqzKaro5Gfba0XNaxyk9RokLXnNjXgoHoxjb8OngyQfcCrxoC3wan7FmjKB7zOePhhI
+```
