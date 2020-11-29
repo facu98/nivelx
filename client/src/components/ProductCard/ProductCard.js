@@ -14,7 +14,7 @@ import { useLocation, Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import CategoryIcon from '@material-ui/icons/Category';
 import {useDispatch, useSelector} from "react-redux"
-import { Star } from '../Review/Star';
+import SimpleRating from '../Review/Rating';
 import {addProductCart, addProductGuest, addTotal} from "../../actions"
 import { FaAutoprefixer } from 'react-icons/fa';
 
@@ -60,7 +60,7 @@ export default function ProductCard(props) {
   const url = useLocation();
   // const guest = useSelector(state => state.guest)
 
-  
+
 
   const handleCart = () => {
     if(user && user.id){
@@ -135,7 +135,7 @@ export default function ProductCard(props) {
           {`USD ${props.productos.price} `} {boton}
         </Typography>
 
-        <Star />
+        <SimpleRating score = {props.productos.asessment}/>
       </CardContent>
 
     </Card>

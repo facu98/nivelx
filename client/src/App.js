@@ -51,19 +51,18 @@ function App() {
               <Route exact path='/user/create' component={CreateUser} />
 
               <Route exact path='/user/login' component={Login} />
+
+
               <Route exact path='/user/cart' component={Cart} />
+
               <Route exact path='/user/purchases' component={Purchases} />
 
-              <Route exact path='/user/review' component={ReviewButton} />
+              <Route exact path='/user/review/' component={ReviewButton} />
 
-
-              <Route exact path='/user/review/:id' component={ReviewButton} />
 
               <Route exact path='/:name' component={Catalogo} />
 
               <Route exact path='/user/reset_password' component={ResetPassword} />
-              
-
 
 
               <Route path = '/products/category/:id' component={Catalogo} />
