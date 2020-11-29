@@ -14,6 +14,7 @@ import Carrousel      from  './components/Carrousel/Carrousel';
 import Categorias     from  './components/Categorias/Categorias';
 import FormCategory   from  './components/FormCategory/FormCategory';
 import FormProduct    from  './components/FormProduct/FormProduct2';
+import FormChangePass from  './components/FormChangePass/FormChangePass'
 import EditCategory   from  './components/FormCategory/FormUpdateDeleteCategory';
 import EditProduct    from  './components/FormProduct/FormUpdateDeleteProduct';
 import ProductDetail  from  './components/ProductDetail/Product';
@@ -26,7 +27,7 @@ import SearchBar      from  './components/SearchBar/SearchBar';
 import ResetPassword  from  './components/ResetPassword/ResetPassword';
 import Checkout       from  './components/Checkout/checkout';
 import Purchases      from  './components/Purchases/Purchases';
-import ReviewButton   from  './components/Review/ReviewButton';
+import {ReviewButton}   from  './components/Review/ReviewButton';
 import order          from  './components/Order/Order';
 import Container      from  '@material-ui/core/Container'
 // --- con esto se si esta authenticado ---
@@ -51,19 +52,18 @@ function App() {
               <Route exact path='/user/create' component={CreateUser} />
 
               <Route exact path='/user/login' component={Login} />
+
+
               <Route exact path='/user/cart' component={Cart} />
+
               <Route exact path='/user/purchases' component={Purchases} />
 
-              <Route exact path='/user/review' component={ReviewButton} />
-
-
               <Route exact path='/user/review/:id' component={ReviewButton} />
+
 
               <Route exact path='/:name' component={Catalogo} />
 
               <Route exact path='/user/reset_password' component={ResetPassword} />
-              
-
 
 
               <Route path = '/products/category/:id' component={Catalogo} />
