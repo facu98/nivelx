@@ -48,7 +48,7 @@ server.use((req, res, next) => {
 
 server.use(cors({
   origin: 'http://localhost:3000',
-  credentials: true,
+  credentials: false,
 }));
 
 server.use(passport.initialize());
@@ -193,7 +193,7 @@ server.use('/', routes)
 
 server.post('/complete_buy', mail.sendBuy)
 server.post('/dispatch_buy', mail.sendDespacho)
-server.post('/cancel_buy',   mail.sendCancel) 
+server.post('/cancel_buy',   mail.sendCancel)
 
 server.use(upload)
 module.exports = server;
