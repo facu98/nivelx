@@ -1,5 +1,4 @@
 import swal from  'sweetalert';
-import {Redirect, Route, Switch, useLocation } from "react-router-dom";
 
 //ACTIONS PRODUCTOS
 export function getProducts(){
@@ -371,6 +370,11 @@ export const addProductCart = (idUser, idProduct, quantity) => async dispatch =>
 			.then(() => {
 				return dispatch(getProductsCart(idUser))
 			})
+			.then((res)=>{
+
+				swal("Bienvenido!",`${res.name} ${res.lastname}`,"success");
+
+				})
 }
 
 export function addProductGuest(product, quantity){
@@ -390,6 +394,7 @@ export function addProductGuest(product, quantity){
 			type:'ADD_PRODUCT_CART_GUEST',
 			payload: product
 		})
+		swal("Producto añadido al carrito", "","success");
 	}
 }
 

@@ -1,12 +1,11 @@
-import React, {useState,useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux"
 import { useHistory } from 'react-router-dom';
-import { getProductsCart, deleteProductInCart, getProductById, purchasedProducts } from '../../actions'
-import {Count} from '../Cart/Counter/Count'
-import { Review } from '../Review/Review';
-import { ReviewButton } from '../Review/ReviewButton';
+import { purchasedProducts } from '../../actions'
+
 
 export default function Admin(props) {
+	
 const user = useSelector(state => state.user);
 const purchased = useSelector(state => state.purchased);
 const history = useHistory();

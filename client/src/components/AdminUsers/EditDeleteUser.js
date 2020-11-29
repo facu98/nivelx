@@ -1,28 +1,16 @@
 import React, {useState,useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux"
+import {useDispatch} from "react-redux"
 import {editUser, deleteUser, promoteUser} from "../../actions"
-import "./FormStyle.css"
-// import Avatar from '@material-ui/core/Avatar';
+import "./FormStyle.css";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import '../UploadImageButton/styleUploadButton.css'
-// import FormControl from '@material-ui/core/FormControl';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import Select from '@material-ui/core/Select';
-// import NativeSelect from '@material-ui/core/NativeSelect';
-// import { Input } from '@material-ui/core';
-// import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-// import InputAdornment from '@material-ui/core/InputAdornment';
-// import swal from 'sweetalert';
-import {  useHistory } from 'react-router-dom'
+import '../UploadImageButton/styleUploadButton.css';
 
 
 
@@ -63,9 +51,9 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 	export default function FormUser(props){
-    const user = useSelector(state => state.user)
+    // const user = useSelector(state => state.user)
     const dispatch = useDispatch()
-    const history = useHistory()
+    // const history = useHistory()
 
 
     const classes = useStyles();

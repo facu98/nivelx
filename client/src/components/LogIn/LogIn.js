@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch, useSelector} from "react-redux"
+import {useDispatch} from "react-redux"
 import {loginUser} from "../../actions"
 import "./FormStyle.css"
 
@@ -8,14 +8,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import '../UploadImageButton/styleUploadButton.css'
-import {Link, useHistory } from 'react-router-dom'
+import {useHistory } from 'react-router-dom'
 
-import swal from 'sweetalert';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -45,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 	export default function FormUser({ match }){
-    const user = useSelector(state => state.user)
+    // const user = useSelector(state => state.user)
     const dispatch = useDispatch()
     const classes = useStyles();
     const history = useHistory()
@@ -115,15 +113,15 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-    const resetForm = ()=> {
-        setInput({
+    // const resetForm = ()=> {
+    //     setInput({
 
-          email:'',
+    //       email:'',
 
-          password:'',
+    //       password:'',
 
-        })
-    };
+    //     })
+    // };
 
     const handleSubmit = (e)=>{
         e.preventDefault();
@@ -215,8 +213,6 @@ const useStyles = makeStyles((theme) => ({
     <a href={'http://localhost:3001/auth/google'}>Iniciar sesion con google</a>
     <a href={'http://localhost:3000/user/reset_password'}> Olvidaste tu Contraseña</a>
     </div>
-
-
     </Container>
     )
 }

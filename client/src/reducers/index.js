@@ -1,4 +1,4 @@
-import { total } from "../actions";
+
 
 const localUser = localStorage.getItem("user")
 const user = localUser && JSON.parse(localUser)
