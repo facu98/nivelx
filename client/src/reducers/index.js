@@ -109,6 +109,8 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       user: [],
+      cart: [],
+      total: []
     }
 
     case 'RESET_PASSWORD':

@@ -21,15 +21,21 @@ export const Cart = () => {
 	const [discount, setDiscount] = useState('')
 
 	useEffect(() => {
+		
 		if(tot.length === 0){
 			if(user && user.id){
 				for(let i=0; i < cart.length; i++){
-					dispatch(total(cart[i].price * cart[i].quantity, i))
+					dispatch(total(cart[i].price * cart[i].quantity))
 				}
 			} else {
 				for(let i=0; i < guestCart.length; i++){
-					dispatch(total(guestCart[i].price * guestCart[i].quantity, i))
+					dispatch(total(guestCart[i].price * guestCart[i].quantity))
 				}
+			}
+		}
+		if(user && (tot.length !== 0)){
+			for(let i=0; i < cart.length; i++){
+				tot[i]= parseInt(cart[i].price * cart[i].quantity)
 			}
 		}
 	}, [])
@@ -42,14 +48,14 @@ export const Cart = () => {
 		setAmount(data)
 		setShipping(5)
 		setDiscount(0)
-	}, 1500);
+	}, 2000);
 
 	const handleTotal = () => {
-		let data = tot.reduce((a, b) => a + b)
+		let data = tot.length > 0 && tot.reduce((a, b) => a + b)
 		setAmount(data)
 	}
 	
-	if(cart.length || guestCart.length !==0){
+	if(cart.length || guestCart.length !== 0){
 	return (
 		<div className='container p-5'>
 			<h1>
@@ -103,6 +109,7 @@ export const Cart = () => {
 									} else {
 										(dispatch(clearGuestCart()))
 									}
+									tot.splice(0)
 								}}
 							>
 								Vaciar carrito

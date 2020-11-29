@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
+import swal from  'sweetalert';
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import { productQuantity } from '../../actions'
 import {useDispatch, useSelector} from "react-redux"
@@ -15,7 +16,15 @@ export default function Buttons(props){
 
     const handleCart = () => {
       if(user && user.id){
-        dispatch(addProductCart(user.id, props.id))
+        let items = cart && cart.filter(e => e.product_id === props.product.id)
+        if(items.length === 0){ //
+          dispatch(addTotal(props.product.price * q, cart.length))
+          dispatch(addProductCart(user.id, props.id, q))
+          dispatch(productQuantity(1))
+        } else {
+          swal("El producto ya se encuentra en el carrito", "","warning")
+        }
+        
       } else {
         const data = {
           price: props.product.price,
@@ -23,12 +32,11 @@ export default function Buttons(props){
           quantity: q > 0 ? q : 1,
           product_desc: props.product.description,
           product_img: props.product.pictures,
-          product_id: props.product.id
+          product_id: props.product.id 
         }
-        dispatch(addProductGuest(data, parseInt(q)))
+        dispatch(addProductGuest(data, parseInt(q))) //
+        dispatch(addTotal(props.product.price * q, guestCart.length)) //
       }
-    dispatch(addTotal(props.product.price * q, guestCart.length || cart.length))
-    dispatch(productQuantity(1))
     }
       //subscribe
     return(
