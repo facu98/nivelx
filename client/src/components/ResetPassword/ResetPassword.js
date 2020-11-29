@@ -55,7 +55,7 @@ export default function FormResetPass() {
 
   const handleSubmit = async function (e) {
     e.preventDefault()
-    const user = await fetch(`http://localhost:3001/user/email`, {
+    const user = await fetch(`http://localhost:3001/users/email`, {
       method: 'POST',
       body: JSON.stringify({ email: values.email }),
       headers: {
@@ -64,10 +64,21 @@ export default function FormResetPass() {
       },
     })
     const { usuario } = await user.json()
-    if (!usuario){swal('Error','Cuenta inexistente','error'); return}
-    if (usuario.isGoogle){swal('Error','mail asociado a Cuenta Google','error'); return}
-    sendMail(values.email)
+
+    if (!usuario)
+                {
+                  swal('Error','Cuenta inexistente','error');
+                  return}
+
+    if (usuario.isGoogleUser)
+                {
+                swal('Error','mail creado con Cuenta Google','error');
+                return
+                }
+
     swal("Verifica tu correo electronico","Mail enviado","success");
+    console.log(values.email)
+    sendMail(values.email)
     resetForm()
 
   }

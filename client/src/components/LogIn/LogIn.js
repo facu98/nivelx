@@ -14,6 +14,7 @@ import Container from '@material-ui/core/Container';
 import '../UploadImageButton/styleUploadButton.css'
 import {useHistory } from 'react-router-dom'
 
+import GoogleLogin from 'react-google-login'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -122,6 +123,8 @@ const useStyles = makeStyles((theme) => ({
 
     //     })
     // };
+    const responseGoogle = async (response) => {}
+
 
     const handleSubmit = (e)=>{
         e.preventDefault();
@@ -210,6 +213,17 @@ const useStyles = makeStyles((theme) => ({
                 Ingresar
           </Button>
     </form>
+            <GoogleLogin
+            className='boton-google'
+            buttonText='Ingresar con Google'
+            onSuccess={responseGoogle}
+            isSignedIn={true}
+            cookiePolicy={'single_host_origin'}/>
+
+
+
+
+
     <a href={'http://localhost:3001/auth/google'}>Iniciar sesion con google</a>
     <a href={'http://localhost:3000/user/reset_password'}> Olvidaste tu Contraseña</a>
     </div>

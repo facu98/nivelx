@@ -604,7 +604,7 @@ export function total(price) {
 			type: 'TOTAL',
 			price
 		})
-		
+
 	}
 }
 
@@ -612,7 +612,7 @@ export function addTotal(price, position) {
 	return function(dispatch){
 		dispatch({
 			type: 'ADD_TOTAL',
-			price, 
+			price,
 			position
 		})
 	}
@@ -656,7 +656,7 @@ export const createProduct = (producto) => async dispatch => {
 // reset password mail
 export const sendMail = async (mail) => {
 	try {
-		await fetch('http://localhost:3001/user/reset_password', {
+		await fetch('http://localhost:3001/users/reset_password', {
 		method: 'POST',
 		body: JSON.stringify({email: mail}),
 		headers: {
@@ -718,4 +718,56 @@ export const cancelMail = async (to, subject, user, id) => {
 	} catch (err) {
 		console.log(err)
 	}
+}
+
+
+// ACTIONS PARA CAMBIO DE CONTRASEÑA TANTO LOGUEADOS COMO OLVIDE MI CONTRASÑEÑA
+
+
+
+export const userChangePassword = (input) => async dispatch => {
+		await fetch(`http://localhost:3001/users/password`, {
+			method: 'PUT',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ password: input }),
+		})
+			.then((res) => res.json())
+			.then((data) =>{
+				dispatch({
+					type: 'ADD_USER',
+					payload: data,
+				})
+				swal("Password cambiado satisfactoriamente","","success")
+
+			})
+			.catch(err => swal("Ups","Ocurrió un error al cambiar la contraseña","error"))
+
+}
+
+
+export function userForgotPassword(input,token) {
+
+		return fetch(`http://localhost:3001/users/password/${token}`, {
+			method: 'PUT',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ password: input }),
+		})
+			.then((res) => res.json())
+			.then((data) =>{
+
+					if(data.status === 401){
+							swal("Error",`${data.msg}`,"error")
+						}
+
+					else if(data.status === 200){
+						swal("Password cambiado satisfactoriamente","","success")
+					}
+			})
+			.catch(err => swal("Ups","Ocurrió un error al cambiar la contraseña","error"))
 }
