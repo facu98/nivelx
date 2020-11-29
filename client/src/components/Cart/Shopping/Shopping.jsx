@@ -22,7 +22,7 @@ export const Shopping = ({
 			getProductsCart(user.id)
 		}
 	}, [])
-
+	
 	return (
 		<div>
 			{cart && cart.length === 0
@@ -57,13 +57,14 @@ export const Shopping = ({
                 						<label><b>Cantidad:</b></label>
 										<input
 											type="number" 
-											id="quantity" 
+											id="q"
 											className={
 												c.quantity <= product.quantity || c.quantity === 1 || product.quantity === undefined
 												? "form-control is-valid"
 												: "form-control is-invalid"
 											}
-											min="1" 
+											min="1"
+											max={product.quantity + 1}
 											value={c.quantity}
 											onload={()=>{
 												getProductById(c.product_id)
@@ -73,16 +74,13 @@ export const Shopping = ({
 											onKeyDown={listener}
 											onChange={(e) => {
 												getProductById(c.product_id)
-												if(c.quantity <= product.quantity || c.quantity === 1){
+												if(c.quantity <= product.quantity + 1|| c.quantity === 1){
 													c.quantity = parseInt(e.target.value)
 													c.total_price = c.price * c.quantity
 												}
 												if(isNaN(c.quantity)){
 													c.quantity = 1
 												}
-												console.log(`Q: ${c.quantity}`)
-												console.log(`P: ${product.quantity}`)
-												setTimeout(()=> {console.log(`P2: ${product.quantity}`)}, 5000)
 												dispatch(addTotal(c.total_price, i))
 											}}
 										/>
@@ -100,13 +98,12 @@ export const Shopping = ({
 												</small>
 											</div>
 											: <p style={{color: 'red'}}>No hay Stock</p>
-											  
 										}
             						</div>
 									<button
 										className='btn btn-outline-danger align-self-start'
 										onClick={() => {
-											dispatch(addTotal(0, i))
+											tot.splice(i, 1)
 											if(user && user.id){deleteProductInCart(user.id, c.product_id)}
 											else removeProductGuest(c.product_id)
 										}}
