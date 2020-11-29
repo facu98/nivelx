@@ -57,9 +57,9 @@ function App() {
               <Route exact path='/user/cart' component={Cart} />
 
               <Route exact path='/user/purchases' component={Purchases} />
-              
-              <Route exact path='/user/review' component={ReviewButton} />
-          
+
+              <Route exact path='/user/review/:id' component={ReviewButton} />
+
 
               <Route exact path='/:name' component={Catalogo} />
 

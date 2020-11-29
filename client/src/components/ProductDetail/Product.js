@@ -47,7 +47,7 @@ export default function Product({ match }) {
                         <span className={s.productData}>Descripción:</span>
                         {product.description}
                     </p>
-                    
+
                 </div>
                 <div className="ml-4" >
                     <div>
@@ -63,7 +63,7 @@ export default function Product({ match }) {
                         />
                     </div>
                     <div>
-                        <Review />
+                        <Review product = {product}/>
                         {/* <ReviewButton /> */}
                     </div>
                 </div>
