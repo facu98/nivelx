@@ -48,7 +48,7 @@ server.use((req, res, next) => {
 
 server.use(cors({
   origin: 'http://localhost:3000',
-  credentials: false,
+  credentials: true,
 }));
 
 server.use(passport.initialize());
