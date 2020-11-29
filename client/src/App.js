@@ -27,7 +27,7 @@ import ResetPassword  from  './components/ResetPassword/ResetPassword';
 import Checkout       from  './components/Checkout/checkout';
 import Purchases      from  './components/Purchases/Purchases';
 import {ReviewButton}   from  './components/Review/ReviewButton';
-//import order          from  './components/Order/Order';
+import order          from  './components/Order/Order';
 import Container      from  '@material-ui/core/Container'
 // --- con esto se si esta authenticado ---
 // const isAuthenticated = localStorage.getItem('token');
@@ -68,6 +68,8 @@ function App() {
               <Route path = '/products/category/:id' component={Catalogo} />
 
               <Route path = '/auth/checkout/user' component = {Checkout}/>
+
+              <Route path = '/auth/checkout/user/order' component = {order} />
 
 
 

@@ -105,7 +105,7 @@ export default function Checkout({ history }) {
                 <h1>Finalizar Compra</h1>
                 <form onSubmit={(e)=>onSubmit(e)}>
                     <div className="campo-form">
-                        <label htmlFor="country">Pais</label>
+                        <label htmlFor="country"> Pais : </label>
                         <input
                             type="text"
                             id="country"
@@ -116,7 +116,18 @@ export default function Checkout({ history }) {
                         />
                     </div>
                     <div className="campo-form">
-                        <label htmlFor="shipping_address">Pais</label>
+                        <label htmlFor="country"> Ciudad :</label>
+                        <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            placeholder="city"
+                            value={city}
+                            onChange={onChange}
+                        />
+                    </div>
+                    <div className="campo-form">
+                        <label htmlFor="shipping_address"> Dirección : </label>
                         <input
                             type="text"
                             id="shipping_address"
@@ -127,7 +138,7 @@ export default function Checkout({ history }) {
                         />
                     </div>
                     <div className="campo-form">
-                        <label htmlFor="postal_code">Codigo Postal</label>
+                        <label htmlFor="postal_code"> Codigo Postal : </label>
                         <input
                             type="text"
                             id="postal_code"
@@ -138,7 +149,7 @@ export default function Checkout({ history }) {
                         />
                     </div>
                     <div className="campo-form">
-                        <label htmlFor="phone_number">Telefono</label>
+                        <label htmlFor="phone_number"> Telefono : </label>
                         <input
                             type="text"
                             id="phone_number"
