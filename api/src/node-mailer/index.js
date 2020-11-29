@@ -2,8 +2,8 @@ const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
-  host: 'smtp.gmail.com',
-  port: 465,
+  // host: 'smtp.gmail.com',
+  // port: 465,
   secure: true,
   auth: {
     type: 'OAuth2',
@@ -22,13 +22,10 @@ async function sendEmail(to, subject, html) {
     subject,
     html
   }
-  return transporter.sendMail(mailOptions, (err, response) => {
-    // if (err) {
-    //   console.log(err)
-    // } else {
-    //   console.log('email sent')
-    //   res.send('email sent successfully..!')
-    // }
+
+
+return transporter.sendMail(mailOptions, (err, response) => {
+
     if (err) {
       console.log(err)
       res.status(400).send({msg: 'Invalid Token, check expriration date...!'})

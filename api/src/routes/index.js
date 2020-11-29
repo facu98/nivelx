@@ -15,11 +15,6 @@ const imageRouter       = require   ('./image.js')
 const uploadRouter      = require   ('./upload.js')
 const adminRouter       = require   ('./admin.js')
 
-
-
-
-
-
 router.use('/products', productRouter);
 router.use('/category', productCategory);
 router.use('/users', userRouter);
@@ -32,4 +27,3 @@ router.use('/admin', adminRouter)
 // router.use('/auth', authRouter);
 
 module.exports = router;
-//

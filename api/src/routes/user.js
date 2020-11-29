@@ -6,6 +6,10 @@ const trash = [];
 const {isLogged} = require('./passport')
 const bcrypt = require('bcrypt')
 const {isAuthenticated, isAdmin} = require('./passport')
+const jwt = require('jsonwebtoken')
+const sendEmail = require('../node-mailer')
+const swal = require ('sweetalert');
+
 //
 // FUNCION DE HASHEO DE contraseña
 function hashPassword(password) {
@@ -21,6 +25,51 @@ function hashPassword(password) {
 		})
 	})
 }
+
+/// RUTA QUE ME TRAE TODOS LOS USUARIOS
+
+server.post('/email', async (req, res) => {
+
+	try {
+		const usuario = await User.findOne({
+			where: {
+				email: req.body.email
+			}
+		})
+		if (usuario) {
+			res.status(200).send({ msg: 'este es tu usuario', status: 200, usuario })
+		} else {
+			res.status(400).send({ msg: 'usuario no existe', status: 400 })
+		}
+	} catch (err) {
+		res.status(500).send(err)
+	}
+})
+
+
+/// RUTA DE RESET PASSWORD
+
+server.post('/reset_password', async (req, res) => {
+	const { email } = req.body
+	const usuario = await User.findOne({
+		where: {
+			email: email
+		}
+	})
+	if (usuario) {
+
+		//const emailToken = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: '1d' })
+		const url = `http://localhost:3000/user/resetpassword/recordar/` //${emailToken}
+		const html = `Please click the link to change your password <a href='${url}'>${url}</a>. Este link tiene una feche de expiracion de un dia..!`
+		sendEmail(email, 'Restablece tu contraseña!', html)
+		//swal("Verifica tu correo electronico","Mail enviado","success");
+	} else {
+		res.status(400).send({ msg: 'usuario no existe', status: 400 })
+	}
+  })
+
+
+
 
 //LOGIN
 server.post("/login", passport.authenticate("local"),
