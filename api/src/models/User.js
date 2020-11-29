@@ -48,6 +48,11 @@ module.exports = (sequelize) => {
     isGoogleUser: {
       type: DataTypes.BOOLEAN,
       defaultValue:false
+    },
+
+    resetPassword: {
+      type: DataTypes.BOOLEAN,
+      defaultValue:false
     }
   });
 };
