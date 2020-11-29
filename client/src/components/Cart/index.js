@@ -125,10 +125,7 @@ export const Cart = () => {
 					</div>
 					<hr/>
 					<div class="row">
-						<div class="col-7">
-						</div>
-
-				    	<div class="col-3">
+					<div class="col-6">
 								<Button
 										type="submit"
 										fullWidth
@@ -142,9 +139,24 @@ export const Cart = () => {
 										Vaciar carrito
 								</Button>
 						</div>
+						<div class="col-6">
+						<Link to='/auth/checkout/user'>
+								<Button
+										type="submit"
+										fullWidth
+										variant="contained"
+										color="primary"
+										onClick={() => handleOrder()}
+								>
+													IR A CHECKOUT
+									</Button>
+							</Link>
+						</div>
+
+				    	
 			    	</div>
 
-				    <div class="col-2">
+				    {/* <div class="col-2">
 							<Link to='/auth/checkout/user'>
 								<Button
 										type="submit"
@@ -156,7 +168,7 @@ export const Cart = () => {
 													IR A CHECKOUT
 									</Button>
 							</Link>
-				    </div>
+				    </div> */}
 				</div>
 			</div>
 		</div>
