@@ -1,11 +1,11 @@
-import React, {useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaStar } from "react-icons/fa";
 import './review.css';
 import {useDispatch, useSelector} from 'react-redux'
 import { sentReview, getReview, editReview, deleteReview } from '../../actions';
 
 
-export const ReviewButton = (props) => {
+export default function ReviewButton(props) {
 
     const user = useSelector(state => state.user)
     const userReview = useSelector(state => state.review)
