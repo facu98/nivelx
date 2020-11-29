@@ -15,7 +15,7 @@ import '../UploadImageButton/styleUploadButton.css'
 import {useHistory } from 'react-router-dom'
 
 import GoogleLogin from 'react-google-login'
-
+import GoogleButton from 'react-google-button'
 const useStyles = makeStyles((theme) => ({
     paper: {
       marginTop: theme.spacing(8),
@@ -212,20 +212,26 @@ const useStyles = makeStyles((theme) => ({
             >
                 Ingresar
           </Button>
+
+
+
     </form>
-            <GoogleLogin
-            className='boton-google'
-            buttonText='Ingresar con Google'
-            onSuccess={responseGoogle}
-            isSignedIn={true}
-            cookiePolicy={'single_host_origin'}/>
+
+    <center>
+      <a href ="http://localhost:3001/auth/google">
+        <GoogleButton
+            width="1090px"
+            type="light"
+            label='Login con Google'
+            onClick=""
+          />
+      </a>
+    </center>
 
 
-
-
-
-    <a href={'http://localhost:3001/auth/google'}>Iniciar sesion con google</a>
-    <a href={'http://localhost:3000/user/reset_password'}> Olvidaste tu Contraseña</a>
+    <div className="forgot_password">
+    <a href={'http://localhost:3000/user/reset_password'}>Olvide mi Contraseña</a>
+    </div>
     </div>
     </Container>
     )
