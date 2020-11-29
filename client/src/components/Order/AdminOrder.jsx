@@ -1,8 +1,6 @@
 import {useDispatch, useSelector} from "react-redux"
-import {getOrders, getOrderbyID, getProductsCart, changeStateOrder} from "../../actions"
-import React, { useEffect, useState} from 'react'
-import { useLocation } from "react-router-dom";
-import {Link, useHistory } from 'react-router-dom'
+import {getOrders, changeStateOrder} from "../../actions"
+import React, { useEffect} from 'react';
 import MaterialTable from 'material-table'
 import AdminCart from './AdminCart'
 import Radio from '@material-ui/core/Radio';
@@ -20,15 +18,15 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 export default function ({match}){
 const state = useSelector(state => state.orders)
 const dispatch = useDispatch()
-const [search, setSearch] = useState("")
-const history = useHistory()
+// const [search, setSearch] = useState("")
+// const history = useHistory()
 //const cart = useSelector(state => state.cart)
-var location = useLocation().pathname.split("/")
+// var location = useLocation().pathname.split("/")
 
 
 useEffect(() => {
 dispatch(getOrders())
-},[])
+},[dispatch])
 
 const columns = [
   { field: 'id', title: 'Order ID'},

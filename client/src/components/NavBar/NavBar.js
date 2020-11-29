@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
-import { NavLink, useHistory } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 // IMPORTS DE MATERIAL UI
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import {useDispatch, useSelector} from "react-redux"
-import {getProductsCart, logOut} from "../../actions"
+import {getProductsCart} from "../../actions"
 import UserLoggedComponent from "../UserLogged/UserLoggedComponent"
 import './navbar.css';
 
@@ -15,20 +15,19 @@ export const Navbar = () => {
   const guestCart = useSelector(state => state.guestCart)
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
-  const history = useHistory()
   // --- agregue para proteger rutas ---
   const isAuthenticated = localStorage.getItem('token');
   // -----------------------------------
   useEffect(() => {
     user && dispatch(getProductsCart(user.id))
 
-  },[])
+  },[user, dispatch])
 
-  const handlelogOut = () => {
-    if(window.confirm(`Seguro que deseas cerrar sesión?`)){
-      dispatch(logOut())
-    }
-  }
+//   const handlelogOut = () => {
+//     if(window.confirm(`Seguro que deseas cerrar sesión?`)){
+//       dispatch(logOut())
+//     }
+//   }
 
 
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {Link} from 'react-router-dom';
+import {Link , useHistory} from 'react-router-dom';
+import Shopping from './Shopping/Shopping';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {cleanOrder, clearGuestCart, total} from '../../actions'
 import Shopping from './Shopping/Shopping'
@@ -9,6 +10,7 @@ import './index.css'
 //import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
 import axios from 'axios';//---- agrego axios ----
 //import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
+
 
 // export const Cart = ({ history }) => {
 // 	useEffect(() => {

@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { productQuantity } from '../../actions'
-import {useDispatch, useSelector} from "react-redux"
+import {useDispatch, useSelector} from "react-redux";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Stock.css';
 
 export default function Stock(props) {
-    const q = useSelector(state => parseInt(state.quantity));
+    let text = document.getElementsByClassName('text');
+    let prices = document.getElementsByClassName('prices');
+
+    const q = useSelector(state => state.quantity);
+    // const url = useLocation();
     const dispatch = useDispatch();
 
     useEffect(() => {

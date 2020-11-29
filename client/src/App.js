@@ -1,7 +1,7 @@
 
 //IMPORTAMOS LIBRERIAS DE REACT
-import React, {useEffect}         from 'react';
-import {useDispatch, useSelector} from "react-redux"
+import React from 'react';
+import { useSelector} from "react-redux"
 import { Route }                  from "react-router-dom";
 
 
@@ -22,7 +22,6 @@ import CreateUser     from  './components/CreateUser/CreateUser';
 import EditUser       from  './components/AdminUsers/EditDeleteUser';
 import OrdersAdmin    from  './components/Order/AdminOrder';
 import Login          from  './components/LogIn/LogIn';
-import PaymentBanner  from  './components/PaymentBanner/PaymentBanner';
 import SearchBar      from  './components/SearchBar/SearchBar';
 import ResetPassword  from  './components/ResetPassword/ResetPassword';
 import Checkout       from  './components/Checkout/checkout';
