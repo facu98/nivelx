@@ -26,7 +26,7 @@ import SearchBar      from  './components/SearchBar/SearchBar';
 import ResetPassword  from  './components/ResetPassword/ResetPassword';
 import Checkout       from  './components/Checkout/checkout';
 import Purchases      from  './components/Purchases/Purchases';
-import {ReviewButton}   from  './components/Review/ReviewButton';
+import ReviewButton   from  './components/Review/ReviewButton';
 import order          from  './components/Order/Order';
 import Container      from  '@material-ui/core/Container'
 // --- con esto se si esta authenticado ---
