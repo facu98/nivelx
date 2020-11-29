@@ -42,17 +42,14 @@ export const Cart = () => {
 		//	status: 'creada',
 		//});
 
-		if(user && user.id){
+		if(!user.id){
+			alert('Para comprar debes iniciar sesión');
+		} else {
 			setOrders('procesando');
 			//orders.setState("procesando");
 			//const { data } = await axios.post(`http://localhost:3001/auth/checkout/user`, order);
-			history.push('http://localhost:3001/auth/checkout/user', [orders]);
-		} else {
-
-			history.push('http://localhost:3000/user/create', [orders]);
-
+			//history.push('http://localhost:3001/auth/checkout/user', [orders]);
 		}
-
 		// history.push(path, [state]) - (function) Pushes a new entry onto the history stack
 	}
 	// ----------------------------------------
@@ -142,7 +139,7 @@ export const Cart = () => {
 			    	</div>
 
 				    <div class="col-2">
-
+							<Link to='/auth/checkout/user'>
 								<Button
 										type="submit"
 										fullWidth
@@ -152,7 +149,7 @@ export const Cart = () => {
 								>
 													IR A CHECKOUT
 									</Button>
-
+							</Link>
 				    </div>
 
 
