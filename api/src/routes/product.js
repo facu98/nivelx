@@ -167,8 +167,8 @@ S53 al s57
 //Crear reviews --S54
 server.post("/:id/review", isAuthenticated, (req, res) => {
 
-		const {score, title, comments} = req.body
-		const {id} = req.params
+		const {score, title, comments, userId} = req.body
+		const productId = req.params.id
 
 		if(!score || !title || !comments )
 						{
@@ -176,18 +176,26 @@ server.post("/:id/review", isAuthenticated, (req, res) => {
 							res.status(400).send('Debe enviar los campos requeridos')
 							return
 						}
-
-		Review.create({
-									title,
-									score,
-									comments,
-									productId: req.params.id,
-									userId : id
-								})
-
-			.then  (review => res.status(201).send(review))
-			.catch ((err)	=> {console.log(err)
-				res.status(400).send("ERROR EN REVIEW " + err)})
+		Review.findOne({
+			where:{
+				userId,
+				productId
+			}
+		})
+		.then((review) => {
+			if(review){return res.sendStatus(401)}
+			Review.create({
+										title,
+										score,
+										comments,
+										productId,
+										userId
+									})
+									.then  (review => res.status(201).send(review))
+									.catch ((err)	=> {console.log(err)
+										res.status(400).send("ERROR EN REVIEW " + err)})
+		})
+		.catch((err) => console.log(err))
 
 						})
 

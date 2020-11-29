@@ -483,6 +483,44 @@ export function getProductsCart(id) {
   }
 }
 
+export function purchasedProducts(id){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/users/${id}/products`)
+			.then((res) => res.json())
+			.then((products) => {
+				dispatch({
+					type: 'GET_PURCHASED_PRODUCTS',
+					payload: products
+				})
+			})
+	}
+}
+
+export function sentReview(idUser, newReview){
+	return function(dispatch){
+		return  fetch(`http://localhost:3001/products/${idUser}/review`, {
+			method: 'POST',
+			body: JSON.stringify(newReview),
+			credentials: "include",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			  }
+		})
+		.then(() => {
+			dispatch({
+				type: 'CREATE_REVIEW',
+			})
+		})
+		.then(()=>{
+			alert(`Se ha creado un review exitosamente`)
+		})
+		.catch((err)=>{
+			 console.log(err)
+		})
+	}
+}
+
 export function cleanOrder(id) {
   return function (dispatch) {
     return fetch(`http://localhost:3001/users/${id}/cart/all`, {

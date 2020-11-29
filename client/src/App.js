@@ -25,6 +25,10 @@ import Login          from  './components/LogIn/LogIn';
 import PaymentBanner  from  './components/PaymentBanner/PaymentBanner';
 import SearchBar      from  './components/SearchBar/SearchBar';
 import ResetPassword  from  './components/ResetPassword/ResetPassword';
+import Checkout       from  './components/Checkout/checkout';
+import Purchases      from  './components/Purchases/Purchases';
+import {ReviewButton}   from  './components/Review/ReviewButton';
+//import order          from  './components/Order/Order';
 import Container      from  '@material-ui/core/Container'
 // --- con esto se si esta authenticado ---
 // const isAuthenticated = localStorage.getItem('token');
@@ -52,11 +56,21 @@ function App() {
 
               <Route exact path='/user/cart' component={Cart} />
 
+              <Route exact path='/user/purchases' component={Purchases} />
+              
+              <Route exact path='/user/review' component={ReviewButton} />
+          
+
               <Route exact path='/:name' component={Catalogo} />
 
               <Route exact path='/user/reset_password' component={ResetPassword} />
 
+
               <Route path = '/products/category/:id' component={Catalogo} />
+
+              <Route path = '/auth/checkout/user' component = {Checkout}/>
+
+
 
               <Route path = '/products/:id' component = {ProductDetail} />
 

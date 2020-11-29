@@ -213,9 +213,8 @@ const useStyles = makeStyles((theme) => ({
           </Button>
     </form>
     <a href={'http://localhost:3001/auth/google'}>Iniciar sesion con google</a>
+    <a href={'http://localhost:3000/user/reset_password'}> Olvidaste tu Contraseña</a>
     </div>
-
-    <Box mt={5}><a href={'http://localhost:3000/user/reset_password'}> Olvidaste tu Contraseña</a></Box>
     </Container>
     )
 }
