@@ -203,6 +203,9 @@ export function syncCart(id, cart){
 	.then((res) => {
 			return dispatch(clearGuestCart())
 	})
+	.then(() => {
+		return dispatch(getProductsCart(id))
+	})
 	}
 }
 
@@ -568,6 +571,19 @@ export function getReview(idUser, idProduct){
 					{type: 'GET_REVIEW',
 					payload: review}
 				)
+			})
+	}
+}
+
+export function getReviews(idProduct){
+	return function(dispatch){
+		return fetch(`http://localhost:3001/products/${idProduct}/productreview`)
+			.then((res) => res.json())
+			.then((reviews) => {
+				dispatch({
+					type: 'GET_REVIEWS',
+					payload: reviews
+				})
 			})
 	}
 }

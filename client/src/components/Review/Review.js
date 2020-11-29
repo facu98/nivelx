@@ -1,8 +1,19 @@
-import React from 'react';
 import './review.css';
 import { Star } from './Star';
+import SimpleRating from './Rating'
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux"
+import {getReviews} from '../../actions';
+
+
 
 export const Review = (props) => {
+  const reviews = useSelector(state => state.reviews)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getReviews(props.product.id))
+  }, [])
 
     return (
         <div className='card mb-3'>
@@ -15,15 +26,19 @@ export const Review = (props) => {
                     <h1>{props.product.asessment}.0</h1>
                 </div>
                 <div className="col-10" >
-                    <Star />
+                    <SimpleRating score={props.product.asessment}/>
                     <p>Promedio entre {props.product.totalReviews} opiniones</p>
                 </div>
             </div>
-            <div >
-                <Star />
-                <p>Muy bueno</p>
-                <blockquote>Buena calidad, más de lo esperado</blockquote>
-            </div>
+{ reviews && reviews.map((review) => {
+  return (
+    <div >
+          <SimpleRating score={review.score}/>
+          <p>{review.title}</p>
+          {review.comments && <blockquote>{review.comments}</blockquote>}
+      </div>
+  )
+}) }
             </div>
         </div>
     )
