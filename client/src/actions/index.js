@@ -371,9 +371,7 @@ export const addProductCart = (idUser, idProduct, quantity) => async dispatch =>
 				return dispatch(getProductsCart(idUser))
 			})
 			.then((res)=>{
-
-				swal("Bienvenido!",`${res.name} ${res.lastname}`,"success");
-
+				swal("Producto añadido al carrito", "","success");
 				})
 }
 

@@ -29,18 +29,22 @@ export default function Stock(props) {
                 <input 
                     type="number" 
                     id="quantity"
-                    min="1" 
+                    min="1"
+                    onKeyDown={false}
                     value={q} 
                     onChange={handleChange}
                 />
+                
                 {
-				    q <= props.quantity
+                q !== 0 && !isNaN(q)
+				    ?((q <= props.quantity)
 					? <div>
 						<p style={{color: 'green'}}>Stock disponible</p>
 						<h3>{`USD ${props.price * q}`}</h3>
 					</div>
-					: <p style={{color: 'red'}}>No hay Stock</p>						  
-				}
+                    : <p style={{color: 'red'}}>No hay Stock</p>)						  
+				    : (<p style={{color: '#FFC81B'}}>Seleccione una cantidad</p>)
+                }
             </div>
         </div>
     );

@@ -58,15 +58,21 @@ export const Cart = () => {
 	// ----------------------------------------
 
 	useEffect(() => {
+		
 		if(tot.length === 0){
 			if(user && user.id){
 				for(let i=0; i < cart.length; i++){
-					dispatch(total(cart[i].price * cart[i].quantity, i))
+					dispatch(total(cart[i].price * cart[i].quantity))
 				}
 			} else {
 				for(let i=0; i < guestCart.length; i++){
-					dispatch(total(guestCart[i].price * guestCart[i].quantity, i))
+					dispatch(total(guestCart[i].price * guestCart[i].quantity))
 				}
+			}
+		}
+		if(user && (tot.length !== 0)){
+			for(let i=0; i < cart.length; i++){
+				tot[i]= parseInt(cart[i].price * cart[i].quantity)
 			}
 		}
 	}, [])
@@ -79,14 +85,14 @@ export const Cart = () => {
 		setAmount(data)
 		setShipping(5)
 		setDiscount(0)
-	}, 1500);
+	}, 2000);
 
 	const handleTotal = () => {
-		let data = tot.reduce((a, b) => a + b)
+		let data = tot.length > 0 && tot.reduce((a, b) => a + b)
 		setAmount(data)
 	}
-
-	if(cart.length || guestCart.length !==0){
+	
+	if(cart.length || guestCart.length !== 0){
 	return (
 		<div className='container p-5'>
 			<h1>
@@ -125,38 +131,29 @@ export const Cart = () => {
 					</div>
 					<hr/>
 					<div class="row">
-					<div class="col-6">
-								<Button
-										type="submit"
-										fullWidth
-										variant="contained"
-										color="secondary"
-										onClick={() => {
-											if(user && user.id) dispatch(cleanOrder(user.id))
-											else(dispatch(clearGuestCart()))
-										}}
-								>
-										Vaciar carrito
-								</Button>
-						</div>
-						<div class="col-6">
-						<Link to='/auth/checkout/user'>
-								<Button
-										type="submit"
-										fullWidth
-										variant="contained"
-										color="primary"
-										onClick={() => handleOrder()}
-								>
-													IR A CHECKOUT
-									</Button>
-							</Link>
+						<div class="col-7">
 						</div>
 
-				    	
-			    	</div>
+				    	<div class="col-3">
+							<Button
+								type="submit"
+								fullWidth
+								variant="contained"
+								color="secondary"
+								onClick={() => {
+									if(user && user.id){
+										dispatch(cleanOrder(user.id))
+									} else {
+										(dispatch(clearGuestCart()))
+									}
+									tot.splice(0)
+								}}
+							>
+								Vaciar carrito
+							</Button>
+			    		</div>
 
-				    {/* <div class="col-2">
+					    <div class="col-2">
 							<Link to='/auth/checkout/user'>
 								<Button
 										type="submit"
@@ -168,7 +165,8 @@ export const Cart = () => {
 													IR A CHECKOUT
 									</Button>
 							</Link>
-				    </div> */}
+				    	</div>
+					</div>
 				</div>
 			</div>
 		</div>
