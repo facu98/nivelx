@@ -95,6 +95,7 @@ export default function SignUp(props) {
   })
   const [inputs, setInputs] = useState({
     name: '',
+    brand: '',
     description: '',
     stock: '',
     price: '',
@@ -141,6 +142,7 @@ export default function SignUp(props) {
           setInputs({
             ...inputs,
             name: data.name,
+            brand: data.brand,
             description: data.description,
             price: data.price,
             stock: data.stock,
@@ -195,6 +197,7 @@ export default function SignUp(props) {
       }
       const product = {
         name: inputs.name,
+        brand: inputs.brand,
         description: inputs.description,
         price: inputs.price,
         stock: inputs.stock,
@@ -258,6 +261,7 @@ export default function SignUp(props) {
     setInputs({
       ...inputs,
       name: inputs.name,
+      brand: inputs.brand,
       description: inputs.description,
       price: inputs.price,
       stock: inputs.stock,
@@ -297,6 +301,20 @@ export default function SignUp(props) {
                 <span>{errors.errName}</span>
               </div>
             }
+            <Grid item xs={12}>
+              <TextField
+                onBlur={onBlurDescription}
+                fullWidth
+                id="outlined-textarea"
+                label="Marca"
+                value={inputs.brand}
+                multiline
+                variant="outlined"
+                onChange={handleInputs}
+                required
+                name='brand'
+              />
+            </Grid>
             <Grid item xs={12} className={classes.checkbox}>
               {categories && categories.map((cat, i) => (
                 <FormGroup row key={i}>

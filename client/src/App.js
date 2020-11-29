@@ -13,8 +13,7 @@ import {Cart}         from  './components/Cart/index';
 import Carrousel      from  './components/Carrousel/Carrousel';
 import Categorias     from  './components/Categorias/Categorias';
 import FormCategory   from  './components/FormCategory/FormCategory';
-import FormProduct    from  './components/FormProduct/FormProduct2';
-import FormChangePass from  './components/FormChangePassword/ResetPass'
+import FormProduct    from  './components/FormProduct/FormProduct';
 import EditCategory   from  './components/FormCategory/FormUpdateDeleteCategory';
 import EditProduct    from  './components/FormProduct/FormUpdateDeleteProduct';
 import ProductDetail  from  './components/ProductDetail/Product';
