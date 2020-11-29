@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import { FaStar } from "react-icons/fa";
 import './review.css';
 import {useDispatch, useSelector} from 'react-redux'

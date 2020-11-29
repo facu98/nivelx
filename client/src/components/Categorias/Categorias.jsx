@@ -28,7 +28,7 @@ export default function () {
 			<ul className='list-group'>
 				{categories &&
 					categories.map((c) => {
-						if (url.pathname == '/admin/editCategory') {
+						if (url.pathname === '/admin/editCategory') {
 							return (
 								<div className='botones'>
 							<NavLink

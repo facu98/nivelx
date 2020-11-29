@@ -6,7 +6,7 @@ import style from './EditProduct.module.css';
 
 export default function EditProduct({ match }){
     let id = match.params.id;
-    let name = match.params.name
+    // let name = match.params.name
     const history = useHistory();
     const [categorias, setCategorias] = useState([])
     const [checked, setChecked] = useState({})
@@ -49,10 +49,10 @@ export default function EditProduct({ match }){
     finder ? input.category = input.category.filter((cat) => cat !== id) : input.category.push(id)
     }
 
-    const colorChange = (e) => {
-  input.color = input.color.filter((col) => col !== e.target.value)
-  console.log(input.color)
-    }
+//     const colorChange = (e) => {
+//   input.color = input.color.filter((col) => col !== e.target.value)
+//   console.log(input.color)
+//     }
 
     const resetForm = ()=> {
         setInput({
