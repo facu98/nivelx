@@ -4,7 +4,6 @@ import {Link , useHistory} from 'react-router-dom';
 import Shopping from './Shopping/Shopping';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {cleanOrder, clearGuestCart, total} from '../../actions'
-import Shopping from './Shopping/Shopping'
 import Button from '@material-ui/core/Button';
 import './index.css'
 //import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
@@ -142,6 +141,7 @@ export const Cart = () => {
 								>
 										Vaciar carrito
 								</Button>
+						</div>
 			    	</div>
 
 				    <div class="col-2">
@@ -159,6 +159,7 @@ export const Cart = () => {
 				    </div>
 				</div>
 			</div>
+		</div>
 	)	
 	} else {
 		return(
