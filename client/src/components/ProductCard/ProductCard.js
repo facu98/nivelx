@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ProductCard(props) {
-  // const cart = useSelector(state => state.cart)
+  const cart = useSelector(state => state.cart)
   const user = useSelector(state => state.user)
   const guestCart = useSelector(state => state.guestCart)
   const dispatch = useDispatch()
