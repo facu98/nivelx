@@ -59,7 +59,7 @@ export default function ResetPass() {
       dispatch(userChangePassword(password));
       history.push(`/user/panel/${id}`)
     }
-    
+
     else if (logged === false){
       userForgotPassword(password,id);
       history.push(`/user/login`)
@@ -124,3 +124,4 @@ export default function ResetPass() {
 
     </Container>
   );
+}
