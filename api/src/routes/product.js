@@ -7,7 +7,7 @@ const {isAuthenticated, isAdmin} = require('./passport')
 
 
 server.get('/', (req, res, next) => {
-	Product.findAll()
+	Product.findAll({order:['id']})
 		.then(products => {
 			res.send(products);
 		})
@@ -170,7 +170,7 @@ server.post("/:id/review", isAuthenticated, (req, res) => {
 		const {score, title, comments, userId, orderId} = req.body
 		const productId = req.params.id
 
-		if(!score || !title || !comments )
+		if(!score || !title )
 						{
 							console.log('error en primer if')
 							res.status(400).send('Debe enviar los campos requeridos')

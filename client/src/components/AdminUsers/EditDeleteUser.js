@@ -319,7 +319,7 @@ const useStyles = makeStyles((theme) => ({
                     color="primary"
                     className={classes.submit}
                 >
-                    PROMOTE / DEGRADE
+                    {props.user.isAdmin ? 'DEGRADE' : 'PROMOTE'}
                 </Button>
 
 

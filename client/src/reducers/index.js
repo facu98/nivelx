@@ -18,7 +18,8 @@ const initialState = {
   guestCart: guest ? guest : [],
   purchased:[],
   total: [],
-  review:[]
+  review:[],
+  reviews:[]
 
 };
 
@@ -216,6 +217,12 @@ function rootReducer(state = initialState, action) {
     return{
       ...state,
       review: action.payload[0]
+    }
+
+    case 'GET_REVIEWS':
+    return{
+      ...state,
+      reviews: action.payload
     }
 
 

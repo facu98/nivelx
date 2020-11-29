@@ -14,7 +14,7 @@ export default function ReviewButton(props) {
     const dispatch = useDispatch()
     const [review, setReview] = useState({
       rating: "",
-      title: "Muy Bueno",
+      title: {1:"Muy malo", 2:'Malo', 3:'Bueno', 4:'Muy Bueno', 5:'Excelente'},
       estrellas: "",
     });
 
@@ -29,11 +29,12 @@ export default function ReviewButton(props) {
 
       const newReview = {
         score: review.estrellas,
-        title: review.title,
-        comments: review.rating ? review.rating : "Sin comment",
+        title: review.title[review.estrellas],
+        comments: review.rating ? review.rating : null,
         userId: user.id,
         orderId:props.product.order_id
       }
+      console.log(newReview)
       if(!props.product.review){
         dispatch(sentReview(props.product.product_id, newReview));
       }

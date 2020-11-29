@@ -24,11 +24,7 @@ module.exports = (sequelize) => {
         },
         //comentario del review
         comments: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-            validate: {
-                notEmpty: false,
-            },
+            type: DataTypes.TEXT
         },
         orderId:{
           type: DataTypes.INTEGER
