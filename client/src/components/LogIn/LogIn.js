@@ -215,8 +215,6 @@ const useStyles = makeStyles((theme) => ({
     <a href={'http://localhost:3001/auth/google'}>Iniciar sesion con google</a>
     <a href={'http://localhost:3000/user/reset_password'}> Olvidaste tu Contraseña</a>
     </div>
-
-
     </Container>
     )
 }
