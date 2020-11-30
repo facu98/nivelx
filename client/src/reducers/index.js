@@ -19,7 +19,8 @@ const initialState = {
   purchased:[],
   total: [],
   review:[],
-  reviews:[]
+  reviews:[],
+  order:[]
 
 };
 
@@ -97,9 +98,10 @@ function rootReducer(state = initialState, action) {
     }
 
     case 'GET_ORDER_ID':
+    console.log(action.payload)
     return{
       ...state,
-      orders: [action.payload]
+      order: action.payload
 
     }
 

@@ -24,7 +24,7 @@ export const Cart = () => {
 	const cart = useSelector(state => state.cart)
 	const tot = useSelector(state => state.total)
 	const guestCart = useSelector(state => state.guestCart)
-	
+
 	const dispatch = useDispatch()
 
 	const [amount, setAmount] = useState('')
@@ -47,14 +47,14 @@ export const Cart = () => {
 			//const { data } = axios.post(`/user/:id`, [cart, user]);
 			//this.props.history.push(`/tickets/${rowIndex[0]}`);
 			//history.push('/user/:id', [cart, user]);
-			
-			history.push(`/user/${user.id}`, [user,cart]);
+
+			history.push(`/user/${user.id}/checkout`, [user,cart]);
 		}
 	}
 	// ----------------------------------------
 
 	useEffect(() => {
-		
+
 		if(tot.length === 0){
 			if(user && user.id){
 				for(let i=0; i < cart.length; i++){
@@ -87,7 +87,7 @@ export const Cart = () => {
 		let data = tot.length > 0 && tot.reduce((a, b) => a + b)
 		setAmount(data)
 	}
-	
+
 	if(cart.length || guestCart.length !== 0){
 	return (
 		<div className='container p-5'>
@@ -164,7 +164,7 @@ export const Cart = () => {
 				</div>
 			</div>
 		</div>
-	)	
+	)
 	} else {
 		return(
 			<div>
