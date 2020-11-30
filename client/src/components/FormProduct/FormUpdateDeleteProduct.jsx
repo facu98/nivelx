@@ -111,9 +111,9 @@ export default function EditProduct({ match }){
                 setInput({
                     ...input,
                     [e.target.name]: e.target.value
-                })  
+                })
             }
-            
+
     };
 
     const categoryChange = (e) => {
@@ -156,9 +156,8 @@ export default function EditProduct({ match }){
         });
     }},[id]);
 
-    const updateProduct = async function(){
-
-        await fetch(`http://localhost:3001/products/${id}`, {
+    const updateProduct = function(){
+         fetch(`http://localhost:3001/products/${id}`, {
             credentials:'include',
             method: "PUT",
             body: JSON.stringify(input),
@@ -265,6 +264,11 @@ return(
 
             <Grid item xs={12} className={style.inputContainer}>
                 <TextField fullWidth label="Descripción del producto" variant="outlined" multiline name="description" onChange={handleInputChange} value={input.description} required />
+
+            </Grid>
+
+            <Grid item xs={12} className={style.inputContainer}>
+                <TextField style={{display:  'none'}} fullWidth label="Descripción del producto" variant="outlined" multiline name="asd" onChange={handleInputChange}  required />
 
             </Grid>
 
