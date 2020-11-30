@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     },
     root: {
       width: 200,
-      margin: '3%'
+      margin: '3%',
     },
     media: {
       height: 0,
@@ -81,10 +81,11 @@ const useStyles = makeStyles((theme) => ({
 
     header:{
       display:'flex',
-      height:0,
+      height: 0,
       flexDirection:'row',
       justifyContent:'right',
-      backgroundColor:'#6c757d'
+      backgroundColor:'#6c757d',
+      padding: "0"
     }
 
   }));
