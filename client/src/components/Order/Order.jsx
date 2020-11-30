@@ -16,15 +16,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Order(data) {
     const classes = useStyles();
-    const orders = useSelector((store) => store.cart); // con esto accedo al estado del carrito
+    const user = useSelector(state => state.user);
+    const orders = useSelector(state => state.cart); // con esto accedo al estado del carrito
     const dispatch = useDispatch();
     console.log(data);
     let total = 0;
 
-    if (orders && orders.products) {
+    if (orders && orders.product) {
         const total = async () => {
-            for (let i = 0; i < orders.products.length; i++) {
-                total += orders.products[i].price * orders.products[i].order.quantity
+            for (let i = 0; i < orders.product.length; i++) {
+                total += orders.product[i].price * orders.product[i].order.quantity
             }
             return total;
         }
@@ -55,6 +56,8 @@ export default function Order(data) {
 
     };
     */
+    console.log("**** soy orders ****")
+    console.log(orders)
     return(
         <div style={{ marginTop: "70px" }}>
             <a href="javascript:history.back(1)" className="btn1" style={{ marginTop: "10px"}}>
@@ -69,7 +72,7 @@ export default function Order(data) {
                 <div className="card-body">
                 <h1 className="card-title">ID de la orden {orders.id}</h1>
                 <h2 className="card-subtitle mb-2 text-muted">Status de la orden: {orders.state}</h2>
-                {orders.products && orders.products.map((e) => (
+                {orders.product && orders.product.map((e) => (
                     <div>
                         <h5>Producto: {e.name}</h5>
                         <h6>Cantidad: {e.quantity}</h6>
