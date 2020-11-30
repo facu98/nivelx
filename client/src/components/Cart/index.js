@@ -99,7 +99,7 @@ export const Cart = () => {
 				<center>Carrito de compras</center>
 			</h1>
 			<hr />
-			<div className=''>
+			<div className='container'>
 				<Shopping
 					listener= {handleTotal}
 				/>
