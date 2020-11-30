@@ -20,7 +20,9 @@ const initialState = {
   total: [],
   review:[],
   reviews:[],
+	reset: {},
   order:[]
+
 
 };
 

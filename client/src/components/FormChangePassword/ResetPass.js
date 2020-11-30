@@ -15,7 +15,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+import swal from 'sweetalert'
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(4),
@@ -46,24 +46,34 @@ export default function ResetPass() {
   const [password,setPassword] = useState('')
   const [confirmPassword, setconfirmPassword] = useState('')
   const logged = useSelector(state=>state.userLogged)
-    const dispatch = useDispatch()
+
+  const dispatch = useDispatch()
 
   const {id} = useParams()
 
   // const newId = id / 12345678
 
-  const handleSubmit = function (e) {
+  const handleSubmit = function (e)
+    {
+    console.log("RESETPASS1")
     e.preventDefault()
-
+    console.log("RESETPASS2")
     if (logged) {
-      dispatch(userChangePassword(password));
-      history.push(`/user/panel/${id}`)
+        console.log("RESETPASSL")
+
+        dispatch(userChangePassword(password));
+        history.push(`/user/panel/${id}`)
     }
 
-    else if (logged === false){
-      userForgotPassword(password,id);
-      history.push(`/user/login`)
-    }
+    else if (logged === false)
+      {
+        console.log("RESETPASS3")
+        userForgotPassword(password,id);
+        history.push(`/user/login`)
+        }
+    userForgotPassword(password,id)
+    swal("Contraseña Cambiada","Vuelvase a logguear","success")
+    console.log("RESETPASS4")
   }
 
 
@@ -121,7 +131,6 @@ export default function ResetPass() {
           </Button>
         </form>
       </div>
-
     </Container>
   );
 }

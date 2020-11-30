@@ -616,6 +616,7 @@ export function changeStateOrder(userID, data) {
 
 			return fetch(`http://localhost:3001/users/${userID}/order`,
 					{
+
 					method: "PUT",
 					credentials: 'include',
 					body: JSON.stringify(data),
@@ -797,7 +798,7 @@ export const cancelMail = async (to, subject, user, id) => {
 
 
 export const userChangePassword = (input) => async dispatch => {
-		await fetch(`http://localhost:3001/users/password`, {
+		await fetch(`http://localhost:3001/password/`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
@@ -819,14 +820,14 @@ export const userChangePassword = (input) => async dispatch => {
 }
 
 
-export function userForgotPassword(input,token) {
+export function userForgotPassword(input,id) {
 
-		return fetch(`http://localhost:3001/users/password/${token}`, {
+		return fetch(`http://localhost:3001/users/password/${id}`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
-				'Content-Type': 'application/json',
-			},
+									'Content-Type': 'application/json',
+							},
 			body: JSON.stringify({ password: input }),
 		})
 			.then((res) => res.json())
@@ -834,7 +835,7 @@ export function userForgotPassword(input,token) {
 
 					if(data.status === 401){
 							swal("Error",`${data.msg}`,"error")
-						}
+						}das
 
 					else if(data.status === 200){
 						swal("Password cambiado satisfactoriamente","","success")
