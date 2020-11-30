@@ -62,7 +62,7 @@ function App() {
 
               <Route path = '/products/category/:id' component={Catalogo} />
 
-              <Route path = '/user/:id' component = {Checkout}/>
+              <Route path = '/user/:id/checkout' component = {Checkout}/>
 
               <Route path = '/orders/:id' component = {order} />
 

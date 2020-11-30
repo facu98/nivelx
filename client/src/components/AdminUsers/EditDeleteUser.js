@@ -186,11 +186,14 @@ const useStyles = makeStyles((theme) => ({
       const handleDelete = () => {
         if(window.confirm(`Seguro que deseas eliminar el user ${props.user.id}?`))
         props.user && dispatch(deleteUser(props.user.id))
-
+        resetForm()
       }
 
       const handlePromote = () => {
-        props.user && dispatch(promoteUser(props.user.id))
+        if(  props.user && props.user.id){
+          dispatch(promoteUser(props.user.id))
+
+        }
       }
 
 
@@ -319,7 +322,7 @@ const useStyles = makeStyles((theme) => ({
                     color="primary"
                     className={classes.submit}
                 >
-                    {props.user.isAdmin ? 'DEGRADE' : 'PROMOTE'}
+                    {(props.user && props.user.isAdmin) ? 'DEGRADE' : 'PROMOTE'}
                 </Button>
 
 

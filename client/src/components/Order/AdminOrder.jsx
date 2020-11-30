@@ -41,8 +41,8 @@ var rows = state && state.map((order) => {
     id: order.id,
     estado:order.state,
     userID: order.userId,
-    fecha: order.createdAt.split("T")[0],
-    hora:  order.createdAt.split("T")[1].slice(0,5)
+    fecha: order.createdAt && order.createdAt.split("T")[0],
+    hora: order.createdAt && order.createdAt.split("T")[1].slice(0,-5)
   }
 })
 

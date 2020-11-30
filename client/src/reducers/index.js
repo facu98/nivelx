@@ -20,7 +20,9 @@ const initialState = {
   total: [],
   review:[],
   reviews:[],
-	reset: {}
+	reset: {},
+  order:[]
+
 
 };
 
@@ -98,9 +100,10 @@ function rootReducer(state = initialState, action) {
     }
 
     case 'GET_ORDER_ID':
+    console.log(action.payload)
     return{
       ...state,
-      orders: [action.payload]
+      order: action.payload
 
     }
 
