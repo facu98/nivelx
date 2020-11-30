@@ -40,6 +40,7 @@ export default function Order(data) {
     
     const completa = (id) => {
         //const { data } = axios.put(`http://localhost:3001/users/completa/${id}`)
+        alert('compra completada!');
         data.history.push('/');
     };
     const cancelada = (id) => {
@@ -78,7 +79,7 @@ export default function Order(data) {
                 {/*orders && orders.state === "procesando" && <Button onClick={() => creada(orders.id)} variant="contained" color="secondary" style={{ marginLeft: "10px", marginRight: "20px", backgroundColor: "green" }}>
                     Procesar
                 </Button>*/}
-                {orders && orders.state === "creada" && <Button onClick={() => completa(orders.id)} variant="contained" color="secondary" style={{ marginLeft: "10px", marginRight: "20px", backgroundColor: "green" }}>
+                {orders && orders.state === "completa" && <Button onClick={() => completa(orders.id)} variant="contained" color="secondary" style={{ marginLeft: "10px", marginRight: "20px", backgroundColor: "green" }}>
                     Completar
                 </Button>}
                 <Button onClick={() => cancelada(orders.id)} variant="contained" color="secondary">

@@ -53,10 +53,10 @@ export const Cart = () => {
 
 		} else {
 			//setOrders('procesando');
-			cart.state = "creada";
+			cart.state = "procesando";
 			//orders.setState("procesando");
 			//const { data } = await axios.post(`http://localhost:3001/auth/checkout/user`, order);
-			//history.push('http://localhost:3001/auth/checkout/user', [orders]);
+			history.push('/auth/checkout/user', [cart]);
 		}
 	}
 	// ----------------------------------------
@@ -158,7 +158,6 @@ export const Cart = () => {
 			    		</div>
 
 					    <div class="col-2">
-							<Link to='/auth/checkout/user'>
 								<Button
 										type="submit"
 										fullWidth
@@ -167,8 +166,7 @@ export const Cart = () => {
 										onClick={() => handleOrder()}
 								>
 													IR A CHECKOUT
-									</Button>
-							</Link>
+								</Button>
 				    	</div>
 					</div>
 				</div>
