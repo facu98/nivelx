@@ -12,7 +12,7 @@ export default function Checkout({ history }) {
     const user = useSelector(state => state.user);
 
     let url = window.location.href.split("/");
-    const noRender = url.includes('cart') && url.includes('user') || url.includes('purchases');
+    const noRender = url.includes('cart') && url.includes('user') || url.includes('purchases') || url.includes('login') || url.includes('reset_password');
 
     // actualiza form
     const [form, setForm] = useState({
