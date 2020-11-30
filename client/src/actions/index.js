@@ -798,7 +798,7 @@ export const cancelMail = async (to, subject, user, id) => {
 
 
 export const userChangePassword = (input) => async dispatch => {
-		await fetch(`http://localhost:3001/users/password`, {
+		await fetch(`http://localhost:3001/password/`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
@@ -820,14 +820,14 @@ export const userChangePassword = (input) => async dispatch => {
 }
 
 
-export function userForgotPassword(input,token) {
+export function userForgotPassword(input,id) {
 
-		return fetch(`http://localhost:3001/users/password/${token}`, {
+		return fetch(`http://localhost:3001/users/password/${id}`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
-				'Content-Type': 'application/json',
-			},
+									'Content-Type': 'application/json',
+							},
 			body: JSON.stringify({ password: input }),
 		})
 			.then((res) => res.json())

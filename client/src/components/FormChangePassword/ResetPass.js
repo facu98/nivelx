@@ -71,8 +71,7 @@ export default function ResetPass() {
         userForgotPassword(password,id);
         history.push(`/user/login`)
         }
-
-    userChangePassword(password);
+    userForgotPassword(password,id)
     swal("Contraseña Cambiada","Vuelvase a logguear","success")
     console.log("RESETPASS4")
   }
