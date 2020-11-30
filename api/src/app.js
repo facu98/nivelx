@@ -111,7 +111,7 @@ where: {id}
 
 passport.use(new GoogleStrategy({
     clientID: '331867386030-rqpjsqmc37oq8ht6n303l4h3dfc3fdrc.apps.googleusercontent.com',
-    clientSecret: '9qs8DEFg1wiYnj5-blnoDtzX',
+    clientSecret:'9qs8DEFg1wiYnj5-blnoDtzX',
     callbackURL: 'http://localhost:3001/auth/google/callback'
   },
   function(accessToken, refreshToken, profile, done) {

@@ -192,30 +192,43 @@ server.post("/", (req,res) => {
 server.put('/password/:id', async (req, res) => {
 	try {
 		let user = await User.findByPk(req.params.id)
-		let newPassword = await hashPassword(req.body.password)
+		let newPassword = /*await hashPassword(*/req.body.password/*)*/
 
 		await user.update({ password: newPassword, resetPassword: false })
-
+		swal("JOya","sadasd","success")
+		console.log("resetPassID",user)
 		res.send(user)
 	} catch (error) {
 		res.status(500).send(error)
 	}
 })
+
 
 //// usuario logueado cambia su contraseña
 server.put('/password', isLogged, async (req, res) => {
 	try {
 		let user = await User.findByPk(req.user.id)
-		let newPassword = await hashPassword(req.body.password)
+		let newPassword =/* await hashPassword(*/req.body.password /*)*/
 
 		await user.update({ password: newPassword, resetPassword: false })
-
+		swal("JOya","sadasd","success")
 		res.send(user)
 	} catch (error) {
 		res.status(500).send(error)
 	}
 })
 
+// BLOQUEA A UN USUARIO -RESET
+
+server.post('/:id/passwordReset', /*isAuthenticated, isAdmin,*/(req, res) => {
+	User.findByPk(req.params.id)
+		.then((user) => {
+			if (!user) return res.status(404).send('Id no valido')
+			return user.update({ resetPassword: true })
+		})
+		.then(() => res.redirect('/user'))
+		.catch((err) => res.status(500).send(err))
+})
 
 // ELIMINA EL usuario
 server.delete('/:id', isAdmin, (req, res) => {

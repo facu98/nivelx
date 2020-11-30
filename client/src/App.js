@@ -14,6 +14,7 @@ import Carrousel      from  './components/Carrousel/Carrousel';
 import Categorias     from  './components/Categorias/Categorias';
 import FormCategory   from  './components/FormCategory/FormCategory';
 import FormProduct    from  './components/FormProduct/FormProduct';
+import FormChangePass from  './components/FormChangePassword/ResetPass.js'
 import EditCategory   from  './components/FormCategory/FormUpdateDeleteCategory';
 import EditProduct    from  './components/FormProduct/FormUpdateDeleteProduct';
 import ProductDetail  from  './components/ProductDetail/Product';
@@ -49,20 +50,14 @@ function App() {
               <Route exact path='/' component={Catalogo} />
 
               <Route exact path='/user/create' component={CreateUser} />
-
               <Route exact path='/user/login' component={Login} />
-
-
               <Route exact path='/user/cart' component={Cart} />
-
               <Route exact path='/user/purchases' component={Purchases} />
-
               <Route exact path='/user/review/' component={ReviewButton} />
 
-
               <Route exact path='/:name' component={Catalogo} />
-
               <Route exact path='/user/reset_password' component={ResetPassword} />
+              <Route exact path='/user/resetpassword/:id' component={FormChangePass} />
 
 
               <Route path = '/products/category/:id' component={Catalogo} />

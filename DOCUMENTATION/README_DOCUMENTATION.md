@@ -3,7 +3,7 @@
 ## ESTRUCTURA DE CARPETAS
 
 ```
-dasdas
+
 / ecommerce ft06g10
 
 ├───>  /api                  (contiene todas las archivos del back)

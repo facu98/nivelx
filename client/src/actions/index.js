@@ -616,6 +616,7 @@ export function changeStateOrder(userID, data) {
 
 			return fetch(`http://localhost:3001/users/${userID}/order`,
 					{
+
 					method: "PUT",
 					credentials: 'include',
 					body: JSON.stringify(data),

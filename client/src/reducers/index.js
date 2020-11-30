@@ -19,7 +19,8 @@ const initialState = {
   purchased:[],
   total: [],
   review:[],
-  reviews:[]
+  reviews:[],
+	reset: {}
 
 };
 

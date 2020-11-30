@@ -13,7 +13,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import swal from 'sweetalert'
 
-
 export default function ({match}){
 const state = useSelector(state => state.orders)
 const dispatch = useDispatch()
@@ -101,7 +100,7 @@ const changeState = (userID, orderID) => {
           <FormControlLabel
             value="procesando"
             control={<Radio color="primary" />}
-            label="procesando"
+            label="Despachada"
             labelPlacement="top"
           />
           <FormControlLabel
@@ -113,7 +112,7 @@ const changeState = (userID, orderID) => {
            <FormControlLabel
            value="completa"
             control={<Radio color="primary" />}
-            label="completa"
+            label="Entregada"
             labelPlacement="top"/>
 
         </RadioGroup>
