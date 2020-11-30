@@ -6,10 +6,12 @@ const trash = [];
 const {isLogged} = require('./passport')
 const bcrypt = require('bcrypt')
 const {isAuthenticated, isAdmin} = require('./passport')
-const jwt = require('jsonwebtoken')
-const sendEmail = require('../node-mailer')
 const swal = require ('sweetalert');
 
+/// IMPORTS MAILS
+const jwt = require('jsonwebtoken')
+const sendEmail = require('../node-mailer')
+const mail = require ('../controler/mailer')
 //
 // FUNCION DE HASHEO DE contraseña
 function hashPassword(password) {
@@ -57,13 +59,13 @@ server.post('/reset_password', async (req, res) => {
 		}
 	})
 	if (usuario) {
-
 		//const emailToken = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: '1d' })
-		const url = `http://localhost:3000/user/resetpassword/recordar/` //${emailToken}
-		const html = `Please click the link to change your password <a href='${url}'>${url}</a>. Este link tiene una feche de expiracion de un dia..!`
+		const url = `http://localhost:3000/user/resetpassword/${usuario.id}/` //${emailToken}
+		const html = `CAMBIA TU CONTRASEÑA <a href='${url}'>${url}</a>`
 		sendEmail(email, 'Restablece tu contraseña!', html)
-		//swal("Verifica tu correo electronico","Mail enviado","success");
-	} else {
+		swal("Verifica tu correo electronico","Mail enviado","success");
+	}
+	else {
 		res.status(400).send({ msg: 'usuario no existe', status: 400 })
 	}
   })
@@ -364,6 +366,11 @@ server.get('/:id/orders', (req, res) => {
 server.put('/:id/order', (req, res) => {
 	const { state, orderId } = req.body
 	let id = req.params.id;
+	let email;
+	User.findByPk(id)
+		.then (user => {email = user.email });
+	console.log(email);
+
 	Order.findOne({
 	where: {
     id: parseInt(orderId),
@@ -378,7 +385,52 @@ server.put('/:id/order', (req, res) => {
 			return res.status(400).send(`Debe completar los campos obligatorios`);
 		}
 
-    console.log(order)
+		if (state === 'creada')
+			{
+					console.log("creada");
+					console.log("e-mail",email)
+					mail.sendBuy(
+										{body: {
+															to:email,
+															subject:"Confirmacion de Compra Ecommerce FT06-G10",
+															products: {order},
+															user:{}
+														}
+										}
+				  				);
+			}
+
+		if (state === 'procesando'){
+				console.log("proces");
+				console.log("e-mail",email)
+				mail.sendDespacho(
+
+												 {
+													 body: {
+																	to:email,
+																	subject:"Hemos despachado tu producto",
+																	id:orderId,
+																	user:email
+																}
+												 }
+												);
+		}
+
+		if (state === 'cancelada')
+			 	{
+					console.log("cancel")
+					console.log("e-mail", email)
+					mail.sendCancel(
+												{
+													body: {
+								 									to:email,
+								 									subject:"Aviso de Compra cancelada",
+																	user:email,
+								 									id: orderId
+							 								  }
+												}
+											 );
+			 }
 
 		order.state = state;
 		order.save()
@@ -468,17 +520,17 @@ module.exports = server;
 
 server.put('/:userId/cartsync', (req,res) => {
 	var guestCart = req.body
-	var {userId} = req.params
+	var {userId}  = req.params
 	var orderID
 	console.log('iuserID',userId)
-
 
 	Order.findOrCreate({
 		where:{
 						userId,
 						state: 'carrito'
 					}
-	})
+				})
+
 	.then((order) => {
 		guestCart && guestCart.map((c) => {
 				console.log(c.product_id)
