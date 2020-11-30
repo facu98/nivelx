@@ -22,6 +22,7 @@ import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton'
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
+import axios from 'axios'
 
 import swal from 'sweetalert';
 import { createProduct } from "../../actions";
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
       height: 140,
       objectFit: 'contain',
     },
-  
+
   }));
 
 export default function ProductCRUD({ match }){
@@ -108,9 +109,7 @@ export default function ProductCRUD({ match }){
         })
     }, [])
 
-    const filesHandler = function (files) {
-        setFiles(files)
-      };
+
 
 
     const handleInputChange = (e)=>{
@@ -121,11 +120,12 @@ export default function ProductCRUD({ match }){
     };
 
     const categoryChange = (e) => {
-    const id = e.target.value
+
+    const id = e.target.name
 
     const finder = input.category.find((cat) => cat === id)
     finder ? input.category = input.category.filter((cat) => cat !== id) : input.category.push(id)
-
+    console.log(input.category)
     }
 
     const resetForm = ()=> {
@@ -139,6 +139,22 @@ export default function ProductCRUD({ match }){
             description: "",
         })
     };
+
+    const fileChange = (e) => {
+      console.log(e.target.files[0])
+      const file = e.target.files[0]
+      setFiles(file)
+    }
+
+    const uploadFile = () => {
+      const data = new FormData()
+      data.append('name', files.name)
+      data.append('files', files)
+      return fetch('http://localhost:3001/upload',
+      {credentials:'include',
+        method:'POST',
+        body:data})
+    }
 
     const handleSubmit = (e)=>{
         e.preventDefault();
@@ -258,14 +274,7 @@ export default function ProductCRUD({ match }){
               </>
             )}
           </div>
-          <ImageUploader
-            withIcon={false}
-            buttonText='Adjuntar imágenes'
-            onChange={filesHandler}
-            imgExtension={['.jpg', '.jpeg', '.png', '.PNG']}
-            maxFileSize={52428800}
-            withPreview={files ? true : false}
-          />
+
                 {/* <div className={style.inputContainer}>
                     <label>Categoría</label>
                     {categorias && categorias.map((cat) => {
@@ -280,8 +289,8 @@ export default function ProductCRUD({ match }){
                 <FormGroup row key={i}>
                   <FormControlLabel
                     control={<Checkbox
-                      onChange={handleInputChange}
-                      name={cat.id}
+                      onChange={categoryChange}
+                      name={cat.name}
                       value={check}
                     />}
                     label={cat.name}
@@ -314,6 +323,15 @@ export default function ProductCRUD({ match }){
                 name='description'
               />
             </Grid>
+
+            <Grid item xs={12}>
+            <form action="#" method="post" enctype="multipart/form-data">
+            <input type="file" id = 'file' accept = '.jpg' name="avatar" onChange={fileChange}/>
+            </form>
+            <button onClick = {uploadFile}>Upload</button>
+
+            </Grid>
+
 
                 <div className="buttonContainer">
                     <Button color="secundary" variant="contained" onClick={resetForm} className={classes.submit} > Cancelar </Button>
