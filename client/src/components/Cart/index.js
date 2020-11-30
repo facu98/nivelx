@@ -176,7 +176,7 @@ export const Cart = () => {
 					<center>Carrito de compras</center>
 				</h1>
 				<hr/>
-				<div class="card text-center">
+				<div class="card text-center" style={{marginLeft: "27%"}}>
 					<div class="card-body">
     					<h5 class="card-title">No hay productos en el carrito</h5>
     					<p class="card-text">Puedes agregar productos desde el cátalogo</p>
