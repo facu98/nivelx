@@ -155,27 +155,27 @@ server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 //CARGA DE IMAGENES CON MULTER
 
 
-const storage = multer.diskStorage({
-	destination: path.join(__dirname, '../public/images'),
-	filename: (req, file, cb) => {
-		  cb(null, uuidv4() + path.extname(file.originalname).toLowerCase())
-	},
-})
-const upload = multer({
-	storage,
-	// limits: { fileSize: 2000000 },
-	fileFilter: (req, file, cb) => {
-		const fileTypes = /jpeg|jpg|png|PNG/
-		const mimeType = fileTypes.test(file.mimetype)
-		const extName = fileTypes.test(path.extname(file.originalname))
-		if (mimeType && extName) {
-			return cb(null, true)
-		}
-		cb('Error: debe subir un archivo valido')
-	},
-}).array('images')
+// const storage = multer.diskStorage({
+// 	destination: path.join(__dirname, '../public/images'),
+// 	filename: (req, file, cb) => {
+// 		  cb(null, uuidv4() + path.extname(file.originalname).toLowerCase())
+// 	},
+// })
+// const upload = multer({
+// 	storage,
+// 	// limits: { fileSize: 2000000 },
+// 	fileFilter: (req, file, cb) => {
+// 		const fileTypes = /jpeg|jpg|png|PNG/
+// 		const mimeType = fileTypes.test(file.mimetype)
+// 		const extName = fileTypes.test(path.extname(file.originalname))
+// 		if (mimeType && extName) {
+// 			return cb(null, true)
+// 		}
+// 		cb('Error: debe subir un archivo valido')
+// 	},
+// }).array('images')
 
-server.use(upload)
+// server.use(upload)
 
 
 // FIN DE IMAGENES
@@ -195,5 +195,5 @@ server.post('/complete_buy', mail.sendBuy)
 server.post('/dispatch_buy', mail.sendDespacho)
 server.post('/cancel_buy',   mail.sendCancel)
 
-server.use(upload)
+// server.use(upload)
 module.exports = server;

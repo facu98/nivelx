@@ -1,13 +1,24 @@
 const server = require('express').Router()
 const multer = require('multer')
-var upload = multer({dest:'../../public/images'})
+var upload = multer()
+const fs = require("fs");
+const { promisify } = require("util");
+const pipeline = promisify(require("stream").pipeline);
 
-server.post('/', upload.array('images',4), (req, res) => {
-    const names = req.files.map((img) => img.filename)
-    res.send(JSON.stringify(names))
-    //console.log(req.files);
-    //res.json({msg:'ok'});
-})
+
+server.post("/", upload.single("files"), async function(req, res, next) {
+  const {
+    file,
+    body: { name }
+  } = req;
+
+  await pipeline(
+    file.stream,
+    fs.createWriteStream(`${__dirname}/../public/images/${name}`)
+  );
+
+  res.send("File uploaded as " + fileName);
+});
 
 
 module.exports = server;
