@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {Link , useHistory} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsCart } from '../../actions/index';
 import axios from 'axios';
@@ -7,11 +8,12 @@ import emailjs from 'emailjs-com';
 
 export default function Checkout({ history }) {
     const dispatch = useDispatch();
-    const orders = useSelector((store) => store.cart);
+    const orders = useSelector(state => state.cart)
     console.log(orders.id);
     const user = useSelector(state => state.user);
     console.log(user.id);
-
+    
+    orders.state="procesando";
     // actualiza form
     const [form, setForm] = useState({
         country: "",
@@ -38,7 +40,7 @@ export default function Checkout({ history }) {
     } = form;
 
     let sum = 0;
-
+    /*
     const total = async() => {
         for (let i = 0; i < orders.length; i++) {
             sum += orders.products[i].price * orders.products[i].order.quantity
@@ -53,7 +55,7 @@ export default function Checkout({ history }) {
 
         return total;
     }
-
+    */
     function sendEmail(e) {
         e.preventDefault();
 
@@ -76,10 +78,10 @@ export default function Checkout({ history }) {
             postal_code,
             phone_number,
         });
-        sendEmail(e);
+        //sendEmail(e);
     }
-
-    const postCheck = async (userId, orderId) => {
+    /*
+    const postCheck = async (userId, orderId, orders) => {
         const info = {
             country : form.country,
             city : form.city,
@@ -87,18 +89,32 @@ export default function Checkout({ history }) {
             postal_code : form.postal_code,
             phone_number : form.phone_number,
         }
+        console.log("**** soy dato del form ****");
+        console.log(form.country);
 
         if (form.country && form.city && form.shipping_address && form.postal_code && form.phone_number) {
-            const { data } = await axios.post(`http://localhost:3001/users/${userId}/carrito/${orderId}`, info);
-            await axios.put(`http://localhost:4000/users/procesando/${orderId}`);
-            total();
-            localStorage.removeItem("cart");
-            alert('compra exitosa');
-            history.push('/');
+            orders.state="completa";
+            //const { data } = await axios.post(`http://localhost:3001/users/${userId}/carrito/${orderId}`, info);
+            //await axios.put(`http://localhost:4000/users/procesando/${orderId}`);
+            //total();
+            //localStorage.removeItem("cart");
+            //alert('compra exitosa');
+            //history.push('/auth/checkout/user/order'); 
         }
     }
+    */
 
+   const handleForm = () => {
 
+    if(!user.id){
+        alert('Para comprar debes iniciar sesión');
+
+    } else {
+        
+        orders.state="completa";
+
+    }
+}
     return(
         <div className="form-user">
             <div className="contenedor-form sombra-dark">
@@ -160,9 +176,11 @@ export default function Checkout({ history }) {
                         />
                     </div>
                     <div className="campo-form">
-                        <button className=" btn btn-primario btn-block" onClick={() => postCheck(user.id, orders.id)} >
-                            Comprar
-                        </button>
+                        <Link to='/auth/checkout/user/order'>
+                            <button className=" btn btn-primario btn-block" onClick={() => handleForm()} >
+                                Comprar
+                            </button>
+                        </Link>
                     </div>
                 </form>
             </div>

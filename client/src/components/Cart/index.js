@@ -36,24 +36,28 @@ export const Cart = () => {
 	//const orders = useSelector(state => state.cart)
 	//console.log("**************** SOY EL ESTADO ***************");
 	//console.log(orders);
-	const [orders, setOrders] = useState('');
-	console.log("**************** SOY EL ESTADO ***************");
-	console.log(orders);
+	//const [orders, setOrders] = useState('');
+	cart.state = "carrito";
+	//console.log("**************** SOY EL ESTADO ***************");
+	//console.log(orders);
 	const handleOrder = () => {
-		setOrders('creada');
-		//orders.setState({
-		//	status: 'creada',
+		//setOrders({
+		//	state: 'creada',
 		//});
-
+		//orders.setState({
+		//	state: 'creada',
+		//});
+		cart.state = "creada";
 		if(!user.id){
 			alert('Para comprar debes iniciar sesión');
+
 		} else {
-			setOrders('procesando');
+			//setOrders('procesando');
+			cart.state = "creada";
 			//orders.setState("procesando");
 			//const { data } = await axios.post(`http://localhost:3001/auth/checkout/user`, order);
 			//history.push('http://localhost:3001/auth/checkout/user', [orders]);
 		}
-		// history.push(path, [state]) - (function) Pushes a new entry onto the history stack
 	}
 	// ----------------------------------------
 
