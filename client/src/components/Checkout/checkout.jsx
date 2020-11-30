@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Link , useHistory} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductsCart } from '../../actions/index';
+import { getProductsCart, changeStateOrder } from '../../actions/index';
 import axios from 'axios';
 import emailjs from 'emailjs-com';
 
@@ -10,7 +10,7 @@ export default function Checkout({ history }) {
     const dispatch = useDispatch();
     const orders = useSelector(state => state.cart);
     const user = useSelector(state => state.user);
-    
+
     let url = window.location.href.split("/");
     const noRender = url.includes('cart') && url.includes('user') || url.includes('purchases');
 
@@ -98,7 +98,7 @@ export default function Checkout({ history }) {
             //total();
             //localStorage.removeItem("cart");
             //alert('compra exitosa');
-            //history.push('/auth/checkout/user/order'); 
+            //history.push('/auth/checkout/user/order');
         }
     }
     */
@@ -108,16 +108,20 @@ export default function Checkout({ history }) {
         console.log("**** soy orders de checkout ****");
         console.log(orders);
         if (form.country && form.city && form.shipping_address && form.postal_code && form.phone_number) {
-            orders.state="completa";
+
             //const { data } = await axios.post(`http://localhost:3001/users/${userId}/carrito/${orderId}`, info);
             //await axios.put(`http://localhost:4000/users/procesando/${orderId}`);
             //total();
-            //localStorage.removeItem("cart");
+            localStorage.removeItem("cart");
             //alert('compra exitosa');
             //history.push(`/checkout/user/${user.id}`, [user,cart]);
-            //history.push('/order/:id',[orders, user]); 
+            //history.push('/order/:id',[orders, user]);
             //history.push(`/checkout/user/${user.id}/order/${orders.id}`,[orders, user]);
-            history.push(`/orders/${orders}`,[orders, user]);
+
+              const data = {state: 'procesando', orderId: orders[0].order_id}
+
+            dispatch(changeStateOrder(user.id, data))
+            history.push(`/orders/${orders[0].order_id}`,[orders, user]);
         } else {
             alert('Falta llenar el formulario!');
         }
