@@ -306,7 +306,6 @@
               <th width="80%" style="text-align:left; padding: 0 2.5em; color: #000; padding-bottom: 20px">Item</th>
               <th width="20%" style="text-align:right; padding: 0 2.5em; color: #000; padding-bottom: 20px">Price</th>
             </tr>
-            <% products.forEach(function(prod){ %>
 
             <tr id="product_table" style="border-bottom: 1px solid rgba(0,0,0,.05);">
               <td valign="middle" width="80%" style="text-align:left; padding: 0 2.5em;">
@@ -315,8 +314,6 @@
                     style="width: 100px; max-width: 600px; height: auto; margin-bottom: 20px; display: block;">
                   <div class="text">
 
-                    <h3><%= prod.name %></h3>
-                    <p><%= prod.description %></p>
                   </div>
                 </div>
               </td>
@@ -324,23 +321,7 @@
                 <span class="price" style="color: #000; font-size: 20px;"><%= prod.price %></span>
               </td>
             </tr>
-            <% }); %>
-            <!-- <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
-              <td valign="middle" width="80%" style="text-align:left; padding: 0 2.5em;">
-                <div class="product-entry">
-                  <img src="images/prod-2.jpg" alt=""
-                    style="width: 100px; max-width: 600px; height: auto; margin-bottom: 20px; display: block;">
-                  <div class="text">
-                    <h3>Analog Wrest Watch</h3>
-                    <span>Small</span>
-                    <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                  </div>
-                </div>
-              </td>
-              <td valign="middle" width="20%" style="text-align:left; padding: 0 2.5em;">
-                <span class="price" style="color: #000; font-size: 20px;">$120</span>
-              </td>
-            </tr> -->
+            <% });
             <tr>
               <td valign="middle" style="text-align:left; padding: 1em 2.5em;">
                 <p><a href="#" class="btn btn-primary">continua con tu orden</a></p>
@@ -361,8 +342,7 @@
                     <tr>
                       <td style="text-align: left; padding-right: 10px;">
                         <h3 class="heading">Sobre nosotros</h3>
-                        <p>Un proyecto hecho por 4 SurAmericanos para Henry..!
-                        </p>
+
                       </td>
                     </tr>
                   </table>

@@ -13,8 +13,8 @@ class Mailer {
         let emailResult = null;
         try {
             const emailData = { to, subject, products, user };
-            const html = await ejs.renderFile(buyTemplate, emailData);
-            emailResult = await sendEmail(to, subject, html);
+          //  const html = await ejs.renderFile(buyTemplate, emailData);
+            emailResult = await sendEmail(to, subject, "HEMOS CONFIRAMADO SU COMPRA");
         } catch (err) {
             console.error(err);
         }
@@ -25,8 +25,8 @@ class Mailer {
         let emailResult = null;
         try {
             const emailData = { to, subject, user, id };
-            const html = await ejs.renderFile(cancelTemplate, emailData);
-            emailResult = await sendEmail(to, subject, html);
+          //  const html = await ejs.renderFile(cancelTemplate, emailData);
+            emailResult = await sendEmail(to, subject, "Su Ultima compra ha sido cancelada");
         } catch (err) {
             console.error(err);
         }
