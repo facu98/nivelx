@@ -36,7 +36,7 @@ server.use(session({
   saveUninitializated: true
 }));
 
-
+server.use(express.static(path.join(__dirname, 'public')));
 
 server.use(morgan('dev'));
 server.use((req, res, next) => {
