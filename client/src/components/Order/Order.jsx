@@ -31,29 +31,35 @@ export default function Order(data) {
         total();
     }
 
-
+    
     useEffect(() => {
         dispatch(getOrderbyID(data.match.params.id)) 
         // hago q siempre se actualize la pagina cuando la pagina encuentra que el cart esta en "procesando"
     }, [orders]);
     console.log(orders);
-
+    
     const completa = (id) => {
-        const { data } = axios.put(`http://localhost:3001/users/completa/${id}`)
+        //const { data } = axios.put(`http://localhost:3001/users/completa/${id}`)
+        data.history.push('/');
     };
     const cancelada = (id) => {
-        const { data } = axios.put(`http://localhost:3001/users/cancelada/${id}`)
+        //const { data } = axios.put(`http://localhost:3001/users/cancelada/${id}`)
+        alert('compra cancelada');
+        orders.state= "cancelada";
+        data.history.push('/');
     };
+    /*
     const creada = (id) => {
-        const { data } = axios.put(`http://localhost:3001/users/creada/${id}`)
-    };
+        //const { data } = axios.put(`http://localhost:3001/users/creada/${id}`)
 
+    };
+    */
     return(
         <div style={{ marginTop: "70px" }}>
             <a href="javascript:history.back(1)" className="btn1" style={{ marginTop: "10px"}}>
                 <div>
                     <Button variant="contained" color="secondary">
-                        Volver
+                        Volver a llenar formulario
                     </Button>
                 </div>
             </a>
@@ -69,9 +75,9 @@ export default function Order(data) {
                     </div>
                 ))}
                 <h1>Total: USD{total}</h1>
-                {orders && orders.state === "procesando" && <Button onClick={() => creada(orders.id)} variant="contained" color="secondary" style={{ marginLeft: "10px", marginRight: "20px", backgroundColor: "green" }}>
+                {/*orders && orders.state === "procesando" && <Button onClick={() => creada(orders.id)} variant="contained" color="secondary" style={{ marginLeft: "10px", marginRight: "20px", backgroundColor: "green" }}>
                     Procesar
-                </Button>}
+                </Button>*/}
                 {orders && orders.state === "creada" && <Button onClick={() => completa(orders.id)} variant="contained" color="secondary" style={{ marginLeft: "10px", marginRight: "20px", backgroundColor: "green" }}>
                     Completar
                 </Button>}
