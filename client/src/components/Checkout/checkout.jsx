@@ -8,12 +8,9 @@ import emailjs from 'emailjs-com';
 
 export default function Checkout({ history }) {
     const dispatch = useDispatch();
-    const orders = useSelector(state => state.cart)
-    console.log(orders.id);
+    const orders = useSelector(state => state.cart);
     const user = useSelector(state => state.user);
-    console.log(user.id);
     
-    //orders.state="procesando";
     // actualiza form
     const [form, setForm] = useState({
         country: "",
@@ -39,7 +36,7 @@ export default function Checkout({ history }) {
         phone_number
     } = form;
 
-    let sum = 0;
+    //let sum = 0;
     /*
     const total = async() => {
         for (let i = 0; i < orders.length; i++) {
@@ -67,16 +64,15 @@ export default function Checkout({ history }) {
           });
       }
 
-    console.log(orders);
 
     const onSubmit = e => {
         e.preventDefault();
         setForm({
-            country,
-            city,
-            shipping_address,
-            postal_code,
-            phone_number,
+            country:'',
+            city:'',
+            shipping_address:'',
+            postal_code:'',
+            phone_number:'',
         });
         //sendEmail(e);
     }
@@ -104,17 +100,22 @@ export default function Checkout({ history }) {
     }
     */
 
-   const handleForm = () => {
+    const handleForm = () => {
 
-    if(!user.id){
-        alert('Para comprar debes iniciar sesión');
-
-    } else {
         
-        orders.state="completa";
 
+        if (form.country && form.city && form.shipping_address && form.postal_code && form.phone_number) {
+            orders.state="completa";
+            //const { data } = await axios.post(`http://localhost:3001/users/${userId}/carrito/${orderId}`, info);
+            //await axios.put(`http://localhost:4000/users/procesando/${orderId}`);
+            //total();
+            //localStorage.removeItem("cart");
+            //alert('compra exitosa');
+            history.push('/auth/checkout/user/order',[orders, user]); 
+        } else {
+            alert('Falta llenar el formulario!');
+        }
     }
-}
     return(
         <div className="form-user">
             <div className="contenedor-form sombra-dark">
@@ -126,7 +127,7 @@ export default function Checkout({ history }) {
                             type="text"
                             id="country"
                             name="country"
-                            placeholder="country"
+                            placeholder="pais"
                             value={country}
                             onChange={onChange}
                         />
@@ -137,7 +138,7 @@ export default function Checkout({ history }) {
                             type="text"
                             id="city"
                             name="city"
-                            placeholder="city"
+                            placeholder="ciudad"
                             value={city}
                             onChange={onChange}
                         />
@@ -148,7 +149,7 @@ export default function Checkout({ history }) {
                             type="text"
                             id="shipping_address"
                             name="shipping_address"
-                            placeholder="shipping_address"
+                            placeholder="dirección"
                             value={shipping_address}
                             onChange={onChange}
                         />
@@ -159,7 +160,7 @@ export default function Checkout({ history }) {
                             type="text"
                             id="postal_code"
                             name="postal_code"
-                            placeholder="postal_code"
+                            placeholder="codigo postal"
                             value={postal_code}
                             onChange={onChange}
                         />
@@ -170,17 +171,15 @@ export default function Checkout({ history }) {
                             type="text"
                             id="phone_number"
                             name="phone_number"
-                            placeholder="phone_number"
+                            placeholder="telefono"
                             value={phone_number}
                             onChange={onChange}
                         />
                     </div>
                     <div className="campo-form">
-                        <Link to='/auth/checkout/user/order'>
-                            <button className=" btn btn-primario btn-block" onClick={() => handleForm()} >
-                                Comprar
-                            </button>
-                        </Link>
+                        <button className=" btn btn-primario btn-block" onClick={() => handleForm()} >
+                            Comprar
+                        </button>
                     </div>
                 </form>
             </div>
