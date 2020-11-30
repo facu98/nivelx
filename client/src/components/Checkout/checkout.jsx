@@ -12,7 +12,7 @@ export default function Checkout({ history }) {
     const user = useSelector(state => state.user);
     
     let url = window.location.href.split("/");
-    const noRender = url.includes('cart') && url.includes('user');
+    const noRender = url.includes('cart') && url.includes('user') || url.includes('purchases');
 
     // actualiza form
     const [form, setForm] = useState({
@@ -122,7 +122,7 @@ export default function Checkout({ history }) {
             alert('Falta llenar el formulario!');
         }
     }
-    return(noRender ? null :(
+    return(noRender ? null : (
         <div className="form-user">
             <div className="contenedor-form sombra-dark">
                 <h1>Finalizar Compra</h1>
