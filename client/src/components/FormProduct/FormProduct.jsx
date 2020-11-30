@@ -74,9 +74,18 @@ const useStyles = makeStyles((theme) => ({
       margin: '3%'
     },
     media: {
-      height: 140,
+      height: 0,
       objectFit: 'contain',
+      paddingTop: '100%'
     },
+
+    header:{
+      display:'flex',
+      height:0,
+      flexDirection:'row',
+      justifyContent:'right',
+      backgroundColor:'#6c757d'
+    }
 
   }));
 
@@ -113,6 +122,7 @@ export default function ProductCRUD({ match }){
 
 
     const handleInputChange = (e)=>{
+      console.log(input.pictures)
         setInput({
             ...input,
             [e.target.name]: e.target.value,
@@ -147,13 +157,20 @@ export default function ProductCRUD({ match }){
     }
 
     const uploadFile = () => {
-      const data = new FormData()
+      if(!files){alert('Debes seleccionar una imagen')}
+      else
+    {  const data = new FormData()
       data.append('name', files.name)
       data.append('files', files)
       return fetch('http://localhost:3001/upload',
       {credentials:'include',
         method:'POST',
         body:data})
+        .then(() => {
+          setInput({...input,
+          pictures: [`http://localhost:3001/images/${files.name}`]})
+        })
+      }
     }
 
     const handleSubmit = (e)=>{
@@ -162,7 +179,7 @@ export default function ProductCRUD({ match }){
             name: input.name,
             brand: input.brand,
             price: input.price,
-            pictures: ["input.pictures"],
+            pictures: input.pictures,
             category: input.category,
             stock: true,
             description: input.description,
@@ -258,22 +275,7 @@ export default function ProductCRUD({ match }){
                     <label>Imagen del producto</label>
                     <input type="file" name="pictures" onChange={handleInputChange} value={input.pictures} required autoFocus />
                 </div> */}
-                <div style={{ display: 'flex' }}>
-            {input.pictures && input.pictures.length > 0 && input.pictures.map((img, i) =>
-              <>
-                <Card className={classes.root} key={img}>
-                  <CardHeader action={
-                    <Tooltip title='Eliminar imagen'>
-                      <IconButton aria-label="deleteImage" onClick={() => removeFile(i)} >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>} />
-                  <CardMedia className={classes.media} image={`http://localhost:3001/images/${img}`} />
-                </Card>
 
-              </>
-            )}
-          </div>
 
                 {/* <div className={style.inputContainer}>
                     <label>Categoría</label>
@@ -326,9 +328,29 @@ export default function ProductCRUD({ match }){
 
             <Grid item xs={12}>
             <form action="#" method="post" enctype="multipart/form-data">
-            <input type="file" id = 'file' accept = '.jpg' name="avatar" onChange={fileChange}/>
+            <label for="file" class="btn">Select Image...</label>
+            <input type="file" id = 'file' accept = '.jpg' name="avatar" style={{display:  'none'} } onChange={fileChange}/>
             </form>
-            <button onClick = {uploadFile}>Upload</button>
+            {files && <Button color="secundary" variant="contained" onClick={uploadFile} > Upload {files.name} </Button>}
+
+
+
+            <div style={{ display: 'flex' }}>
+        {input.pictures && input.pictures.length > 0 && input.pictures.map((img, i) =>
+          <>
+            <Card className={classes.root} key={img}>
+              <CardHeader className={classes.header} action={
+                <Tooltip title='Eliminar imagen'>
+                  <IconButton aria-label="deleteImage" onClick={() => removeFile(i)} >
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>} />
+              <CardMedia className={classes.media} image={img} />
+            </Card>
+
+          </>
+        )}
+      </div>
 
             </Grid>
 

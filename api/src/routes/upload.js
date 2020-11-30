@@ -17,7 +17,7 @@ server.post("/", upload.single("files"), async function(req, res, next) {
     fs.createWriteStream(`${__dirname}/../public/images/${name}`)
   );
 
-  res.send("File uploaded as " + fileName);
+  res.send("File uploaded");
 });
 
 
