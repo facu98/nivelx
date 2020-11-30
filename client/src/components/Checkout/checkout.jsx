@@ -13,7 +13,7 @@ export default function Checkout({ history }) {
     const user = useSelector(state => state.user);
     console.log(user.id);
     
-    orders.state="procesando";
+    //orders.state="procesando";
     // actualiza form
     const [form, setForm] = useState({
         country: "",
