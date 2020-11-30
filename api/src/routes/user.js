@@ -7,7 +7,6 @@ const {isLogged} = require('./passport')
 const bcrypt = require('bcrypt')
 const {isAuthenticated, isAdmin} = require('./passport')
 const swal = require ('sweetalert');
-
 /// IMPORTS MAILS
 const jwt = require('jsonwebtoken')
 const sendEmail = require('../node-mailer')
@@ -195,7 +194,7 @@ server.put('/password/:id', async (req, res) => {
 		let newPassword = /*await hashPassword(*/req.body.password/*)*/
 
 		await user.update({ password: newPassword, resetPassword: false })
-		swal("JOya","sadasd","success")
+		swal("Joya","sadasd","success")
 		console.log("resetPassID",user)
 		res.send(user)
 	} catch (error) {

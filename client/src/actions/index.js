@@ -835,7 +835,7 @@ export function userForgotPassword(input,id) {
 
 					if(data.status === 401){
 							swal("Error",`${data.msg}`,"error")
-						}
+						}das
 
 					else if(data.status === 200){
 						swal("Password cambiado satisfactoriamente","","success")
