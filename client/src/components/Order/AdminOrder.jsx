@@ -11,8 +11,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
-
-
+import swal from 'sweetalert'
 
 
 export default function ({match}){
@@ -31,9 +30,9 @@ dispatch(getOrders())
 const columns = [
   { field: 'id', title: 'Order ID'},
   { field: 'estado', title: 'Estado'},
-  {field:'userID', title: 'User ID'},
-  {field: 'fecha', title:'Fecha'},
-  {field: 'hora', title:'Hora'}
+  { field:'userID', title: 'User ID'},
+  { field: 'fecha', title:'Fecha'},
+  { field: 'hora', title:'Hora'}
 
 ];
 
@@ -44,7 +43,7 @@ var rows = state && state.map((order) => {
     estado:order.state,
     userID: order.userId,
     fecha: order.createdAt.split("T")[0],
-    hora: order.createdAt.split("T")[1].slice(0,-5)
+    hora:  order.createdAt.split("T")[1].slice(0,5)
   }
 })
 
@@ -59,7 +58,8 @@ const handleChange = (e) => {
 const changeState = (userID, orderID) => {
     console.log(userID, orderID)
     const data = {state: value, orderId: orderID}
-  dispatch(changeStateOrder(userID, data))
+    dispatch(changeStateOrder(userID, data))
+    swal("HEMOS ENVIADO UN MAIL","El usuario de la orden deberia llegarle un mail", "success");
 }
 
 

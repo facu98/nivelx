@@ -611,24 +611,28 @@ export function cleanOrder(id) {
 }
 
 export function changeStateOrder(userID, data) {
+
 	return function(dispatch){
-		return fetch(`http://localhost:3001/users/${userID}/order`,
-			{
+
+			return fetch(`http://localhost:3001/users/${userID}/order`,
+					{
 					method: "PUT",
 					credentials: 'include',
 					body: JSON.stringify(data),
 					headers: {
 							'Accept': 'application/json',
 							'Content-Type': 'application/json'
-					}
-			})
-			.then((res) => {
-				res.status === 200
-				? dispatch({
-						type: 'EDIT_ORDER',
+									}
 					})
-				: swal('Error al editar la orden', '', 'error')
-			})
+
+			.then((res) => {
+						res.status === 200
+									? dispatch({
+						type: 'EDIT_ORDER',
+						})
+						: swal('Error al editar la orden', '', 'error')
+				})
+
 			.then(() => {
 				return dispatch(getOrders())
 			})
@@ -636,9 +640,10 @@ export function changeStateOrder(userID, data) {
 	}
 }
 
+
 export function getClosedOrders() {
   return function (dispatch) {
-    return fetch('http://localhost:3002/orders/admin?search=completa', {
+    return fetch('http://localhost:3001/orders/admin?search=completa', {
       credentials: 'include',
     })
       .then((res) => res.json())
