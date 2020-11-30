@@ -11,6 +11,9 @@ export default function Checkout({ history }) {
     const orders = useSelector(state => state.cart);
     const user = useSelector(state => state.user);
     
+    let url = window.location.href.split("/");
+    const noRender = url.includes('cart') && url.includes('user');
+
     // actualiza form
     const [form, setForm] = useState({
         country: "",
@@ -102,8 +105,8 @@ export default function Checkout({ history }) {
 
     const handleForm = () => {
 
-        
-
+        console.log("**** soy orders de checkout ****");
+        console.log(orders);
         if (form.country && form.city && form.shipping_address && form.postal_code && form.phone_number) {
             orders.state="completa";
             //const { data } = await axios.post(`http://localhost:3001/users/${userId}/carrito/${orderId}`, info);
@@ -111,12 +114,15 @@ export default function Checkout({ history }) {
             //total();
             //localStorage.removeItem("cart");
             //alert('compra exitosa');
-            history.push('/auth/checkout/user/order',[orders, user]); 
+            //history.push(`/checkout/user/${user.id}`, [user,cart]);
+            //history.push('/order/:id',[orders, user]); 
+            //history.push(`/checkout/user/${user.id}/order/${orders.id}`,[orders, user]);
+            history.push(`/orders/${orders}`,[orders, user]);
         } else {
             alert('Falta llenar el formulario!');
         }
     }
-    return(
+    return(noRender ? null :(
         <div className="form-user">
             <div className="contenedor-form sombra-dark">
                 <h1>Finalizar Compra</h1>
@@ -184,5 +190,6 @@ export default function Checkout({ history }) {
                 </form>
             </div>
         </div>
+    )
     );
 }

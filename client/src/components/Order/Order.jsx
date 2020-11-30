@@ -18,10 +18,14 @@ export default function Order(data) {
     const classes = useStyles();
     const user = useSelector(state => state.user);
     const orders = useSelector(state => state.cart); // con esto accedo al estado del carrito
+    //const state = useSelector(state => state.orders)
     const dispatch = useDispatch();
+    console.log("**** soy data ****")
     console.log(data);
     let total = 0;
 
+
+    
     if (orders && orders.product) {
         const total = async () => {
             for (let i = 0; i < orders.product.length; i++) {
@@ -70,7 +74,7 @@ export default function Order(data) {
             <br/>
             <div className="card" style={{ width: "700px", height: "100%", marginLeft: "30%" }}>
                 <div className="card-body">
-                <h1 className="card-title">ID de la orden {orders.id}</h1>
+                <h1 className="card-title">ID de la orden {orders.order_id}</h1>
                 <h2 className="card-subtitle mb-2 text-muted">Status de la orden: {orders.state}</h2>
                 {orders.product && orders.product.map((e) => (
                     <div>

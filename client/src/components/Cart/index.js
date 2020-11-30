@@ -7,7 +7,7 @@ import {cleanOrder, clearGuestCart, total} from '../../actions'
 import Button from '@material-ui/core/Button';
 import './index.css'
 //import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
-//import axios from 'axios'; ---- agrego axios ----
+//import axios from 'axios';// ---- agrego axios ----
 //import state from 'sweetalert/typings/modules/state' ---- comente porq sale error ----
 
 
@@ -34,6 +34,9 @@ export const Cart = () => {
   // ----- Agrego funcionalidad al boton checkout -----
 	// asigno el estado inicial
 	cart.state = "carrito";
+	let url = window.location.href.split("/");
+	//console.log("**** soy url ****");
+	//console.log(url);
 
 	const handleOrder = () => {
 		cart.state = "creada";
@@ -41,8 +44,11 @@ export const Cart = () => {
 			alert('Para comprar debes iniciar sesión');
 		} else {
 			cart.state = "procesando";
-			//const { data } = await axios.post(`http://localhost:3001/auth/checkout/user`, order);
-			history.push('/auth/checkout/user', [cart]);
+			//const { data } = axios.post(`/user/:id`, [cart, user]);
+			//this.props.history.push(`/tickets/${rowIndex[0]}`);
+			//history.push('/user/:id', [cart, user]);
+			
+			history.push(`/user/${user.id}`, [user,cart]);
 		}
 	}
 	// ----------------------------------------
