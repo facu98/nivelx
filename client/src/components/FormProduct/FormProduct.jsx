@@ -91,6 +91,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProductCRUD({ match }){
   const [categorias, setCategorias] = useState([])
+  const [colores, setColores] = useState('')
   const [check, setCheck] = useState(null);
   const [files, setFiles] = useState(null);
   const classes = useStyles();
@@ -102,7 +103,7 @@ export default function ProductCRUD({ match }){
         category: [],
         stock: "",
         description: "",
-        color: ""
+        color: []
     })
 
     useEffect(() => {
@@ -138,6 +139,12 @@ export default function ProductCRUD({ match }){
     console.log(input.category)
     }
 
+    const colorChange = (e) => {
+      let colorsArray = input.color.split(", ")
+      setColores({colorsArray})
+      console.log(colorsArray)
+    }
+
     const resetForm = ()=> {
         setInput({
             name: "",
@@ -147,6 +154,7 @@ export default function ProductCRUD({ match }){
             category: [],
             stock: "",
             description: "",
+            color: ""
         })
     };
 
@@ -184,11 +192,11 @@ export default function ProductCRUD({ match }){
             stock: true,
             description: input.description,
             quantity: input.stock,
-            color: ["Azul","Amarillo"]
+            color: input.color.split(", ")
         }
 
         swal("Genial!", "Se ha creado el producto exitosamente!", "success");
-
+        console.log(newProduct)
         fetch('http://localhost:3001/products', {
             credentials: 'include',
             method: 'POST',
@@ -230,8 +238,9 @@ export default function ProductCRUD({ match }){
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-            <h3>Crear Producto</h3>
-            <hr/>
+            <Typography component="h1" variant="h5">
+              NUEVO PRODUCTO
+            </Typography>
             <form className={classes.form} onSubmit={handleSubmit} >
             <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -316,6 +325,21 @@ export default function ProductCRUD({ match }){
               <TextField
                 fullWidth
                 id="outlined-textarea"
+                label="Color"
+                value={input.color}
+                variant="outlined"
+                onChange={handleInputChange}
+                name='color'
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <p>En caso de que el producto tenga mas de un color separarlos con una coma seguida de un espacio</p>
+              <p><b>Ejemplo: </b>Amarrilo, Azul, Rojo</p>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                id="outlined-textarea"
                 label="Descripción"
                 value={input.description}
                 multiline
@@ -354,11 +378,11 @@ export default function ProductCRUD({ match }){
 
             </Grid>
 
-
-                <div className="buttonContainer">
-                    <Button color="secundary" variant="contained" onClick={resetForm} className={classes.submit} > Cancelar </Button>
+                <hr/>
+                <Grid className="buttonContainer" item xs={12}>
+                    <Button color="secondary" variant="contained" onClick={resetForm} className={classes.submit} fullwidth> Cancelar </Button>
                     <Button color="primary" variant="contained"  type="submit" value="Guardar" className={classes.submit}>Guardar</Button>
-                </div>
+                </Grid>
                 </Grid>
             </form>
             </div>
