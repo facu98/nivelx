@@ -33,7 +33,7 @@ export default function Order({match}) {
     if (orders && orders.product) {
         const total = async () => {
             for (let i = 0; i < orders.product.length; i++) {
-                total += orders.product[i].price * orders.product[i].order.quantity
+                total += parseInt(orders.product[i].price * orders.product[i].order.quantity)
             }
             return total;
         }
@@ -92,7 +92,7 @@ export default function Order({match}) {
                         <h6>Cantidad: {e.quantity}</h6>
                     </div>
                 ))}
-                <h1>Total: USD{tottal}</h1>
+                <h1>Total: USD {tottal.length > 0 && tottal.reduce((a, b) => a + b)}</h1>
                 {/*orders && orders.state === "procesando" && <Button onClick={() => creada(orders.id)} variant="contained" color="secondary" style={{ marginLeft: "10px", marginRight: "20px", backgroundColor: "green" }}>
                     Procesar
                 </Button>*/}
