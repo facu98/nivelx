@@ -26,3 +26,5 @@ yarn-error.log*
 
 #json
 /src/config/config.json
+/config
+/seeders

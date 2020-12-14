@@ -10,6 +10,7 @@ export default function Checkout({ history }) {
     const dispatch = useDispatch();
     const orders = useSelector(state => state.cart);
     const user = useSelector(state => state.user);
+    const tot = useSelector(state => state.total);
 
     let url = window.location.href.split("/");
     const noRender = url.includes('cart') && url.includes('user') || url.includes('purchases') || url.includes('login') || url.includes('reset_password');
@@ -77,6 +78,7 @@ export default function Checkout({ history }) {
             postal_code:'',
             phone_number:'',
         });
+        tot.splice(0)
         //sendEmail(e);
     }
     /*
